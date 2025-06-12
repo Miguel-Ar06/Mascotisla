@@ -1,0 +1,66 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    width: 100%;
+}
+
+h2,h1, button
+{
+    font-family: "Montserrat", sans-serif;
+}
+
+h1
+{
+    font-size: 64pt;
+}
+
+h2
+{
+    font-size: 32pt;
+}
+
+header
+{
+    padding: 20px;
+    flex-shrink: 1;
+    display: flex;
+    background-color: black;
+    flex-wrap: wrap;
+    min-height: 624px;
+    max-height: 624px;
+    background-image: url(../images/Foto\ Perro\ escalera.png);
+}
+
+#mascotislaTitle, #callToAction
+{
+    color: white;
+}
+
+#callToAction
+{
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+}
+
+#mascotislaTitle, #mascotislaLogo
+{
+    align-self: start;
+    margin-right: auto;
+}
+
+#pimLogo
+{
+    align-self: start;
+    margin-left: auto;
+}
+
+button
+{
+    border-radius: 12px;
+    max-height: 50px;
+    font-size: 16pt;
+    stroke: none;
+}
