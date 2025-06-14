@@ -30,11 +30,28 @@ header
     min-height: 624px;
     max-height: 624px;
     background-image: url(../images/Foto\ Perro\ escalera.png);
+    flex-direction: column;
 }
 
 #mascotislaTitle, #callToAction
 {
     color: white;
+}
+
+.container
+{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.mg-tp-auto
+{
+    margin-top: auto;
+}
+
+.small-Gap
+{
+    gap: 20px;
 }
 
 #callToAction
@@ -60,7 +77,10 @@ header
 button
 {
     border-radius: 12px;
-    max-height: 50px;
+    min-height: 50px;
+    max-height: 70px;
+    max-width: 200px;
     font-size: 16pt;
     stroke: none;
+    margin: 10px;
 }
