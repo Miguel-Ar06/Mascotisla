@@ -1,4 +1,4 @@
-html, body {
+/* html, body {
     margin: 0;
     padding: 0;
     height: 100%; 
@@ -8,16 +8,6 @@ html, body {
 h2,h1, button
 {
     font-family: "Montserrat", sans-serif;
-}
-
-h1
-{
-    font-size: 64pt;
-}
-
-h2
-{
-    font-size: 32pt;
 }
 
 header
@@ -31,11 +21,6 @@ header
     max-height: 624px;
     background-image: url(../images/Foto\ Perro\ escalera.png);
     flex-direction: column;
-}
-
-#mascotislaTitle, #callToAction
-{
-    color: white;
 }
 
 .container
@@ -83,4 +68,9 @@ button
     font-size: 16pt;
     stroke: none;
     margin: 10px;
+} */
+
+#mascotislaTitle, #callToAction
+{
+     color: white;
 }
