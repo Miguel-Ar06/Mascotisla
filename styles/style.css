@@ -74,3 +74,14 @@ button
 {
      color: white;
 }
+
+#callToAction
+{
+    font-size: 6rem;
+}
+
+.height-equals-bg
+{
+    min-height: 604px;
+    max-height: 604px;
+}

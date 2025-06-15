@@ -14,26 +14,51 @@
     
     <body style="font-family: 'Montserrat';">
         <header>
-            <div class="container-fluid" style="background-image: url('images/Foto Perro escalera.png'); background-color: black;")>
-                <div class="row">
-                    <div class="">
+            <div class="d-flex container-fluid height-equals-bg flex-column" style="background-image: url('images/Foto Perro escalera2.png'); background-color: black; background-size: cover;">
+                <div class="row justify-content-between">
+                    <div class="d-flex col-auto p-3 align-self-center shrink">
                         <img id="mascotislaLogo" src="images/Logo.svg" alt="Logo Mascotisla">
-                        <h2 id="mascotislaTitle" class="fw-bold">Mascotisla</h2>
-                    </div>                    
-                    <img id="pimLogo" src="images/Logo PIM.svg" alt="Logo PIM">
+                        <h2 id="mascotislaTitle" class="fw-bold align-self-center p-3">Mascotisla</h2>
+                    </div>
+                    <div class="col-auto p-3">
+                        <img id="pimLogo" src="images/Logo PIM.svg" alt="Logo PIM">
+                    </div>
                 </div>
-                <div>
-                    <h1 id="callToAction" class="text-center fw-bolder">Ayúdanos a cuidarlos</h1>
-                    <button type="button" class="btn btn-light">Consulta animales</button>
-                    <button type="button" class="btn btn-light">Contáctanos</button>
+                <div class="row flex-grow-1 align-items-center">
+                    <h1 id="callToAction" class="text-center fw-bolder col-12">Ayúdanos a cuidarlos</h1>
+                </div>
+                <div class="row flex-grow-1 justify-content-end align-items-start">
+                    <div class="col-auto text-center">
+                        <button type="button" class="btn btn-light">Consulta animales</button>
+                    </div>
+                    <div class="col-auto text-center me-md-5">
+                        <button type="button" class="btn btn-light">Contáctanos</button>
+                    </div>
                 </div>
             </div>
         </header>
 
         <main>
-            <p>texto</p>
-            <p>texto</p>
-            <p>texto</p>
+            <div class="container mt-5">
+                <div class="row pt-5 pb-5">
+                    <p class="fs-1 color-black fw-bold">Abandonados, maltratados, enfermos...</p>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <img src="images/gato triste.png" alt="Gato triste" class="img-fluid">
+                    </div>
+                    <div class="col-3">
+                        <img src="images/perro serio.png" alt="Perro serio" class="img-fluid pb-3">
+                        <img src="images/perro durmiendo.png" alt="perro durmiendo" class="img-fluid" style="height: 30%; width: auto; display: block;">
+                    </div>
+                    <div class="col-6">
+                        <p class="text-break fs-4">
+                                En la isla de margarita es común ver animales domésticos en las calles, víctimas de la crueldad, la indiferencia, 
+                            o sencillamente no tuvieron la suerte de nacer en un hogar con amor.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <footer>
