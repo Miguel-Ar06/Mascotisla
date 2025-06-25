@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="es">
+<html lang="es" class="h-100">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,7 @@
         </style>
     </head>
 
-    <body class="img-fluid" style="background-image: url(../images/perroYgatoMimiento.png); background-size: cover; font-family: 'Montserrat'">
+    <body class="img-fluid d-flex flex-column h-100" style="background-image: url(../images/perroYgatoMimiento.png); background-size: cover; font-family: 'Montserrat'">
         <div class="container-fluid p-3">
             <div class="row justify-content-between align-items-center">
                 <div class="col-1">
@@ -78,7 +78,14 @@
                 </div>
             </form>
         </div>
-    
+        
+        <div class="container d-flex flex-grow-1 align-items-end">
+            <div class="row d-flex flex-grow-1 justify-content-center align-items-end">
+                <div class="col-auto text-center align-items-end">
+                    <p class="fs-6 text-light text-center">¿Quieres formar parte de la fundación? <span class="fw-bold"><a href="../index.html" class="link-light">Contáctanos</a></span></p>
+                </div>
+            </div>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bo    otstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integ    rity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEM    VjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>
 </html>
