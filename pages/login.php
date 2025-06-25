@@ -29,8 +29,55 @@
         </style>
     </head>
 
-    <body>
-        
+    <body class="img-fluid" style="background-image: url(../images/perroYgatoMimiento.png); background-size: cover; font-family: 'Montserrat'">
+        <div class="container-fluid p-3">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-1">
+                    <a href="../index.html">
+                        <img src="../images/Boton regresar.png" class="img-fluid hover-scale-up">
+                    </a>
+                </div>
+                <div class="col-2">
+                    <img src="../images/Logo PIM.svg" class="img-fluid">
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-end">
+                <div class="col-auto justify-content-center text-center">
+                    <img src="../images/Logo.svg" class="img-fluid">
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-start pt-2">
+                <div class="col-auto justify-content-center">
+                    <p class="fs-3 fw-bolder text-center text-light">Mascotisla</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container justify-content-center">
+            <form>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label for="correocedula" class="form-label text-light">Cédula o correo electrónico</label>
+                            <input type="email" class="form-control" id="tbCorreocedula">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label for="tbContrasena" class="form-label text-light">Contraseña</label>
+                            <input type="password" class="form-control" id="tbContrasena">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-auto text-center justify-content-center">
+                        <button type="submit" class="btn btn-light">Iniciar sesión</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     
         <script src="https://cdn.jsdelivr.net/npm/bo    otstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integ    rity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEM    VjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>
