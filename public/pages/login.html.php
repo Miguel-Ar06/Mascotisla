@@ -54,12 +54,12 @@
         </div>
 
         <div class="container justify-content-center">
-            <form>
+            <form action="" method="post">
                 <div class="row justify-content-center">
                     <div class="col-4">
                         <div class="mb-3">
-                            <label for="correocedula" class="form-label text-light">Cédula o correo electrónico</label>
-                            <input type="email" class="form-control" id="tbCorreocedula">
+                            <label for="tbCorreoCedula" class="form-label text-light">Cédula o correo electrónico</label>
+                            <input type="text" class="form-control" id="tbCorreoCedula" name="tbCorreoCedula">
                         </div>
                     </div>
                 </div>
@@ -67,10 +67,16 @@
                     <div class="col-4">
                         <div class="mb-3">
                             <label for="tbContrasena" class="form-label text-light">Contraseña</label>
-                            <input type="password" class="form-control" id="tbContrasena">
+                            <input type="password" class="form-control" id="tbContrasena" name="tbContrasena">
                         </div>
                     </div>
                 </div>
+
+                <?php 
+                    require __DIR__ . '/../../app/includes/login.php'; 
+                    echo $status;
+                ?>
+                
                 <div class="row justify-content-center mt-3">
                     <div class="col-auto text-center justify-content-center">
                         <button type="submit" class="btn btn-light">Iniciar sesión</button>
