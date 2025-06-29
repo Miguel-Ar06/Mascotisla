@@ -1,38 +1,47 @@
 <?php 
-    // valores de prueba porque aun no he conectado a la bdd jsjsjjsj
-    $users = ["Mogel", "Angel@gmail.com"];
-    $pass = ["123","456"];
+include __DIR__ . "/user.php"; //.php con la clase user bien bonita en un archivo aparte
 
-    $logeado = false;
-    
-    $status = '<p class="text-light fs-5 text-center"> </p>';
+// valores de prueba porque aun no he conectado a la bdd jsjsjjsj
+$testUsers =
+[
+   new user("Miguel", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true), 
+   new user("Angel", "El valle", "12345","correodegei@gmail.com", "1234", false), 
+];
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST")
+$loggedIn = false;
+$status = '<p class="text-light fs-5 text-center"> </p>';
+$loggedUser = null;
+
+if ($_SERVER['REQUEST_METHOD'] == "POST")
+{
+    $mailOrId = $_POST['tbMailOrId'] ?? null;
+    $password = $_POST['tbPassword'] ?? null;
+
+    foreach ($testUsers as $user)
     {
-        $correoCedula = $_POST['tbCorreoCedula'] ?? null;
-        $contrasena = $_POST['tbContrasena'] ?? null;
-        
-        foreach ($users as $user)
-        {
-            if ($correoCedula == $user)
-            {
-                foreach ($pass as $contra)
-                {
-                    if ($contrasena == $contra)
-                    {
-                        $logeado = true;
-                        break;
-                    }
-                }
-            }
-        }
+        $validLogin = ($mailOrId == $user->getEmail() || $mailOrId == $user->getId()) && $password == $user->getPassword();
 
-        if ($logeado == false)
+        if ($validLogin)
         {
-            $status = '<p class="text-light fs-5 text-center">Credenciales incorrectas</p>';
+            $loggedIn = true;
+            $loggedUser = $user;
+            break;
+        }
+    }
+
+    if ($loggedIn == false)
+    {
+        $status = '<p class="text-light fs-5 text-center">Credenciales incorrectas</p>';
+    }
+    else
+    {
+        if ($loggedUser->isAdmin())
+        {
+            $status = '<p class="text-light fs-5 text-center">Logeado como administrador</p>';
         }
         else
         {
             $status = '<p class="text-light fs-5 text-center">Logeado</p>';
         }
     }
+}

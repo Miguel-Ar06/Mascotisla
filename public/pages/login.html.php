@@ -58,16 +58,16 @@
                 <div class="row justify-content-center">
                     <div class="col-4">
                         <div class="mb-3">
-                            <label for="tbCorreoCedula" class="form-label text-light">Cédula o correo electrónico</label>
-                            <input type="text" class="form-control" id="tbCorreoCedula" name="tbCorreoCedula">
+                            <label for="tbMailOrId" class="form-label text-light">Cédula o correo electrónico</label>
+                            <input type="text" class="form-control" id="tbMailOrId" name="tbMailOrId">
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-4">
                         <div class="mb-3">
-                            <label for="tbContrasena" class="form-label text-light">Contraseña</label>
-                            <input type="password" class="form-control" id="tbContrasena" name="tbContrasena">
+                            <label for="tbPassword" class="form-label text-light">Contraseña</label>
+                            <input type="password" class="form-control" id="tbPassword" name="tbPassword">
                         </div>
                     </div>
                 </div>
