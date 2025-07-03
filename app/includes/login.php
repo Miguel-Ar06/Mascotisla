@@ -1,5 +1,6 @@
 <?php 
-include __DIR__ . "/user.php"; //.php con la clase user bien bonita en un archivo aparte
+include __DIR__ . "/user.php";
+include __DIR__ . "/database.php";
 
 // valores de prueba porque aun no he conectado a la bdd jsjsjjsj
 $testUsers =
@@ -44,4 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $status = '<p class="text-light fs-5 text-center">Logeado</p>';
         }
     }
+
+    Database::connect();
+    // $status = '<p class="text-light fs-5 text-center">'. Database::$outputStatus . '</p>';
 }
