@@ -1,4 +1,5 @@
 <?php
+session_start();
 include __DIR__ . "/user.php";
 include __DIR__ . "/database.php";
 
@@ -10,7 +11,7 @@ $testUsers =
 ];
 
 $loggedIn = false;
-$status = '<p class="text-light fs-5 text-center"> </p>';
+$status = ' ';
 $loggedUser = null;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -20,30 +21,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     Database::connect();
 
-    foreach ($testUsers as $user)
+    foreach ($testUsers as $currentUser)
     {
-        $validLogin = ($mailOrId == $user->getEmail() || $mailOrId == $user->getId()) && $password == $user->getPassword();
+        $validLogin = ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getId()) && $password == $currentUser->getPassword();
 
         if ($validLogin)
         {
             $loggedIn = true;
+            $loggedUser = $currentUser;
+            
+            // sesion = variables accesibles para todo el navegador
+            $_SESSION["userId"] = $loggedUser->getId();
+            $_SESSION["userName"] = $loggedUser->getName();
+            $_SESSION["userIsAdmin"] = $loggedUser->isAdmin();
+            $_SESSION["userMail"] = $loggedUser->getEmail();
 
-            if ($loggedIn)
-            {
-                header("location: panel.html.php");
-                exit();
-            }
-
-            $loggedUser = $user;
-
-            if ($loggedUser->isAdmin())
-            {
-                $status = '<p class="text-light fs-5 text-center">Logeado como administrador</p>';
-            }
-            else
-            {
-                $status = '<p class="text-light fs-5 text-center">Logeado</p>';
-            }
+            header("location: panel.html.php");
+            exit();
 
             break;
         }
@@ -51,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($loggedIn == false)
     {
-        $status = '<p class="text-light fs-5 text-center">Credenciales incorrectas</p>';
+        $status = 'Credenciales incorrectas';
     }
 
     // $status = '<p class="text-light fs-5 text-center">'. Database::$outputStatus . '</p>';

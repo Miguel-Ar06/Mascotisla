@@ -72,10 +72,8 @@
                     </div>
                 </div>
 
-                <?php 
-                    require __DIR__ . '/../../app/includes/login.php'; 
-                    echo $status;
-                ?>
+                <?php require __DIR__ . '/../../app/includes/login.php'; ?>
+                <p class="text-light fs-5 text-center"> <?php echo $status; ?></p>
                 
                 <div class="row justify-content-center mt-3">
                     <div class="col-auto text-center justify-content-center">
