@@ -26,7 +26,7 @@
             width: 60%;
         }
     </style>
-    <title>Panel</title>
+
 </head>
 <body style="font-family: 'Montserrat';">
     <!-- 

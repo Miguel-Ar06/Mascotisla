@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         </div>
 
         <div class="d-flex col-10 p-3 align-self-center shrink">
-            <h2 id="mascotislaTitle" class="fw-bold align-self-center p-3">
+            <h2  class="fw-bold align-self-center text-light p-3">
                 Bienvenido <?php echo $_SESSION["userName"] ?>!
                 <?php if($_SESSION["userIsAdmin"] == true): ?>
                     <span class="fw-bold text-body-secondary">(Administrador)</span>

@@ -6,8 +6,8 @@ include __DIR__ . "/database.php";
 // valores de prueba porque aun no he hecho la pagina para insertar usuarios a la bdd jsjsj
 $testUsers =
 [
-   new user("Miguel", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true), 
-   new user("Angel", "El valle", "12345","correodegei@gmail.com", "1234", false), 
+   new User("Miguel", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true), 
+   new User("Angel", "El valle", "12345","correodegei@gmail.com", "1234", true, false), 
 ];
 
 $loggedIn = false;
@@ -48,5 +48,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $status = 'Credenciales incorrectas';
     }
 
-    // $status = '<p class="text-light fs-5 text-center">'. Database::$outputStatus . '</p>';
+     //$status = Database::$outputStatus;
 }
