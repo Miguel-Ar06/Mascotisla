@@ -41,9 +41,19 @@ $deleteable = false;
                     <td class="align-middle"><?php echo $animal->getSex() ?></td>
                     <td class="align-middle"><?php echo $animal->getStatus() ?></td>
                     <td class="align-middle"><?php echo $animal->getCondition() ?></td>
-                    <td><div class="btn btn-primary hover-scale-up">Ver fotos</div></td>
+                    <td>
+                        <form action="" method="GET">
+                            <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
+                            <div><button type="submit" class="btn btn-primary hover-scale-up">Ver fotos</button></div>
+                        </form>
+                    </td>
                     <?php if($deleteable == true): ?>
-                        <td><div class="btn btn-danger hover-scale-up">Eliminar</div></td>
+                    <td>
+                        <form action="" method="POST">
+                            <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
+                            <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
+                        </form>
+                    </td>
                     <?php endif ?>
                 </tr>
             <?php endforeach ?>
