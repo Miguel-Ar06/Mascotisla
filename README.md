@@ -20,6 +20,17 @@ La plataforma Mascotisla es un sitio web creado como iniciativa de la fundación
 ## Consideraciones importantes para el codigo
 Si bien los elementos visibles de la interfaz estan en español el codigo es en ingles por consistencia
 
+### El nombrado de archivos
+Los archivos se están nombrando de dos formas principales segun su funcion
+`nombreDelArchivo.html.php` si el archivo es principalmente código HTML (con una que otra etiqueta php para incluir o generan más html).
+`nombreDelArchivo.php` si el archivo es principalmente código PHP que otorga funcionalidad y lógica a la aplicación.
+
+Por ejemplo: 
+
+`login.html.php` tiene todo el HTML para la esttructura y deseño del inicio de sesión.
+
+`login.php` tiene toda la lógica que hace funcionar el login y procesa los datos enviados para dar una respuesta.
+
 ### La clase Database
 ```php
 class Database {}
