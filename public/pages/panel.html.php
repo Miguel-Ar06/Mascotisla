@@ -25,10 +25,15 @@
             height: auto;
             width: 60%;
         }
+
+        html
+        {
+            height: 100%;
+        }
     </style>
 
 </head>
-<body style="font-family: 'Montserrat';">
+<body style="font-family: 'Montserrat'; display: flex; flex-direction: column; min-height: 100vh;">
     <!-- 
         Aqui va a todo el codigo asqueroso para la interfaz de miembro y admin, la idea es que sea una 
         sola ventana comun con el mismo header y el mismo footer, pero dependiendo de si es admin o no
@@ -39,7 +44,7 @@
         <?php require __DIR__ . '/../../app/templates/header.html.php'; ?>
     </header>
 
-    <main>
+    <main style="flex-grow: 1;">
         <?php if ($selectedMenu == "Colaboradores"): ?>
             <div class="container">
                 <div class="row">
