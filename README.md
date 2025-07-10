@@ -3,19 +3,24 @@
 La plataforma Mascotisla es un sitio web creado como iniciativa de la fundación PIM (proteccionistas independeintes de margarita) para que el público general pueda consultar los animales de casos conocidos y detalles como su estado de salud, si está adoptado o no, etc. Así mismo la plataforma cuenta con un panel para que los miembros de la fundación puedan registrar animales, casos, y colaboradores; de la misma forma también existe un panel de administradores mediante el cual pueden gestionar y hasta eliminar animales, casos y miembros o colaboradores de ser necesario.
 
 ## Estructura del proyecto
-(las carpetas vacias (*) no aparecerán en el repo)
+(las carpetas vacias (marcadas con *) no aparecerán en el repo)
   
 ```bash
-└───Mascotisla
-    ├───app              // funcionalidad oculta al navegador
-    │   ├───data            // Archivos de bdd o similar
-    │   ├───includes        // Archivos pensados para incrustrar,  ofrecen funcionalidad
-    │   └───templates       // Archivos con html generico para llenar con informacion
-    └───public           // Archivos accesibles para el navegador, como el index
-        ├───images          // imagenes, vectores, etc
-        ├───pages           // Las distintas paginas o vistas, suelen contener los includes
-        ├───scripts*        // javascript para funcionalidades
-        └───styles          // css para los estilos
+Mascotisla
+├───app                    // funcionalidad de la aplicacion, oculto al navegador (en teoria)
+│   ├───data               // Base de datos
+│   ├───includes           // Archivos que se insertan en otros sitios para traer funcionalidad
+│   │   ├───classes        // Clases con las entidades y utilidades del programa
+│   │   ├───formLogic      // Archivos con la logica para manejar los formularios
+│   │   └───tableLogic     // Archivos con la logica para generar las tablas
+│   └───templates          // Codigo html reutilizable con secciones completas
+│       ├───forms          // Formularios para introducir informacion
+│       └───tables         // Tablas para mostrar informacion
+└───public                 // Archivos estaticos visibles para el navegador 
+    ├───images             // Imagenes y vectores
+    ├───pages              // Las diferentes paginas/vistas/modulos de la aplicacion
+    ├───scripts            // Archivos de javascript para brindar interactividad
+    └───styles             // CSS para alterar la apariencia de ciertas cosas
 ```
 ## Consideraciones importantes para el codigo
 Si bien los elementos visibles de la interfaz estan en español el codigo es en ingles por consistencia
@@ -45,7 +50,7 @@ Para la consulta a la bdd de sentencias `SELECT` se ha implementado el metodo `D
 ```php
 Database::connect();
 echo Database::$outputStatus; // verificar si se ha conectado
-$consutla = 'SELECT * FROM animales'
+$consulta = 'SELECT * FROM animales'
 Database::executeQuery($consulta);
 $primerAnimal = Database::$result->fetch(); // tomar el primer animal, el fetch se puede hacer dentro de un while
 echo $primerAnimal['nombre'];
