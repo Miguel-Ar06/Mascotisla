@@ -1,9 +1,14 @@
 <?php 
-// include __DIR__ . "/Database.php";
+require_once __DIR__ . "/../classes/database.php";
 Database::Connect();   
 
-$clickedButton = "btSubmitCOlaborador";
-$message = "";
+$clickedButton = "btSubmitColaborador";
+$_SESSION['message'] = $_SESSION['message'] ?? " ";
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET')
+{
+    $_SESSION['message'] = " ";
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -16,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $cedula = htmlspecialchars($_POST['tbCedula'] ?? null);
     $name = htmlspecialchars($_POST['tbName'] ?? null);
     $lastName = htmlspecialchars($_POST['tbLastName'] ?? null);
-    $pohnesStr = htmlspecialchars($_POST['tbPhone'] ?? null);
-    $phonessArr = explode ('-' ,$telefonosStr);
+    $phonesStr = htmlspecialchars($_POST['tbPhone'] ?? null);
+    $phonesArr = explode (',' ,$phonesStr);
     $details = htmlspecialchars($_POST['tbDetailss'] ?? null);
     $isMember = $_POST['ckMember'] ?? null;
 
@@ -33,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $isADmin = $_POST['ckIsAdmin'] ?? null;
     }
 
-    if ($_POST[$clickedButton] = "Registrar")
+    if ($_POST[$clickedButton] == "Registrar")
     {
         // Verificar que la cedula y/o correo no existen ya 
         $query = "SELECT correo, cedula
@@ -47,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
             if ($email == $actualEmail || $cedula == $actualCedula)
             {
-                $message = "Error: Esta cédula o correo ya existen";
+                $_SESSION['message'] = "<div class='text-danger fs-4'>Error: Esta cédula o correo ya existen</div>";
                 return;
             }
         }
 
-        $message = "Insertado (mentira, es para verificar que no acepte duplicados)";
+        $_SESSION['message'] = "<div class='text-success fs-4'>Insertado (mentira, es para verificar que no acepte duplicados)</div>";
     }
     else if ($_POST[$clickedButton] = "Actualizar")
     {

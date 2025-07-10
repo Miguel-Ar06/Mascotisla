@@ -3,21 +3,21 @@
         <div class="row">
             <div class="col-4">
                 <label for="tbCedula" class="form-label text-black">Cédula</label>
-                <input type="number" placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
+                <input type="number" required placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbName" class="form-label text-black">Nombre</label>
-                <input type="text" name="tbName" class="form-control border border-dark">
+                <input type="text" required  name="tbName" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbLastName" class="form-label text-black">Apellido</label>
-                <input type="text" name="tbLastName" class="form-control border border-dark">
+                <input type="text" required  name="tbLastName" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-5">
                 <label for="tbPhone" class="form-label text-black">Teléfono/s</label>
-                <input type="tel" placeholder="Ej: 0416-0000000,0424-0000000" name="tbPhone" class="form-control border border-dark">
+                <input type="tel" required placeholder="Ej: 0416-0000000,0424-0000000" name="tbPhone" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbDetails" class="form-label text-black">Detalles (opcional)</label>

@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/style.css">
+
+    <script src="../scripts/extendColaboratorForm.js"></script>
+
     <title>Panel Principal</title>
 
     <style>
@@ -37,17 +40,9 @@
 
 </head>
 <body style="font-family: 'Montserrat'; display: flex; flex-direction: column; min-height: 100vh;">
-    <!-- 
-        Aqui va a todo el codigo asqueroso para la interfaz de miembro y admin, la idea es que sea una 
-        sola ventana comun con el mismo header y el mismo footer, pero dependiendo de si es admin o no
-        se muestran controles adicionales y tablas adicionales, todo eso con la magia de phpsito
-    -->
-
     <header>
         <?php require __DIR__ . '/../../app/templates/mainPanelHeader.html.php'; ?>
     </header>
-
-    
 
     <main style="flex-grow: 1;">
         <?php if ($_SESSION['module'] == "Colaboradores"): ?>
@@ -56,7 +51,6 @@
                     <div class="col">
                         <?php require __DIR__ . '/../../app/templates/forms/formColaborators.html.php' ?>
                     </div>
-                    <script src="../scripts/extendColaboratorForm.js"></script>
                     <div class="col ms-5 me-0 pe-0">
                         <div class="container">
                             <div class="row">
@@ -66,9 +60,9 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <div class="text-danger fs-4"><?php echo $message ?></div>
+                                    <?php echo $_SESSION['message'] ?>
+                                </div>
                             </div>
-                    </div>
                         </div>
                     </div>
                 </div>
