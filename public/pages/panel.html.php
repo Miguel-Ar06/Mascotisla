@@ -156,6 +156,7 @@
     </main>
 
     <footer>
+        
         <?php include __DIR__ . '/../../app/includes/footer.php'; ?>
     </footer>
 </body>
