@@ -6,8 +6,8 @@ include __DIR__ . "/database.php";
 // valores de prueba porque aun no he hecho la pagina para insertar usuarios a la bdd jsjsj
 $testUsers =
 [
-   new User("Miguel", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true), 
-   new User("Angel", "El valle", "12345","correodegei@gmail.com", "1234", true, false), 
+   new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true), 
+   new User(2, "Angel", "Marin", "El valle", "12345","correodegei@gmail.com", "1234", true, false), 
 ];
 
 $loggedIn = false;
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     foreach ($testUsers as $currentUser)
     {
-        $validLogin = ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getId()) && $password == $currentUser->getPassword();
+        $validLogin = ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getIdentification()) && $password == $currentUser->getPassword();
 
         if ($validLogin)
         {
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $loggedUser = $currentUser;
             
             // sesion = variables accesibles para todo el navegador
-            $_SESSION["userId"] = $loggedUser->getId();
+            $_SESSION["userId"] = $loggedUser->getIdentification();
             $_SESSION["userName"] = $loggedUser->getName();
             $_SESSION["userIsAdmin"] = $loggedUser->isAdmin();
             $_SESSION["userMail"] = $loggedUser->getEmail();

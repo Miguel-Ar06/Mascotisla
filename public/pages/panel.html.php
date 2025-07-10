@@ -36,9 +36,7 @@
     -->
 
     <header>
-        <?php 
-            require __DIR__ . '/../../app/templates/header.html.php'; 
-        ?>
+        <?php require __DIR__ . '/../../app/templates/header.html.php'; ?>
     </header>
 
     <main>
@@ -46,7 +44,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <form>
+                        <form id="formColaborator" action="" method="POST">
                             <div class="container ps-0 ms-0">
                                 <div class="row">
                                     <div class="col-4">
@@ -78,61 +76,63 @@
                                         <label for="ckMember" class="form-check-label">Nuevo miembro</label>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="tbEmail" class="form-label text-black">Correo electrónico</label>
-                                        <input type="email" name="tbEmail" class="form-control border border-dark">
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="tbPassword" class="form-label text-black">Contraseña</label>
-                                        <input type="password" name="tbPassword" class="form-control border border-dark">
-                                    </div>
-                                    <div class="col">
-                                        <label for="tbPasswordConfirm" class="form-label text-black">Confirmar contraseña</label>
-                                        <input type="password" name="tbPasswordConfirm" class="form-control border border-dark">
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="tbCity" class="form-label text-black">Ciudad/Pueblo/Localidad</label>
-                                        <input type="text" name="tbCity" class="form-control border border-dark">
-                                    </div>
-                                    <div class="col">
-                                        <label for="tbStreet" class="form-label text-black">Calle</label>
-                                        <input type="text" name="tbStreet" class="form-control border border-dark">
-                                    </div>
-                                    <div class="col">
-                                        <label for="tbMunicipality" class="form-label text-black">Municipio</label>
-                                        <select class="form-select border border-dark" aria-label="Default select example">
-                                            <option value="" disabled selected hidden> </option>
-                                            <option value="Antolin">Antolín</option>
-                                            <option value="Arismendi">Arismendi</option>
-                                            <option value="Antonio Diaz">Antonio Diaz</option>
-                                            <option value="Garcia">García</option>
-                                            <option value="Gomez">Gómez</option>
-                                            <option value="Maneiro">Maneiro</option>
-                                            <option value="Marcano">Marcano</option>
-                                            <option value="Marinio">Mariño</option>
-                                            <option value="Macanao">Macanao</option>
-                                            <option value="Tubores">Tubores</option>
-                                            <option value="Villalba">Villalba</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
+                                <div id="dvExtraFields" style="display: none;">
+                                    <div class="row mt-3">
                                         <div class="col">
-                                            <label for="tbReference" class="form-label text-black">Punto de referencia (opcional)</label>
-                                            <input type="text" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
+                                            <label for="tbEmail" class="form-label text-black">Correo electrónico</label>
+                                            <input type="email" name="tbEmail" class="form-control border border-dark">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <input type="checkbox" name="ckIsAdmin" class="form-check-input border border-dark" value="">
-                                        <label for="ckIsAdmin" class="form-check-label">Es Administrador</label>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <label for="tbPassword" class="form-label text-black">Contraseña</label>
+                                            <input type="password" name="tbPassword" class="form-control border border-dark">
+                                        </div>
+                                        <div class="col">
+                                            <label for="tbPasswordConfirm" class="form-label text-black">Confirmar contraseña</label>
+                                            <input type="password" name="tbPasswordConfirm" class="form-control border border-dark">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <label for="tbCity" class="form-label text-black">Ciudad/Pueblo/Localidad</label>
+                                            <input type="text" name="tbCity" class="form-control border border-dark">
+                                        </div>
+                                        <div class="col">
+                                            <label for="tbStreet" class="form-label text-black">Calle</label>
+                                            <input type="text" name="tbStreet" class="form-control border border-dark">
+                                        </div>
+                                        <div class="col">
+                                            <label for="tbMunicipality" class="form-label text-black">Municipio</label>
+                                            <select class="form-select border border-dark" aria-label="Default select example">
+                                                <option value="" disabled selected hidden> </option>
+                                                <option value="Antolin">Antolín</option>
+                                                <option value="Arismendi">Arismendi</option>
+                                                <option value="Antonio Diaz">Antonio Diaz</option>
+                                                <option value="Garcia">García</option>
+                                                <option value="Gomez">Gómez</option>
+                                                <option value="Maneiro">Maneiro</option>
+                                                <option value="Marcano">Marcano</option>
+                                                <option value="Marinio">Mariño</option>
+                                                <option value="Macanao">Macanao</option>
+                                                <option value="Tubores">Tubores</option>
+                                                <option value="Villalba">Villalba</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <div class="col">
+                                                <label for="tbReference" class="form-label text-black">Punto de referencia (opcional)</label>
+                                                <input type="text" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <input type="checkbox" name="ckIsAdmin" class="form-check-input border border-dark" value="">
+                                            <label for="ckIsAdmin" class="form-check-label">Es Administrador</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3 mb-5 justify-content-betweenn">
@@ -146,8 +146,9 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col">
-                        efefce
+                    <script src="../scripts/extendColaboratorForm.js"></script>
+                    <div class="col ms-5 me-0 pe-0">
+                        <?php require __DIR__ . '/../../app/includes/tablaColaboradores.php'; ?>
                     </div>
                 </div>
             </div>

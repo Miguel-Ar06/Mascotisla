@@ -2,19 +2,23 @@
 
 class User
 {
-    private $name;
-    private $address;
     private $id;
+    private $name;
+    private $lastName;
+    private $address;
+    private $identification;
     private $email;
     private $password;
     private $isMember;
     private $isAdmin; //por los momentos en una sola clase, que ladilla meter herencia ahorita
 
-    public function __construct($name, $address, $id, $email, $password, $isMember, $isAdmin)
+    public function __construct($id, $name, $lastName, $address, $identification , $email, $password, $isMember, $isAdmin)
     {
-        $this->name = $name;
-        $this->address = $address;
         $this->id = $id;
+        $this->name = $name;
+        $this->lastName = $lastName;
+        $this->address = $address;
+        $this->identification = $identification;
         $this->email = $email;
         $this->password = $password;
         $this->isMember = $isMember;
@@ -29,6 +33,15 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+    public function getLastName()
+    {
+        return $this->lastName;
     }
 
     public function setAddress($address)
@@ -47,6 +60,15 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setIdentification($identification)
+    {
+        $this->identification = $identification;
+    }
+    public function getIdentification()
+    {
+        return $this->identification;
     }
 
     public function setEmail($email)
