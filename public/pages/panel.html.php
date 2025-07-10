@@ -44,6 +44,8 @@
         <?php require __DIR__ . '/../../app/templates/header.html.php'; ?>
     </header>
 
+    
+
     <main style="flex-grow: 1;">
         <?php if ($selectedMenu == "Colaboradores"): ?>
             <div class="container">
@@ -157,6 +159,20 @@
                     </div>
                 </div>
             </div>
+            <?php elseif ($selectedMenu == "Animales"): ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <form id="formAnimal" action="" method="POST">
+                            <?php require __DIR__ . '/paneles/panelAnimal.php'; ?>
+                        </form>
+                    </div>
+                    <div class="col ms-5 me-0 pe-0">
+                        <?php require __DIR__ . '/../../app/includes/tableConsultaAnimales.php'; ?>
+                    </div>
+                </div>
+            </div>
+            
         <?php endif ?>
     </main>
 
