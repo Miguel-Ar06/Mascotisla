@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         <form action="" method="POST">
             <div class="row justify-content-start">
                 <div class="d-flex col-auto ps-0">
-                    <h3 id="lbSeleccioneMenu" class="p-3 text-black text-start"> Seleccione un menú para manipular: </h3>
+                    <h3 id="lbSeleccioneMenu" class="p-3 text-black text-start"> Seleccione un menú para gestionar: </h3>
                 </div>
             </div>
 

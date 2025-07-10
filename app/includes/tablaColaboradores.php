@@ -1,4 +1,30 @@
 <?php
+require __DIR__ . '/database.php';
+
+$testColaborators = [];
+Database::connect();
+
+$query = "SELECT miembros.id, cedula, colaboradores.nombre, apellido, correo, calle, referencia, ciudades.nombre, municipios.nombre
+            FROM colaboradores
+            LEFT JOIN miembros ON colaboradores.cedula = miembros.cedula_colaborador
+            JOIN direcciones ON miembros.id_direccion = direcciones.id
+            JOIN ciudades ON direcciones.id_ciudad = ciudades.id
+            JOIN municipios ON ciudades.id_municipio = municipios.id;";
+
+Database::execute($query);
+
+while ($row = Database::$result->fetch())
+{
+    $newColaborator = new User
+    (
+        $row['miembros.id'],
+        $row['colaboradores.nombre'],
+        $row['apellido'],
+        $row['calle'] . '-' . $row['ciudades.nombre'] . '-' . $row['municipios.nombre'] . '-' . $row['referencia'],
+        $row['cedula'],
+        $row['correo'],
+    )
+}
 
 // colaboradores de prueba para ir creando la plantilla generadora de tablas
 $testColaborators = 
@@ -30,7 +56,6 @@ function boolToSiONo($boolean)
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Dirección</th>
                 <th scope="col">Cédula</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Miembro</th>
@@ -46,13 +71,12 @@ function boolToSiONo($boolean)
                 <tr>
                     <th class="align-middle" scope="row"><?php echo $colaborator->getId() ?></th>
                     <td class="align-middle"><?php echo $colaborator->getName() . ' ' . $colaborator->getLastName() ?></td>
-                    <td class="align-middle"><?php echo $colaborator->getAddress() ?></td>
                     <td class="align-middle"><?php echo $colaborator->getIdentification() ?></td>
                     <td class="align-middle"><?php echo $colaborator->getEmail() ?></td>
                     <td class="align-middle"><?php boolToSiONo($colaborator->isMember()) ?></td>
                     <td class="align-middle"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
                     <td>
-                        <form action="" method="POST">
+                        <form action="" method="GET">
                             <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
                             <div><button type="submit" class="btn btn-primary hover-scale-up">Ver</button></div>
                         </form>
