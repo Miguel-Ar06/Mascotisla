@@ -1,7 +1,7 @@
 <?php
 session_start();
-include __DIR__ . "/user.php";
-include __DIR__ . "/database.php";
+include __DIR__ . "/classes/user.php";
+include __DIR__ . "/classes/database.php";
 
 // valores de prueba porque aun no he hecho la pagina para insertar usuarios a la bdd jsjsj
 $testUsers =
@@ -16,8 +16,8 @@ $loggedUser = null;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    $mailOrId = $_POST['tbMailOrId'] ?? null;
-    $password = $_POST['tbPassword'] ?? null;
+    $mailOrId = htmlspecialchars($_POST['tbMailOrId'] ?? null);
+    $password = htmlspecialchars($_POST['tbPassword'] ?? null);
 
     Database::connect();
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $_SESSION["userIsAdmin"] = $loggedUser->isAdmin();
             $_SESSION["userMail"] = $loggedUser->getEmail();
 
-            header("location: panel.html.php");
+            header("location: mainPanel.html.php");
             exit();
 
             break;
