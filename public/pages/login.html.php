@@ -48,7 +48,8 @@
             </div>
             <div class="row justify-content-center align-items-start pt-2">
                 <div class="col-auto justify-content-center">
-                    <p class="fs-3 fw-bolder text-center text-light">Mascotisla</p>
+                    <p class="fs-3 fw-bolder text-center text-light">Mascotisla</p>";
+                    ?>
                 </div>
             </div>
         </div>
@@ -93,3 +94,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>
 </html>
+            
