@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () =>
         if (tbCity) tbCity.required = isRequired;
         if (tbStreet) tbStreet.required = isRequired;
         if (tbMunicipality) tbMunicipality.required = isRequired;
-        if (tbReference) tbReference.required = isRequired;
     };
 
     ckMemberCheckbox.addEventListener('change', () => 

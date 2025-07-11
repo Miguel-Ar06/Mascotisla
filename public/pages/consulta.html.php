@@ -56,7 +56,7 @@
 
     <main>
         <div class="d-flex container mt-5 mb-5 justify-content-center pb-5 text-center">
-            <?php require __DIR__ . "/../../app/includes/tableConsultaAnimales.php"  ?>
+            <?php require __DIR__ . "/../../app/templates/tables/tableConsultaAnimales.html.php"  ?>
         </div>
     </main>
 

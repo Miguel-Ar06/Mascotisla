@@ -32,7 +32,7 @@ class Database
         self::$pdo = null;
     }
 
-    // funcion para DELETE/INSERT/UPDATE: devuelve el numero de filas afectadas
+    // funcion para ejecutar consultas sin chequeo, devuelve el numero de filas afectadas
     public static function execute($query)
     {
         if (!self::$connected)
@@ -56,7 +56,7 @@ class Database
         }
     }
 
-    // funcion para los SELECT: devuelve un objeto representando una lista de todos los resultados;
+    // funcion para los SELECT sin chequeo: devuelve un objeto representando una lista de todos los resultados, guardado en $result;
     public static function executeQuery($query)
     {
         if (!self::$connected)
@@ -68,13 +68,40 @@ class Database
 
         try
         {
-            // $result->fetch() para obtener o "leer" una fila, puede ser dentro de un while (da false si no hay filas)
-            // ejemplo: $row = $result->fetch(); echo $row['usuarioId'] ; imprime el id del usuario leido
-            self::$result = self::$pdo->query($query);
+            self::$result = self::$pdo->query($query)->fetchAll();
             self::$outputStatus = "SELECT query successfully executed";
             self::$executionSuccessful = true;
 
         }
+        catch (PDOException $pdoException)
+        {
+            self::$outputStatus = "failed execution: "  . $pdoException->getMessage() . ' in ' . $pdoException->getFile() . ':' . $pdoException->getLine();
+
+        }
+    }
+
+    // funcion para ejecutar consultas preparadas de forma segura donde el usuario debe introducir datos
+    // devuelve el numero de filas afectadas
+    // ejemplo query: "UPDATE users SET email = ? WHERE id = ?" -- los ? son espacios seguros para introducir informacion
+    // ejemplo valuesArray: [$emailUsuario, $idUsuario] -- el orden importa, debe alinearse con los signos de interrogacion
+    public static function safeExecute($query, $valuesArray)
+    {
+        $preparedQuery = self::$pdo->prepare($query);
+
+        try 
+        {
+            $preparedQuery->execute($valuesArray);
+            // devolver el conteo o la lista si es select
+            if (stripos(trim($query), 'SELECT') === 0) 
+            {
+                self::$result = $preparedQuery->fetchAll();
+            } 
+            else 
+            {
+                self::$result = $preparedQuery->rowCount(); // affected rows
+            }
+            self::$outputStatus = "Safe query successfully executed";
+        } 
         catch (PDOException $pdoException)
         {
             self::$outputStatus = "failed execution: "  . $pdoException->getMessage() . ' in ' . $pdoException->getFile() . ':' . $pdoException->getLine();

@@ -1,13 +1,13 @@
 <?php
 session_start();
-include __DIR__ . "/user.php";
-include __DIR__ . "/database.php";
+include __DIR__ . "/classes/user.php";
+include __DIR__ . "/classes/database.php";
 
 // valores de prueba porque aun no he hecho la pagina para insertar usuarios a la bdd jsjsj
 $testUsers =
 [
-   new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true), 
-   new User(2, "Angel", "Marin", "El valle", "12345","correodegei@gmail.com", "1234", true, false), 
+   new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "00000000", true, true), 
+   new User(2, "Angel", "Marin", "El valle", "12345","correodegei@gmail.com", "12345678", true, false), 
 ];
 
 $loggedIn = false;
@@ -16,8 +16,8 @@ $loggedUser = null;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    $mailOrId = $_POST['tbMailOrId'] ?? null;
-    $password = $_POST['tbPassword'] ?? null;
+    $mailOrId = htmlspecialchars($_POST['tbMailOrId'] ?? null);
+    $password = htmlspecialchars($_POST['tbPassword'] ?? null);
 
     Database::connect();
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $_SESSION["userIsAdmin"] = $loggedUser->isAdmin();
             $_SESSION["userMail"] = $loggedUser->getEmail();
 
-            header("location: panel.html.php");
+            header("location: mainPanel.html.php");
             exit();
 
             break;

@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <label class="form-label">Nombre del animal (opcional)</label>
-            <input type="text" name="tbNombre" class="form-control border border-dark" placeholder="Ejemplo: Gauss">
+            <input type="text" name="tbNombre" class="form-control border border-dark">
         </div>
         <div class="col-md-4">
             <label class="form-label">Condición</label>
@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-3">
             <label class="form-label">Cédula del colaborador</label>
-            <input type="text" name="tbCedulaColaborador" class="form-control border border-dark" placeholder="Ejemplo: 31234567">
+            <input type="text" name="tbCedulaColaborador" class="form-control border border-dark">
         </div>
     </div>
 
