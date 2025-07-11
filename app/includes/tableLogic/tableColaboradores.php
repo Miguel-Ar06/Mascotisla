@@ -4,7 +4,7 @@ require_once __DIR__ . "/../classes/user.php";
 $colaborators = [];
 Database::connect();
 
-$query = "SELECT miembros.id, cedula, colaboradores.nombre, apellido, correo, constrasena, calle, referencia, ciudades.nombre, municipios.nombre, esAdmin,
+$query = "SELECT miembros.id AS id, cedula, colaboradores.nombre AS nombre, apellido, correo, constrasena, calle, referencia, ciudades.nombre AS ciu_nombre, municipios.nombre AS mun_nombre, es_admin,
             CASE
                 WHEN miembros.cedula_colaborador IS NOT NULL THEN TRUE
                 ELSE FALSE
@@ -20,19 +20,19 @@ Database::executeQuery($query);
 $row;
 if (Database::$executionSuccessful)
 {
-    while ($row = Database::$result->fetch())
+    foreach (Database::$result as $row)
     {
         $newColaborator = new User
         (
-            $row['miembros.id'],
-            $row['colaboradores.nombre'],
+            $row['id'],
+            $row['nombre'],
             $row['apellido'],
-            $row['calle'] . '-' . $row['ciudades.nombre'] . '-' . $row['municipios.nombre'] . '-' . $row['referencia'],
+            $row['calle'] . '-' . $row['ciu_nombre'] . '-' . $row['mun_nombre'] . '-' . $row['referencia'],
             $row['cedula'],
             $row['correo'],
-            $row['contrasena'],
+            $row['constrasena'],
             $row['esMiembro'],
-            $row['esAdmin']
+            $row['es_admin']
         );
 
         $colaborators[] = $newColaborator;

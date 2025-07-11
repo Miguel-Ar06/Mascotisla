@@ -16,8 +16,8 @@
         </div>
         <div class="row mt-3">
             <div class="col-5">
-                <label for="tbPhone" class="form-label text-black">Teléfono/s</label>
-                <input type="tel" required placeholder="Ej: 0416-0000000,0424-0000000" name="tbPhone" class="form-control border border-dark">
+                <label for="tbPhone" class="form-label text-black">Teléfono</label>
+                <input type="tel" required placeholder="Ej: 0416-0000000" name="tbPhone" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbDetails" class="form-label text-black">Detalles (opcional)</label>
@@ -40,11 +40,11 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbPassword" class="form-label text-black">Contraseña</label>
-                    <input type="password" name="tbPassword" class="form-control border border-dark">
+                    <input minlength="8" type="password" name="tbPassword" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="tbPasswordConfirm" class="form-label text-black">Confirmar contraseña</label>
-                    <input type="password" name="tbPasswordConfirm" class="form-control border border-dark">
+                    <input minlength="8" type="password" name="tbPasswordConfirm" class="form-control border border-dark">
                 </div>
             </div>
             <div class="row mt-3">
@@ -60,11 +60,11 @@
                     <label for="ddMunicipality" class="form-label text-black">Municipio</label>
                     <select class="form-select border border-dark" aria-label="Default select example" name="ddMunicipality">
                         <option value="" disabled selected hidden> </option>
-                        <option value="Antolin">Antolín</option>
+                        <option value="Antolín">Antolín</option>
                         <option value="Arismendi">Arismendi</option>
-                        <option value="Antonio Diaz">Antonio Diaz</option>
-                        <option value="Garcia">García</option>
-                        <option value="Gomez">Gómez</option>
+                        <option value="Díaz">Díaz</option>
+                        <option value="García">García</option>
+                        <option value="Gómez">Gómez</option>
                         <option value="Maneiro">Maneiro</option>
                         <option value="Marcano">Marcano</option>
                         <option value="Marinio">Mariño</option>

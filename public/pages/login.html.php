@@ -68,7 +68,7 @@
                     <div class="col-4">
                         <div class="mb-3">
                             <label for="tbPassword" class="form-label text-light">Contraseña</label>
-                            <input type="password" class="form-control" id="tbPassword" name="tbPassword">
+                            <input minlength="8" type="password" class="form-control" id="tbPassword" name="tbPassword">
                         </div>
                     </div>
                 </div>

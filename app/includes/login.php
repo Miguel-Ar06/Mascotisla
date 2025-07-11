@@ -6,8 +6,8 @@ include __DIR__ . "/classes/database.php";
 // valores de prueba porque aun no he hecho la pagina para insertar usuarios a la bdd jsjsj
 $testUsers =
 [
-   new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true), 
-   new User(2, "Angel", "Marin", "El valle", "12345","correodegei@gmail.com", "1234", true, false), 
+   new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "00000000", true, true), 
+   new User(2, "Angel", "Marin", "El valle", "12345","correodegei@gmail.com", "12345678", true, false), 
 ];
 
 $loggedIn = false;

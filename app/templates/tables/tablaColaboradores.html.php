@@ -1,7 +1,7 @@
 <?php require __DIR__ . "/../../includes/tableLogic/tableColaboradores.php" ?>
 
-<div class="container table-responsive mb-5"  style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-striped mb-5 table-responsive">
+<div class="container table-responsive"  style="max-height: 400px; overflow-y: auto;">
+    <table class="table table-striped table-responsive">
         <thead style="position: sticky; top: 0;">
             <tr>
                 <th scope="col">Id</th>
@@ -29,9 +29,13 @@
                         <th class="align-middle" scope="row"><?php echo $colaborator->getId() ?></th>
                         <td class="align-middle"><?php echo $colaborator->getName() . ' ' . $colaborator->getLastName() ?></td>
                         <td class="align-middle"><?php echo $colaborator->getIdentification() ?></td>
-                        <td class="align-middle"><?php echo $colaborator->getEmail() ?></td>
-                        <td class="align-middle"><?php boolToSiONo($colaborator->isMember()) ?></td>
-                        <td class="align-middle"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
+                        <td class="align-middle">
+                            <div style="max-width: 150px; overflow-x: auto; white-space: nowrap;">
+                                <?php echo $colaborator->getEmail() ?>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isMember()) ?></td>
+                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
                         <td>
                             <form action="" method="GET">
                                 <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
