@@ -56,7 +56,7 @@ $primerAnimal = Database::$result[0]; // tomar el primer animal, el fetch se pue
 echo $primerAnimal['nombre'];
 ```
 
-Para consultas en donde el usuario deba introducir parametro se debe utilizar la función `Database::safeExecute($query, $valuesArray)`. Esta funcion toma una consulta preparada con signos de interrogación como 'SELECT * FROM colaboradores WHERE nombre LIKE ?;' y la prepara reemplazando los ? por su valor correspondiente en un arreglo de valores, por ejemplo:
+Para consultas en donde el usuario deba introducir parametro se debe utilizar la función `Database::safeExecute($query, $valuesArray)`. Esta función toma una consulta preparada con signos de interrogación como `SELECT * FROM colaboradores WHERE nombre LIKE ?;` y la prepara reemplazando los ? por su valor correspondiente en un arreglo de valores, por ejemplo:
 ```php
 $query = "INSERT INTO colaboradores(nombre,cedula) VALUES (?,?);";
 Database::safeExecute($query, [$name, $cedula]);
