@@ -160,19 +160,18 @@
                 </div>
             </div>
             <?php elseif ($selectedMenu == "Animales"): ?>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <form id="formAnimal" action="" method="POST">
-                            <?php require __DIR__ . '/paneles/panelAnimal.php'; ?>
-                        </form>
+            <div class="container mt--5">
+                <div class="card mb--3 mt--3">
+                    <div class="card-body">
+                        <?php require __DIR__ . '/paneles/panelAnimal.php'; ?>
                     </div>
-                    <div class="col ms-5 me-0 pe-0">
+                </div>
+                <div class="card">
+                    <div class="card-body">
                         <?php require __DIR__ . '/../../app/includes/tableConsultaAnimales.php'; ?>
                     </div>
                 </div>
             </div>
-            
         <?php endif ?>
     </main>
 
