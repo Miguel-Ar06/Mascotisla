@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <?php elseif ($_SESSION['module'] == "Animales"): ?>
+        <?php elseif ($_SESSION['module'] == "Animales"): ?>
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">

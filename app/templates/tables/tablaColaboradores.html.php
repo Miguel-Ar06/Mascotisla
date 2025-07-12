@@ -42,36 +42,7 @@
                     </td>
                     <?php endif ?>
                 </tr>
-            <?php else: ?>
-                <?php foreach($colaborators as $colaborator): ?>
-                    <tr>
-                        <th class="align-middle" scope="row"><?php echo $colaborator->getId() ?></th>
-                        <td class="align-middle"><?php echo $colaborator->getName() . ' ' . $colaborator->getLastName() ?></td>
-                        <td class="align-middle"><?php echo $colaborator->getIdentification() ?></td>
-                        <td class="align-middle">
-                            <div style="max-width: 150px; overflow-x: auto; white-space: nowrap;">
-                                <?php echo $colaborator->getEmail() ?>
-                            </div>
-                        </td>
-                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isMember()) ?></td>
-                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
-                        <td>
-                            <form action="" method="GET">
-                                <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
-                                <div><button type="submit" class="btn btn-primary hover-scale-up">Ver</button></div>
-                            </form>
-                        </td>
-                        <?php if($deleteable == true): ?>
-                        <td>
-                            <form action="" method="POST">
-                                <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
-                                <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
-                            </form>
-                        </td>
-                        <?php endif ?>
-                    </tr>
-                <?php endforeach ?>
-            <?php endif ?>
+            <?php endforeach ?>
         </tbody>
     </table>
 </div>
