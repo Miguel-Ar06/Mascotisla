@@ -1,6 +1,4 @@
-<?php require __DIR__ . '/../../includes/tableLogic/tableAnimals.php' 
-// SE NECESITA INCLUIR animal.php EN EL ARCHIVO DONDE SE USE ESTA PLANTILLA
-?>
+<?php require __DIR__ . '/../../includes/tableLogic/tableAnimals.php'  ?>
 
 <div class="container table-responsive mb-5"  style="max-height: 400px; overflow-y: auto;">
     <table class="table table-striped mb-5 table-responsive">

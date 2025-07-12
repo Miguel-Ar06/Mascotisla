@@ -45,6 +45,7 @@
     </header>
 
     <main style="flex-grow: 1;">
+
         <?php if ($_SESSION['module'] == "Colaboradores"): ?>
             <div class="container">
                 <div class="row">
@@ -82,6 +83,7 @@
                 </div>
             </div>
         <?php endif ?>
+
     </main>
 
     <footer>
