@@ -45,6 +45,7 @@
     </header>
 
     <main style="flex-grow: 1;">
+
         <?php if ($_SESSION['module'] == "Colaboradores"): ?>
             <div class="container">
                 <div class="row">
@@ -67,21 +68,22 @@
                     </div>
                 </div>
             </div>
-            <?php elseif ($_SESSION['module'] == "Animales"): ?>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <form id="formAnimal" action="" method="POST">
-                            <?php require __DIR__ . '/../../app/templates/forms/formAnimal.html.php'; ?>
-                        </form>
+        <?php elseif ($_SESSION['module'] == "Animales"): ?>
+            <div class="container mt-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <?php require __DIR__ . '/../../app/templates/forms/formAnimal.html.php'; ?>
                     </div>
-                    <div class="col ms-5 me-0 pe-0">
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
                         <?php require __DIR__ . '/../../app/templates/tables/tableConsultaAnimales.html.php'; ?>
                     </div>
                 </div>
             </div>
-            
         <?php endif ?>
+
     </main>
 
     <footer>

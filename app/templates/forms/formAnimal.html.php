@@ -62,10 +62,14 @@
         </div>
     </div>
     
-    <div class="row mt-3 mb-5 justify-content-between">
-        <div class="col">
+    <div class="row mt-3 mb-5">
+        <div class="col-1 me-3">
             <button type="submit" name="btBuscar" class="btn btn-info text-white">Buscar</button>
+        </div>
+        <div class="col-1 me-4">
             <button type="submit" name="btRegistrar" class="btn btn-success">Registrar</button>
+        </div>
+        <div class="col-3">
             <button type="submit" name="btActualizar" class="btn btn-primary">Actualizar datos</button>
         </div>
     </div>
