@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-07-2025 a las 18:01:59
+-- Tiempo de generación: 25-06-2025 a las 11:40:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `debugbdd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administradores`
+--
+
+CREATE TABLE `administradores` (
+  `id` int(11) NOT NULL,
+  `id_miembro` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -49,9 +60,7 @@ CREATE TABLE `casos` (
   `id` int(11) NOT NULL,
   `ubicacion` varchar(252) NOT NULL,
   `fecha_de_apertura` date NOT NULL,
-  `fecha_de_cierre` date DEFAULT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `estado` tinyint(1) NOT NULL
+  `fecha_de_cierre` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -75,8 +84,7 @@ CREATE TABLE `ciudades` (
 CREATE TABLE `colaboradores` (
   `cedula` varchar(20) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `detalles` text NOT NULL
+  `apellido` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +95,7 @@ CREATE TABLE `colaboradores` (
 
 CREATE TABLE `condiciones` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL
+  `condicion` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -111,7 +119,7 @@ CREATE TABLE `direcciones` (
 
 CREATE TABLE `estados` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL
+  `estado` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -146,12 +154,11 @@ CREATE TABLE `fotos` (
 
 CREATE TABLE `miembros` (
   `id` int(11) NOT NULL,
-  `contrasena` varchar(40) NOT NULL,
+  `constrasena` varchar(40) NOT NULL,
   `correo` varchar(40) NOT NULL,
   `fecha_de_ingreso` date NOT NULL,
   `id_direccion` int(11) NOT NULL,
-  `cedula_colaborador` varchar(20) NOT NULL,
-  `es_admin` tinyint(1) NOT NULL
+  `cedula_colaborador` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -241,6 +248,13 @@ CREATE TABLE `reportes_casos_colaboradores` (
 --
 
 --
+-- Indices de la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_miembro` (`id_miembro`);
+
+--
 -- Indices de la tabla `animales`
 --
 ALTER TABLE `animales`
@@ -273,8 +287,7 @@ ALTER TABLE `colaboradores`
 --
 ALTER TABLE `condiciones`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `condicion` (`nombre`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD UNIQUE KEY `condicion` (`condicion`);
 
 --
 -- Indices de la tabla `direcciones`
@@ -288,8 +301,7 @@ ALTER TABLE `direcciones`
 --
 ALTER TABLE `estados`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `estado` (`nombre`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD UNIQUE KEY `estado` (`estado`);
 
 --
 -- Indices de la tabla `estados_animales`
@@ -351,8 +363,8 @@ ALTER TABLE `papeles_colaboradores`
 --
 ALTER TABLE `registros_miembros_animales`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_registro_miembro_animal_animal` (`id_animal`),
-  ADD KEY `fk_registro_miembro_animal_miembro` (`id_miembro`);
+  ADD KEY `fk_registro_miembro_animal_miembro` (`id_miembro`),
+  ADD KEY `fk_registro_miembro_animal_animal` (`id_animal`);
 
 --
 -- Indices de la tabla `registros_miembros_casos`
@@ -373,6 +385,12 @@ ALTER TABLE `reportes_casos_colaboradores`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `animales`
@@ -475,6 +493,12 @@ ALTER TABLE `reportes_casos_colaboradores`
 --
 
 --
+-- Filtros para la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  ADD CONSTRAINT `fk_miembro_admin` FOREIGN KEY (`id_miembro`) REFERENCES `miembros` (`id`);
+
+--
 -- Filtros para la tabla `animales`
 --
 ALTER TABLE `animales`
@@ -532,7 +556,7 @@ ALTER TABLE `papeles_colaboradores`
 --
 ALTER TABLE `registros_miembros_animales`
   ADD CONSTRAINT `fk_registro_miembro_animal_animal` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`),
-  ADD CONSTRAINT `fk_registro_miembro_animal_miembro` FOREIGN KEY (`id_miembro`) REFERENCES `miembros` (`id`);
+  ADD CONSTRAINT `fk_registro_miembro_animal_miembro` FOREIGN KEY (`id_miembro`) REFERENCES `animales` (`id`);
 
 --
 -- Filtros para la tabla `registros_miembros_casos`

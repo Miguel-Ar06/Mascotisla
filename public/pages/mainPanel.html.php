@@ -81,7 +81,28 @@
                     </div>
                 </div>
             </div>
-        <?php endif ?>
+            <?php elseif ($_SESSION['module'] == "Casos"): ?>
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- Formulario a la izquierda -->
+                    <div class="col-md-5 pe-4">
+                        <?php require __DIR__ . '/../../app/templates/forms/formCasos.html.php'; ?>
+                    </div>
+                    
+                    <!-- Tabla a la derecha -->
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0">Listado de Casos</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <?php require __DIR__ . '/../../app/templates/tables/tablaCasos.html.php'; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </main>
 
     <footer>

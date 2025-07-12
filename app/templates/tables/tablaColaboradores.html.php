@@ -40,7 +40,7 @@
                             <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
                         </form>
                     </td>
-                    <?php endif ?>
+                    
                 </tr>
             <?php else: ?>
                 <?php foreach($colaborators as $colaborator): ?>
