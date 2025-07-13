@@ -1,3 +1,4 @@
+
 <div class="card mb-4">
     <div class="card-header bg-dark text-white">
         <h5 class="mb-0">Gestión de Casos</h5>
@@ -33,10 +34,23 @@
                     <label class="form-label">Animal</label>
                     <select name="animal" class="form-select border border-dark">
                         <option value="">Seleccionar...</option>
-                        <option value="Gauss">Gauss</option>
-                        <option value="Pablo Pancho">Pablo Pancho</option>
-                        <option value="Patroclo">Patroclo</option>
-                        <option value="Adjetivo">Adjetivo</option>
+                        <?php
+                        // Obtener animales sin caso asignado
+                        $animalesSinCaso = [];
+                        if (Database::$connected) {
+                            try {
+                                $queryAnimales = "SELECT id, nombre FROM animales WHERE id_caso IS NULL";
+                                $stmtAnimales = Database::$pdo->query($queryAnimales);
+                                $animalesSinCaso = $stmtAnimales->fetchAll(PDO::FETCH_ASSOC);
+                            } catch (PDOException $e) {
+                                error_log("Error al obtener animales: " . $e->getMessage());
+                            }
+                        }
+
+                        foreach ($animalesSinCaso as $animal) {
+                            echo '<option value="' . htmlspecialchars($animal['id']) . '">' . htmlspecialchars($animal['nombre']) . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -46,9 +60,24 @@
                     <label class="form-label">Cédula Colaborador *</label>
                     <select name="colaborador" class="form-select border border-dark" required>
                         <option value="">Seleccionar...</option>
-                        <option value="31648782">Angel Marin</option>
-                        <option value="98765432">Miguel Arismendi</option>
-                        <option value="45678912">Alejandro Hernández</option>
+                        <?php
+                        // Obtener todos los colaboradores
+                        $colaboradores = [];
+                        if (Database::$connected) {
+                            try {
+                                $queryColaboradores = "SELECT cedula, nombre, apellido FROM colaboradores";
+                                $stmtColaboradores = Database::$pdo->query($queryColaboradores);
+                                $colaboradores = $stmtColaboradores->fetchAll(PDO::FETCH_ASSOC);
+                            } catch (PDOException $e) {
+                                error_log("Error al obtener colaboradores: " . $e->getMessage());
+                            }
+                        }
+
+                        foreach ($colaboradores as $colab) {
+                            $nombreCompleto = htmlspecialchars($colab['nombre'] . ' ' . $colab['apellido']);
+                            echo '<option value="' . htmlspecialchars($colab['cedula']) . '">' . $nombreCompleto . ' (' . htmlspecialchars($colab['cedula']) . ')</option>';
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="col-md-6">

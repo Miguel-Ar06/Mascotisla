@@ -20,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     $estado = $_POST['estado'] ?? '';
     $fecha = $_POST['fecha'] ?? date('Y-m-d');
     $colaborador = $_POST['colaborador'] ?? '';
+    $idAnimal = $_POST['animal'] ?? null; // Puede ser null
 
     // Validaciones básicas
     if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha)) {
         $_SESSION['casos_error'] = "Todos los campos obligatorios deben ser completados";
-        header("Location: ../../app/includes/mainPanel.php?module=Casos");
+        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
         exit();
     }
 
@@ -33,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     
     if (!Database::$connected) {
         $_SESSION['casos_error'] = "Error de conexión a la base de datos";
-        header("Location: ../../app/includes/mainPanel.php?module=Casos");
+        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
         exit();
     }
 
@@ -63,6 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
             ':idCaso' => $idCaso
         ]);
 
+        // 3. Si se seleccionó un animal, actualizarlo para asignarle el caso
+        if (!empty($idAnimal)) {
+            $queryUpdateAnimal = "UPDATE animales SET id_caso = :idCaso WHERE id = :idAnimal";
+            $stmtUpdateAnimal = Database::$pdo->prepare($queryUpdateAnimal);
+            $stmtUpdateAnimal->execute([
+                ':idCaso' => $idCaso,
+                ':idAnimal' => $idAnimal
+            ]);
+        }
+
         // Confirmar transacción
         Database::$pdo->commit();
 
@@ -84,6 +95,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
         $_SESSION['casos_error'] = $errorMessage;
     } catch (Exception $e) {
         $_SESSION['casos_error'] = "Error inesperado: " . $e->getMessage();
+    }
+
+    header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+    exit();
+}
+
+// 5. Procesar operación de eliminación
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'delete') {
+    $casoId = $_POST['casoId'] ?? 0;
+
+    if (empty($casoId)) {
+        $_SESSION['casos_error'] = "ID de caso inválido";
+        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        exit();
+    }
+
+    Database::connect();
+
+    if (!Database::$connected) {
+        $_SESSION['casos_error'] = "Error de conexión a la base de datos";
+        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        exit();
+    }
+
+    try {
+        // Iniciar transacción
+        Database::$pdo->beginTransaction();
+
+        // 1. Desvincular animales asociados a este caso
+        $queryDesvincularAnimales = "UPDATE animales SET id_caso = NULL WHERE id_caso = :casoId";
+        $stmtDesvincular = Database::$pdo->prepare($queryDesvincularAnimales);
+        $stmtDesvincular->execute([':casoId' => $casoId]);
+
+        // 2. Eliminar reportes de colaboradores asociados
+        $queryEliminarReportes = "DELETE FROM reportes_casos_colaboradores WHERE id_caso = :casoId";
+        $stmtReportes = Database::$pdo->prepare($queryEliminarReportes);
+        $stmtReportes->execute([':casoId' => $casoId]);
+
+        // 3. Eliminar el caso
+        $queryEliminarCaso = "DELETE FROM casos WHERE id = :casoId";
+        $stmtCaso = Database::$pdo->prepare($queryEliminarCaso);
+        $stmtCaso->execute([':casoId' => $casoId]);
+
+        // Confirmar transacción
+        Database::$pdo->commit();
+
+        $_SESSION['casos_message'] = "Caso eliminado exitosamente!";
+    } catch (PDOException $e) {
+        if (Database::$pdo->inTransaction()) {
+            Database::$pdo->rollBack();
+        }
+        $errorMessage = "Error al eliminar el caso";
+        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+            $errorMessage .= ": " . $e->getMessage();
+        }
+        $_SESSION['casos_error'] = $errorMessage;
     }
 
     header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
