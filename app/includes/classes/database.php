@@ -13,7 +13,7 @@ class Database
     {
         try 
         {
-            self::$pdo = new PDO('mysql:hostname=localhost;dbname=mascotisla;charset=utf8', 'root','');
+            self::$pdo = new PDO('mysql:hostname=localhost;dbname=debugbdd;charset=utf8', 'root','');
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             self::$outputStatus = "successful connection";

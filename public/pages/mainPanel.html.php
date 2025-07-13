@@ -1,6 +1,23 @@
-<?php require __DIR__ . "/../../app/includes/mainPanel.php"?>
-<?php require __DIR__ . "/../../app/includes/formLogic/formColaborators.php" ?>
+<?php 
 
+
+require __DIR__ . "/../../app/includes/mainPanel.php";
+require __DIR__ . "/../../app/includes/formLogic/formColaborators.php";
+
+// --- MANEJO DE FORMULARIOS MEJORADO ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['current_module'])) {
+    // Determinar qué módulo está activo basado en el campo oculto
+    $currentModule = $_POST['current_module'] ?? '';
+    
+    // Procesar según el módulo activo
+    if ($currentModule === 'Casos') {
+        require_once __DIR__ . '/../../app/includes/scripts/process_casos.php';
+        exit;
+    }
+    // Agregar aquí otros módulos si es necesario
+}
+// --- FIN DEL MANEJO DE FORMULARIOS ---
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,29 +34,53 @@
     <title>Panel Principal</title>
 
     <style>
-        button, .btn, input[type="button"], input[type="submit"], .hover-scale-up
-        {
+        button, .btn, input[type="button"], input[type="submit"], .hover-scale-up {
             transition: transform 0.3s ease-in-out;
         }
 
-        button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover, .hover-scale-up:hover
-        {
+        button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover, .hover-scale-up:hover {
             transform: scale(1.1);
         }
-        .scale-down
-        {
+        
+        .scale-down {
             height: auto;
             width: 60%;
         }
 
-        html
-        {
+        html {
             height: 100%;
+        }
+        
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 350px;
         }
     </style>
 
 </head>
 <body style="font-family: 'Montserrat'; display: flex; flex-direction: column; min-height: 100vh;">
+    <!-- Contenedor para alertas flotantes -->
+    <div class="alert-container">
+        <?php if (isset($_SESSION['casos_message'])): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+                <?= $_SESSION['casos_message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_message']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['casos_error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <?= $_SESSION['casos_error'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_error']); ?>
+        <?php endif; ?>
+    </div>
+
     <header>
         <?php require __DIR__ . '/../../app/templates/mainPanelHeader.html.php'; ?>
     </header>
@@ -60,14 +101,14 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <?php echo $_SESSION['message'] ?>
+                                    <?= $_SESSION['message'] ?? '' ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php elseif ($_SESSION['module'] == "Animales"): ?>
+        <?php elseif ($_SESSION['module'] == "Animales"): ?>
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -81,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <?php elseif ($_SESSION['module'] == "Casos"): ?>
+        <?php elseif ($_SESSION['module'] == "Casos"): ?>
             <div class="container mt-4">
                 <div class="row">
                     <!-- Formulario a la izquierda -->
@@ -108,5 +149,8 @@
     <footer>
         <?php include __DIR__ . '/../../app/templates/footer.html.php'; ?>
     </footer>
+
+    <!-- Script de Bootstrap para alertas -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
