@@ -14,7 +14,7 @@ $_SESSION['message'] = $_SESSION['message'] ?? " ";
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-    $_SESSION['message'] = " ";
+    // $_SESSION['message'] = " ";
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             getColaboratorData();
             $_SESSION['message'] = '<div class="fs-4">Tip: puede editar los datos y presionar "actualizar"</div>';
             // redirect por get
+            $_SESSION['alreadyViewedColaborator'] = false;
             header('Location: ' . $_SERVER['PHP_SELF']);
             exit();
         }
