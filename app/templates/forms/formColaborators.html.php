@@ -1,46 +1,80 @@
+<?php require_once __DIR__ . "/../../includes/formLogic/formColaborators.php" ?>
+
 <form id="formColaborator" action="" method="POST">
     <div class="container ps-0 ms-0">
         <div class="row">
             <div class="col-4">
-                <label for="tbCedula" class="form-label text-black">Cédula</label>
-                <input type="number" required placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
+                <label for="tbCedula" class="form-label text-black" >Cédula</label>
+                <input type="number" value="<?php echo htmlspecialchars($cedula ?? '') ?>" required placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbName" class="form-label text-black">Nombre</label>
-                <input type="text" required  name="tbName" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($name ?? '') ?>" required  name="tbName" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbLastName" class="form-label text-black">Apellido</label>
-                <input type="text" required  name="tbLastName" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required  name="tbLastName" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-5">
                 <label for="tbPhone" class="form-label text-black">Teléfono</label>
-                <input type="tel" required placeholder="Ej: 0416-0000000" name="tbPhone" class="form-control border border-dark">
+                <input type="tel" value="<?php echo htmlspecialchars($phonesStr ?? '') ?>" required placeholder="Ej: 0416-0000000" name="tbPhone" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbDetails" class="form-label text-black">Detalles (opcional)</label>
-                <input type="text" name="tbDetails"placeholder="Ej: Ofrece hogar temporal" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($details ?? '') ?>" name="tbDetails"placeholder="Ej: Ofrece hogar temporal" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col">
-                <input type="checkbox" name="ckMember" class="form-check-input border border-dark">
-                <label for="ckMember" class="form-check-label">Nuevo miembro</label>
+                <div class="accordion border border-dark" id="accordionRoles">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" style="transform: none !important;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Papeles/Roles (opcional)
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionRoles">
+                            <div class="accordion-body">
+                                <div class="container">
+                                    <div class="row mb-2">
+                                        <div class="col"><strong>Puede contar con 1 o más papeles:</strong></div>
+                                    </div>
+                                    <?php foreach($roles as $role): ?>
+                                        <div class="row">
+                                            <div class="col">
+                                                <input type="checkbox" name="ckRole[]" value="<?php echo $role ?>"
+                                                    class="form-check-input border border-dark"
+                                                    <?php if (!empty($selectedRoles) && in_array($role, $selectedRoles)) echo 'checked'; ?>>
+                                                <label class="form-check-label"><?php echo $role?></label>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <input type="checkbox" <?php if (!empty($isMember)) echo 'checked'; ?> name="ckMember" class="form-check-input border border-dark">
+                <label for="ckMember" class="form-check-label">Es miembro</label>
             </div>
         </div>
         <div id="dvExtraFields" style="display: none;">
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbEmail" class="form-label text-black">Correo electrónico</label>
-                    <input type="email" name="tbEmail" class="form-control border border-dark">
+                    <input type="email" value="<?php echo htmlspecialchars($email ?? '') ?>" name="tbEmail" class="form-control border border-dark">
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbPassword" class="form-label text-black">Contraseña</label>
-                    <input minlength="8" type="password" name="tbPassword" class="form-control border border-dark">
+                    <input minlength="8" value="<?php echo htmlspecialchars($password ?? '') ?>" type="password" name="tbPassword" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="tbPasswordConfirm" class="form-label text-black">Confirmar contraseña</label>
@@ -50,27 +84,38 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbCity" class="form-label text-black">Ciudad/Pueblo/Localidad</label>
-                    <input type="text" name="tbCity" class="form-control border border-dark">
+                    <input type="text" value="<?php echo htmlspecialchars($city ?? '') ?>" name="tbCity" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="tbStreet" class="form-label text-black">Calle</label>
-                    <input type="text" name="tbStreet" class="form-control border border-dark">
+                    <input type="text" value="<?php echo htmlspecialchars($street ?? '') ?>" name="tbStreet" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="ddMunicipality" class="form-label text-black">Municipio</label>
                     <select class="form-select border border-dark" aria-label="Default select example" name="ddMunicipality">
                         <option value="" disabled selected hidden> </option>
-                        <option value="Antolín">Antolín</option>
-                        <option value="Arismendi">Arismendi</option>
-                        <option value="Díaz">Díaz</option>
-                        <option value="García">García</option>
-                        <option value="Gómez">Gómez</option>
-                        <option value="Maneiro">Maneiro</option>
-                        <option value="Marcano">Marcano</option>
-                        <option value="Marinio">Mariño</option>
-                        <option value="Macanao">Macanao</option>
-                        <option value="Tubores">Tubores</option>
-                        <option value="Villalba">Villalba</option>
+                        <option value="Antolín" 
+                            <?php if (($municipality ?? '') == 'Antolín') echo 'selected'; ?>>Antolín</option>
+                        <option value="Arismendi" 
+                            <?php if (($municipality ?? '') == 'Arismendi') echo 'selected'; ?>>Arismendi</option>
+                        <option value="Díaz" 
+                            <?php if (($municipality ?? '') == 'Díaz') echo 'selected'; ?>>Díaz</option>
+                        <option value="García" 
+                            <?php if (($municipality ?? '') == 'García') echo 'selected'; ?>>García</option>
+                        <option value="Gómez" 
+                            <?php if (($municipality ?? '') == 'Gómez') echo 'selected'; ?>>Gómez</option>
+                        <option value="Maneiro" 
+                            <?php if (($municipality ?? '') == 'Maneiro') echo 'selected'; ?>>Maneiro</option>
+                        <option value="Marcano" 
+                            <?php if (($municipality ?? '') == 'Marcano') echo 'selected'; ?>>Marcano</option>
+                        <option value="Mariño" 
+                            <?php if (($municipality ?? '') == 'Mariño') echo 'selected'; ?>>Mariño</option>
+                        <option value="Macanao" 
+                            <?php if (($municipality ?? '') == 'Macanao') echo 'selected'; ?>>Macanao</option>
+                        <option value="Tubores" 
+                            <?php if (($municipality ?? '') == 'Tubores') echo 'selected'; ?>>Tubores</option>
+                        <option value="Villalba" 
+                            <?php if (($municipality ?? '') == 'Villalba') echo 'selected'; ?>>Villalba</option>
                     </select>
                 </div>
             </div>
@@ -78,18 +123,18 @@
                 <div class="col">
                     <div class="col">
                         <label for="tbReference" class="form-label text-black">Punto de referencia (opcional)</label>
-                        <input type="text" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
+                        <input type="text" value="<?php echo htmlspecialchars($referencePoint ?? '') ?>" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
                     </div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <input type="checkbox" name="ckIsAdmin" class="form-check-input border border-dark">
+                    <input type="checkbox" <?php if (!empty($isAdmin)) echo 'checked'; ?> name="ckIsAdmin" class="form-check-input border border-dark">
                     <label for="ckIsAdmin" class="form-check-label">Es Administrador</label>
                 </div>
             </div>
         </div>
-        <div class="row mt-3 mb-5 justify-content-betweenn">
+        <div class="row mt-3 mb-3 justify-content-betweenn">
             <div class="col">
                 <input type="submit" name="btSubmitColaborador" class="btn btn-success" value="Registrar">
             </div>
@@ -99,3 +144,5 @@
         </div>
     </div>
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

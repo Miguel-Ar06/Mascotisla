@@ -13,7 +13,10 @@ $testAnimals =
 $editable = false;
 $deleteable = false;
 
-if ($_SESSION['userIsAdmin'])
+if (isset($_SESSION))
 {
-    $deleteable = true;
+    if ($_SESSION['userIsAdmin'])
+    {
+        $deleteable = true;
+    }
 }

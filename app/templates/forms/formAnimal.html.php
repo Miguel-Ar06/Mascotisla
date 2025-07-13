@@ -25,7 +25,7 @@
             </select>
         </div>
         <div class="col-md-3">
-            <label class="form-label">Fecha de nacimiento</label>
+            <label class="form-label">Fecha de nacimiento (o aprox.)</label>
             <input type="date" name="tbFechaNacimiento" class="form-control border border-dark">
         </div>
         <div class="col-md-3">

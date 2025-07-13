@@ -47,16 +47,30 @@
     <main style="flex-grow: 1;">
 
         <?php if ($_SESSION['module'] == "Colaboradores"): ?>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <?php require __DIR__ . '/../../app/templates/forms/formColaborators.html.php' ?>
+            <div class="container-fluid">
+                <div class="row justify-content-between">
+                    <div class="col ms-3">
+                        <div class="card">
+                            <div class="card-header">
+                                Gestión de colaboradores
+                            </div>
+                            <div class="card-body">
+                                <?php require __DIR__ . '/../../app/templates/forms/formColaborators.html.php' ?>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col ms-5 me-0 pe-0">
+                    <div class="col ms-3 me-3 pe-0">
                         <div class="container">
-                            <div class="row">
+                            <div class="row mb-4">
                                 <div class="col">
-                                    <?php require __DIR__ . '/../../app/templates/tables/tablaColaboradores.html.php'; ?>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Listado de colaboradores
+                                        </div>
+                                        <div class="card-body">
+                                            <?php require __DIR__ . '/../../app/templates/tables/tablaColaboradores.html.php'; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
