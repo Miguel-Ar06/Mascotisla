@@ -10,6 +10,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
         <link rel="stylesheet" href="styles/style.css">
         <title>Bienvenido a Mascotisla</title>
+        <link rel="icon" href="../public/images/Logo Favicon.png" type="image/png">
 
         <style>
             button, .btn, input[type="button"], input[type="submit"], .hover-scale-up
@@ -164,16 +165,30 @@
                 </div>   
                 <div class="row pt-2 justify-content-center align-items-center" >
                     <div class="col-auto text-center">
-                        <img src="images/Telefono.png" class="img-fluid hover-scale-up scale-down">
+                        <div style="position: relative; display: inline-block;">
+                            <button id="btnTelefono" type="button" style="background: none; border: none; padding: 0;">
+                                <img src="images/Telefono.png" class="img-fluid hover-scale-up scale-down" alt="Teléfono">
+                            </button>
+                            <div id="divTelefonos" style="display: none; position: absolute; left: 50%; transform: translateX(-50%); min-width: 200px; background: #222; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 1000; padding: 12px; text-align: center;">
+                                <span class="text-light">Teléfonos de contacto:<br><strong>0416-6960017</strong><br><strong>0416-2905504</strong><br><strong>0424-8281580</strong><br><strong>0412-0242771</strong></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-auto text-center">
+                        <a 
+                        href="mailto:marismendi.8551@unimar.edu.ve?Subject=Contacto%20Mascotisla&body=Hola!%20Me%20gustar%C3%ADa%20colaborar%20con%20PIM%0D%0A%0D%0A[Su%20Mensaje%20aqu%C3%AD]%0D%0A%0D%0AAtt%3A%0D%0A[Su%20nombre%20y%20apellido%20aqu%C3%AD]%0D%0A[Su%20c%C3%A9dula%20aqu%C3%AD]">
                         <img src="images/Mail.png" class="img-fluid hover-scale-up scale-down">
+                        </a>
                     </div>
                     <div class="col-auto text-center">
+                        <a href="https://www.instagram.com/pimargarita_/?hl=es" target="_blank">
                         <img src="images/Instagram.png" class="img-fluid hover-scale-up scale-down">
+                        </a>
                     </div>
                     <div class="col-auto text-center">
+                        <a href="https://wa.me/584166960017?text=Hola!%20Me%20gustaria%20colaborar%20con%20la%20fundaci%C3%B3n:%20%5Bsu%20mensaje%20aqu%C3%AD%5D" target="_blank">
                         <img src="images/WhatsApp.png" class="img-fluid hover-scale-up scale-down">
+                        </a>
                     </div>
                 </div>
                 <div class="row pt-5 justify-content-center align-items-center">
@@ -190,5 +205,18 @@
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bo    otstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integ    rity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEM    VjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+        <script>
+        document.getElementById('btnTelefono').addEventListener('click', function(e) {
+            e.stopPropagation();
+            var div = document.getElementById('divTelefonos');
+            div.style.display = (div.style.display === 'none' || div.style.display === '') ? 'block' : 'none';
+        });
+        document.addEventListener('click', function(e) {
+            var div = document.getElementById('divTelefonos');
+            if (div && div.style.display === 'block') {
+                div.style.display = 'none';
+            }
+        });
+        </script>
     </body>
 </html>

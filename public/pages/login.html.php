@@ -10,6 +10,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
         <link rel="stylesheet" href="../styles/style.css">
         <title>Inicio de sesión</title>
+        <link rel="icon" href="../images/Logo Favicon.png" type="image/png">
 
         <style>
             button, .btn, input[type="button"], input[type="submit"], .hover-scale-up
