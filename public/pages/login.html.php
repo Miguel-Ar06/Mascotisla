@@ -72,11 +72,18 @@
                         </div>
                     </div>
                 </div>
-
+                
+                <div class="row justify-content-center">
                 <?php require __DIR__ . '/../../app/includes/login.php'; ?>
                 <p class="text-light fs-5 text-center"> <?php echo $status; ?></p>
-                
-                <div class="row justify-content-center mt-3">
+                <?php if (!empty($showForgot)): ?>
+                <form method="post" class="text-center mb-3">
+                    <input type="hidden" name="tbMailOrId" value="<?php echo htmlspecialchars($_POST['tbMailOrId'] ?? '') ?>">
+                    <input type="hidden" name="tbPassword" value="<?php echo htmlspecialchars($_POST['tbPassword'] ?? '') ?>">
+                    <button type="submit" name="forgotPassword" class="btn btn-link text-light fs-6 p-0" style="text-decoration:underline;">¿Olvidaste tu contraseña?</button>
+                </form>
+                <?php endif; ?>
+                <div class="row justify-content-center mt-3 mb-4">
                     <div class="col-auto text-center justify-content-center">
                         <button type="submit" class="btn btn-light">Iniciar sesión</button>
                     </div>
@@ -86,7 +93,7 @@
         
         <div class="container d-flex flex-grow-1 align-items-end">
             <div class="row d-flex flex-grow-1 justify-content-center align-items-end">
-                <div class="col-auto text-center align-items-end">
+                <div class="col-auto text-center align-items-end mb-3">
                     <p class="fs-6 text-light text-center">¿Quieres formar parte de la fundación? <span class="fw-bold"><a href="../index.html" class="link-light">Contáctanos</a></span></p>
                 </div>
             </div>
@@ -94,4 +101,3 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>
 </html>
-            
