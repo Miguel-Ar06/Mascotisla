@@ -7,7 +7,7 @@ include_once __DIR__ . '/classes/notificacionAdmin.php';
 Database::connect();
 
 $users = [];
-$query = "SELECT colaboradores.nombre AS nombre, correo, constrasena, cedula_colaborador, es_admin 
+$query = "SELECT miembros.id AS id, colaboradores.nombre AS nombre, correo, constrasena, cedula_colaborador, es_admin 
             FROM miembros
             JOIN colaboradores ON miembros.cedula_colaborador = colaboradores.cedula;";
 
@@ -24,7 +24,7 @@ foreach (Database::$result as $row)
 
     $users[] = new User
     (
-        $row['id'] ?? 0,
+        $row['id'] ?? null,
         $row['nombre'] ?? '',
         $row['apellido'] ?? '',
         ($row['calle'] ?? '') . ' ' . ($row['referencia'] ?? ''),

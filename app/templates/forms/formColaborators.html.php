@@ -23,7 +23,7 @@
             </div>
             <div class="col">
                 <label for="tbDetails" class="form-label text-black">Detalles (opcional)</label>
-                <input type="text" value="<?php echo htmlspecialchars($details ?? '') ?>" name="tbDetails"placeholder="Ej: Ofrece hogar temporal" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($details ?? '') ?>" name="tbDetails"placeholder="Ej: Organiza jornadas de adopción" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
