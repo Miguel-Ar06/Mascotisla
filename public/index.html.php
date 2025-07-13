@@ -1,3 +1,22 @@
+<?php
+    session_start();
+
+    $_SESSION = array(); //vaciar la sesion;
+
+    if (ini_get("session.use_cookies"))  // Borrar las cookies de la sesion
+    { 
+        $params = session_get_cookie_params(); 
+        
+        setcookie(
+            session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -177,8 +196,13 @@
                     </div>
                 </div>
                 <div class="row pt-5 justify-content-center align-items-center">
-                    <div class="col-auto pt-5">
+                    <div class="col-auto pt-3">
                         <p class="tex-center fs-6 text-light">(Para formar parte de la fundación y obtener un usuario contáctanos)</p>
+                    </div>
+                </div>
+                <div class="row p-3 justify-content-center align-items-center">
+                    <div class="col-auto hover-scale-up">
+                        <a href="pages/faq.html.php" class="tex-center fs-6 text-light">Preguntas frecuentes</a>
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-center">
@@ -189,6 +213,6 @@
             </div>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bo    otstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integ    rity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEM    VjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     </body>
 </html>

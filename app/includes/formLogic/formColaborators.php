@@ -20,13 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 
+    // entramos por post para procesar la info y volvemos por get para no repetirla
     if (isset($_POST['colaboratorIdentification']) && isset($_POST['btRow']))
     {
         if ($_POST['btRow'] == "see")
         {
             getColaboratorData();
             $_SESSION['message'] = '<div class="fs-4">Tip: puede editar los datos y presionar "actualizar"</div>';
-            return;
+            // redirect por get
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit();
         }
     }
 
@@ -294,6 +297,7 @@ function getColaboratorData()
                     $isMember = 'on';
                     $email = $member['correo'];
                     $password = $member['constrasena'];
+                    $passwordConfirm = $password;
                     $city = $street = $municipality = $referencePoint = $isAdmin = null;
                     $isAdmin = $member['es_admin'] ? 'on' : null;
 
@@ -326,8 +330,52 @@ function getColaboratorData()
                 Database::safeExecute($query, [$cedulaToSee]);
                 $selectedRoles = array_column(Database::$result, 'nombre');
             }
+
+            $_SESSION['colaboratorShown'] = 
+            [
+                'cedula' => $cedula,
+                'name' => $name,
+                'lastName' => $lastName,
+                'phonesStr' => $phonesStr,
+                'phonesArr' => $phonesArr,
+                'details' => $details,
+                'selectedRoles' => $selectedRoles,
+                'isMember' => $isMember,
+                'email' => $email,
+                'password' => $password,
+                'passwordConfirm' => $passwordConfirm,
+                'city' => $city,
+                'street' => $street,
+                'municipality' => $municipality,
+                'referencePoint' => $referencePoint,
+                'isAdmin' => $isAdmin
+            ];
         }
     }
+}
+
+function clearColaboratorForm()
+{
+    global $cedula, $name, $lastName, $phonesStr, $phonesArr ,$details, $selectedRoles,
+    $isMember, $email, $password, $passwordConfirm, $city, $street, $municipality, $referencePoint, $isAdmin,  $selectedRoles;
+
+    $cedula = "";
+    $name = "";
+    $lastName = "";
+    $phonesStr = "";
+    $phonesArr = [];
+    $details = "";
+    $selectedRoles = "";
+    $isMember = "";
+    $email = "";
+    $password = "";
+    $passwordConfirm = "";
+    $city = "";
+    $street = "";
+    $municipality = "";
+    $referencePoint = "";
+    $isAdmin = "";
+    $selectedRoles = [];
 }
 
 function updateColaborator()

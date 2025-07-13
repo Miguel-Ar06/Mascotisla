@@ -2,7 +2,7 @@
 
     <div class="row align-items-center justify-content-between pe-2" style="background-color: black;">
         <div class="d-flex col-1 p-3 align-self-center shrink">
-            <a href="../index.html">
+            <a href="../index.html.php">
                 <img id="mascotislaLogo" src="../images/Logo.svg" alt="Logo Mascotisla" class="img-fluid hover-scale-up">
             </a>
         </div>
@@ -38,8 +38,7 @@
                     <?php if($_SESSION["userIsAdmin"] == true): ?>
                         <button value="Colaboradores" type="submit" name="btSeleccionMenu" class="btn btn-dark hover-scale-up me-4">Colaboradores</button>
                     <?php endif; ?>
-                    <input type="hidden" name="action" value="btReset">
-                    <input class="hover-scale-up " type="image" src="../images/reset_icon.svg" alt="reset_button" name="btSeleccionMenu" style="width:38px; height:38px; border:none; background-color: lightgray; border-radius: 6px; padding:5px;" value=" ">
+                    <input class="hover-scale-up " type="image" src="../images/reset_icon.svg" alt="reset_button" name="btSeleccionMenu" style="width:38px; height:38px; border:none; background-color: lightgray; border-radius: 6px; padding:5px;" value="Reset">
                 </div>
                 <div class="col-auto">
                     <h2 id="lbSelectedMenu" class="fw-bold align-self-center p-3 text-black"> <?php echo $_SESSION['module'] ?> </h2>

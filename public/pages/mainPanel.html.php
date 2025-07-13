@@ -107,6 +107,14 @@
                     </div>
                 </div>
             </div>
+        <?php elseif ($_SESSION['module'] == " "): ?>
+            <div class="container m-5">
+                <div class="row">
+                    <div class="col">
+                        El panel seleccionado aparecerá aqui.
+                    </div>
+                </div>
+            </div>
         <?php endif ?>
 
     </main>

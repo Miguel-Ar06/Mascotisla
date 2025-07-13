@@ -33,7 +33,7 @@
         <div class="container-fluid p-3">
             <div class="row justify-content-between align-items-center">
                 <div class="col-1">
-                    <a href="../index.html">
+                    <a href="../index.html.php">
                         <img src="../images/Boton regresar.png" class="img-fluid hover-scale-up">
                     </a>
                 </div>
@@ -92,9 +92,9 @@
         </div>
         
         <div class="container d-flex flex-grow-1 align-items-end">
-            <div class="row d-flex flex-grow-1 justify-content-center align-items-end">
+            <div class="row mt-3 d-flex flex-grow-1 justify-content-center align-items-end">
                 <div class="col-auto text-center align-items-end mb-3">
-                    <p class="fs-6 text-light text-center">¿Quieres formar parte de la fundación? <span class="fw-bold"><a href="../index.html" class="link-light">Contáctanos</a></span></p>
+                    <div class="fs-6 text-light text-center">¿Quieres formar parte de la fundación? <div class="hover-scale-up"><span class="fw-bold"><a href="../index.html" class="link-light">Contáctanos</a></span></div></div>
                 </div>
             </div>
         </div>

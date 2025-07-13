@@ -6,6 +6,7 @@ include_once __DIR__ . '/classes/notificacionAdmin.php';
 
 Database::connect();
 
+$showForgot = false;
 $users = [];
 $query = "SELECT miembros.id AS id, colaboradores.nombre AS nombre, correo, constrasena, cedula_colaborador, es_admin 
             FROM miembros
@@ -45,6 +46,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $mailOrId = htmlspecialchars($_POST['tbMailOrId'] ?? null);
     $password = htmlspecialchars($_POST['tbPassword'] ?? null);
 
+    // Manejo de solicitud de recuperación de contraseña
+    if (isset($_POST['forgotPassword']) && !empty($mailOrId)) 
+    {
+        include_once __DIR__ . '/classes/notificacionAdmin.php';
+        $titulo = 'Recuperación de contraseña';
+        $mensaje = 'El usuario con correo/cédula "' . $mailOrId . '" ha solicitado recuperar su contraseña desde el login.';
+        NotificacionAdmin::crear($titulo, $mensaje);
+        $status = 'Solicitud de recuperación enviada. <br> Espere instrucciones de los administradores';
+        $showForgot = false;
+        return;
+    }
+
     $userFound = null;
     foreach ($users as $currentUser)
     {
@@ -79,16 +92,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $status = 'Credenciales incorrectas';
         }
-    }
-
-    // Manejo de solicitud de recuperación de contraseña
-    if (isset($_POST['forgotPassword']) && !empty($mailOrId)) 
-    {
-        include_once __DIR__ . '/classes/notificacionAdmin.php';
-        $titulo = 'Recuperación de contraseña';
-        $mensaje = 'El usuario con correo/cédula "' . $mailOrId . '" ha solicitado recuperar su contraseña desde el login.';
-        NotificacionAdmin::crear($titulo, $mensaje);
-        $status = 'Solicitud enviada a los administradores.';
-        $showForgot = false;
     }
 }

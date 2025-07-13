@@ -5,25 +5,25 @@
         <div class="row">
             <div class="col-4">
                 <label for="tbCedula" class="form-label text-black" >Cédula</label>
-                <input type="number" value="<?php echo htmlspecialchars($cedula ?? '') ?>" required placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
+                <input type="number" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['cedula'] ?? '') ?>" required placeholder="Ej: 31000000" min="0" step="1" name="tbCedula" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbName" class="form-label text-black">Nombre</label>
-                <input type="text" value="<?php echo htmlspecialchars($name ?? '') ?>" required  name="tbName" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['name'] ?? '') ?>" required  name="tbName" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbLastName" class="form-label text-black">Apellido</label>
-                <input type="text" value="<?php echo htmlspecialchars($lastName ?? '') ?>" required  name="tbLastName" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['lastName'] ?? '') ?>" required  name="tbLastName" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-5">
                 <label for="tbPhone" class="form-label text-black">Teléfono</label>
-                <input type="tel" value="<?php echo htmlspecialchars($phonesStr ?? '') ?>" required placeholder="Ej: 0416-0000000" name="tbPhone" class="form-control border border-dark">
+                <input type="tel" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['phonesStr'] ?? '') ?>" required placeholder="Ej: 0416-0000000" name="tbPhone" class="form-control border border-dark">
             </div>
             <div class="col">
                 <label for="tbDetails" class="form-label text-black">Detalles (opcional)</label>
-                <input type="text" value="<?php echo htmlspecialchars($details ?? '') ?>" name="tbDetails"placeholder="Ej: Organiza jornadas de adopción" class="form-control border border-dark">
+                <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['details'] ?? '') ?>" name="tbDetails"placeholder="Ej: Organiza jornadas de adopción" class="form-control border border-dark">
             </div>
         </div>
         <div class="row mt-3">
@@ -46,7 +46,7 @@
                                             <div class="col">
                                                 <input type="checkbox" name="ckRole[]" value="<?php echo $role ?>"
                                                     class="form-check-input border border-dark"
-                                                    <?php if (!empty($selectedRoles) && in_array($role, $selectedRoles)) echo 'checked'; ?>>
+                                                    <?php if (!empty($_SESSION['colaboratorShown']['selectedRoles']) && in_array($role, $_SESSION['colaboratorShown']['selectedRoles'])) echo 'checked'; ?>>
                                                 <label class="form-check-label"><?php echo $role?></label>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <input type="checkbox" <?php if (!empty($isMember)) echo 'checked'; ?> name="ckMember" class="form-check-input border border-dark">
+                <input type="checkbox" <?php if (!empty($_SESSION['colaboratorShown']['isMember'])) echo 'checked'; ?> name="ckMember" class="form-check-input border border-dark">
                 <label for="ckMember" class="form-check-label">Es miembro</label>
             </div>
         </div>
@@ -68,54 +68,54 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbEmail" class="form-label text-black">Correo electrónico</label>
-                    <input type="email" value="<?php echo htmlspecialchars($email ?? '') ?>" name="tbEmail" class="form-control border border-dark">
+                    <input type="email" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['email'] ?? '') ?>" name="tbEmail" class="form-control border border-dark">
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbPassword" class="form-label text-black">Contraseña</label>
-                    <input minlength="8" value="<?php echo htmlspecialchars($password ?? '') ?>" type="password" name="tbPassword" class="form-control border border-dark">
+                    <input minlength="8" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['password'] ?? '') ?>" type="password" name="tbPassword" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="tbPasswordConfirm" class="form-label text-black">Confirmar contraseña</label>
-                    <input minlength="8" type="password" name="tbPasswordConfirm" class="form-control border border-dark">
+                    <input minlength="8" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['passwordConfirm'] ?? '') ?>" type="password" name="tbPasswordConfirm" class="form-control border border-dark">
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="tbCity" class="form-label text-black">Ciudad/Pueblo/Localidad</label>
-                    <input type="text" value="<?php echo htmlspecialchars($city ?? '') ?>" name="tbCity" class="form-control border border-dark">
+                    <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['city'] ?? '') ?>" name="tbCity" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="tbStreet" class="form-label text-black">Calle</label>
-                    <input type="text" value="<?php echo htmlspecialchars($street ?? '') ?>" name="tbStreet" class="form-control border border-dark">
+                    <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['street']?? '') ?>" name="tbStreet" class="form-control border border-dark">
                 </div>
                 <div class="col">
                     <label for="ddMunicipality" class="form-label text-black">Municipio</label>
                     <select class="form-select border border-dark" aria-label="Default select example" name="ddMunicipality">
                         <option value="" disabled selected hidden> </option>
                         <option value="Antolín" 
-                            <?php if (($municipality ?? '') == 'Antolín') echo 'selected'; ?>>Antolín</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Antolín') echo 'selected'; ?>>Antolín</option>
                         <option value="Arismendi" 
-                            <?php if (($municipality ?? '') == 'Arismendi') echo 'selected'; ?>>Arismendi</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Arismendi') echo 'selected'; ?>>Arismendi</option>
                         <option value="Díaz" 
-                            <?php if (($municipality ?? '') == 'Díaz') echo 'selected'; ?>>Díaz</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Díaz') echo 'selected'; ?>>Díaz</option>
                         <option value="García" 
-                            <?php if (($municipality ?? '') == 'García') echo 'selected'; ?>>García</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'García') echo 'selected'; ?>>García</option>
                         <option value="Gómez" 
-                            <?php if (($municipality ?? '') == 'Gómez') echo 'selected'; ?>>Gómez</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Gómez') echo 'selected'; ?>>Gómez</option>
                         <option value="Maneiro" 
-                            <?php if (($municipality ?? '') == 'Maneiro') echo 'selected'; ?>>Maneiro</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Maneiro') echo 'selected'; ?>>Maneiro</option>
                         <option value="Marcano" 
-                            <?php if (($municipality ?? '') == 'Marcano') echo 'selected'; ?>>Marcano</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Marcano') echo 'selected'; ?>>Marcano</option>
                         <option value="Mariño" 
-                            <?php if (($municipality ?? '') == 'Mariño') echo 'selected'; ?>>Mariño</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Mariño') echo 'selected'; ?>>Mariño</option>
                         <option value="Macanao" 
-                            <?php if (($municipality ?? '') == 'Macanao') echo 'selected'; ?>>Macanao</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Macanao') echo 'selected'; ?>>Macanao</option>
                         <option value="Tubores" 
-                            <?php if (($municipality ?? '') == 'Tubores') echo 'selected'; ?>>Tubores</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Tubores') echo 'selected'; ?>>Tubores</option>
                         <option value="Villalba" 
-                            <?php if (($municipality ?? '') == 'Villalba') echo 'selected'; ?>>Villalba</option>
+                            <?php if (($_SESSION['colaboratorShown']['municipality'] ?? '') == 'Villalba') echo 'selected'; ?>>Villalba</option>
                     </select>
                 </div>
             </div>
@@ -123,13 +123,13 @@
                 <div class="col">
                     <div class="col">
                         <label for="tbReference" class="form-label text-black">Punto de referencia (opcional)</label>
-                        <input type="text" value="<?php echo htmlspecialchars($referencePoint ?? '') ?>" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
+                        <input type="text" value="<?php echo htmlspecialchars($_SESSION['colaboratorShown']['referencePoint'] ?? '') ?>" name="tbReference" placeholder="Ej: Frente al kiosco ----" class="form-control border border-dark">
                     </div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <input type="checkbox" <?php if (!empty($isAdmin)) echo 'checked'; ?> name="ckIsAdmin" class="form-check-input border border-dark">
+                    <input type="checkbox" <?php if (!empty($_SESSION['colaboratorShown']['isAdmin'])) echo 'checked'; ?> name="ckIsAdmin" class="form-check-input border border-dark">
                     <label for="ckIsAdmin" class="form-check-label">Es Administrador</label>
                 </div>
             </div>

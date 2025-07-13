@@ -7,13 +7,26 @@ include __DIR__ . "/classes/database.php";
 // establecer a sus valores o default en caso de que por algun motivo no se pueda
 $_SESSION['userName'] = $_SESSION['userName'] ?? ' usuario';
 $_SESSION['userIsAdmin'] = $_SESSION['userIsAdmin'] ?? false;
-$_SESSION['module'] = htmlspecialchars($_GET["btSeleccionMenu"] ?? " ");
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    if (isset($_SESSION["btSeleccionMenu"]))
+    if (isset($_SESSION['colaboratorShow']))
     {
-        $_SESSION['module'] = htmlspecialchars($_GET["btSeleccionMenu"]);
+        unset($_SESSION['colaboratorShow']);
     }
+
+    if (isset($_GET["btSeleccionMenu"]))
+    {
+            $_SESSION['module'] = htmlspecialchars($_GET["btSeleccionMenu"]);
+
+            if ($_SESSION['module'] == "Reset")
+            {
+                $_SESSION['module'] = "" ;
+            }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    
 }
