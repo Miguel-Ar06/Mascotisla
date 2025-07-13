@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2025 a las 11:40:05
+-- Tiempo de generación: 13-07-2025 a las 04:24:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `debugbdd`
+-- Base de datos: `mascotisla`
 --
 
 -- --------------------------------------------------------
@@ -75,6 +75,13 @@ CREATE TABLE `ciudades` (
   `id_municipio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `ciudades`
+--
+
+INSERT INTO `ciudades` (`id`, `nombre`, `id_municipio`) VALUES
+(1, 'El webo mio', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +93,13 @@ CREATE TABLE `colaboradores` (
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `colaboradores`
+--
+
+INSERT INTO `colaboradores` (`cedula`, `nombre`, `apellido`) VALUES
+('32274853', 'Sebastian', 'Martinez');
 
 -- --------------------------------------------------------
 
@@ -110,6 +124,13 @@ CREATE TABLE `direcciones` (
   `referencia` varchar(100) NOT NULL,
   `id_ciudad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `direcciones`
+--
+
+INSERT INTO `direcciones` (`id`, `calle`, `referencia`, `id_ciudad`) VALUES
+(1, 'temiga', 'porai por temiga city', 1);
 
 -- --------------------------------------------------------
 
@@ -161,6 +182,13 @@ CREATE TABLE `miembros` (
   `cedula_colaborador` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `miembros`
+--
+
+INSERT INTO `miembros` (`id`, `constrasena`, `correo`, `fecha_de_ingreso`, `id_direccion`, `cedula_colaborador`) VALUES
+(1, '1234', 'smartinez.4853@unimar.edu.ve', '0000-00-00', 1, '32274853');
+
 -- --------------------------------------------------------
 
 --
@@ -171,6 +199,42 @@ CREATE TABLE `municipios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `municipios`
+--
+
+INSERT INTO `municipios` (`id`, `nombre`) VALUES
+(1, 'Las bolas mías');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `notificaciones_admin`
+--
+
+CREATE TABLE `notificaciones_admin` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `mensaje` text NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `leida` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `notificaciones_admin`
+--
+
+INSERT INTO `notificaciones_admin` (`id`, `titulo`, `mensaje`, `fecha`, `leida`) VALUES
+(10, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 21:36:06', 1),
+(11, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 21:37:56', 1),
+(12, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:08:46', 1),
+(13, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:09:29', 1),
+(14, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:09:36', 1),
+(15, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:11:13', 1),
+(16, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:12:43', 1),
+(17, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:15:13', 1),
+(18, 'Recuperación de contraseña', 'El usuario con correo/cédula \"31348551\" ha solicitado recuperar su contraseña desde el login.', '2025-07-12 22:23:34', 1);
 
 -- --------------------------------------------------------
 
@@ -336,6 +400,12 @@ ALTER TABLE `municipios`
   ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
+-- Indices de la tabla `notificaciones_admin`
+--
+ALTER TABLE `notificaciones_admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `numeros_telefonicos`
 --
 ALTER TABLE `numeros_telefonicos`
@@ -408,7 +478,7 @@ ALTER TABLE `casos`
 -- AUTO_INCREMENT de la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `condiciones`
@@ -420,7 +490,7 @@ ALTER TABLE `condiciones`
 -- AUTO_INCREMENT de la tabla `direcciones`
 --
 ALTER TABLE `direcciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `estados`
@@ -444,13 +514,19 @@ ALTER TABLE `fotos`
 -- AUTO_INCREMENT de la tabla `miembros`
 --
 ALTER TABLE `miembros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
 --
 ALTER TABLE `municipios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `notificaciones_admin`
+--
+ALTER TABLE `notificaciones_admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `numeros_telefonicos`
