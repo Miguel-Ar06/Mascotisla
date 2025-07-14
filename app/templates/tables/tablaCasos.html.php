@@ -1,15 +1,12 @@
 <?php
 require_once __DIR__ . "/../../includes/classes/database.php";
 
-// Obtener casos de la base de datos
 Database::connect();
 
-// Manejar errores de conexión
 if (!Database::$connected) {
     echo '<div class="alert alert-danger">Error de conexión a la base de datos</div>';
     $casos = [];
 } else {
-    // Consulta segura con manejo de errores
     try {
         $query = "SELECT c.id, c.nombre, c.estado, c.ubicacion, c.fecha_de_apertura 
                   FROM casos c
@@ -42,7 +39,6 @@ if (!Database::$connected) {
                 </tr>
             <?php else: ?>
                 <?php foreach ($casos as $caso): 
-                    // Determinar clase según estado
                     $badgeClass = match($caso['estado']) {
                         'abierto' => 'bg-success',
                         'en_proceso' => 'bg-warning',
@@ -91,7 +87,7 @@ if (!Database::$connected) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Manejar clic en botones de edición
+
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -99,30 +95,26 @@ document.addEventListener('DOMContentLoaded', function() {
             const ubicacion = this.getAttribute('data-ubicacion');
             const estado = this.getAttribute('data-estado');
             const fecha = this.getAttribute('data-fecha');
-            
-            // Llenar el formulario con los datos del caso
+
             document.querySelector('input[name="nombre"]').value = nombre;
             document.querySelector('input[name="ubicacion"]').value = ubicacion;
             document.querySelector('select[name="estado"]').value = estado;
             document.querySelector('input[name="fecha"]').value = fecha;
             
-            // Cambiar operación a actualización
+
             document.querySelector('input[name="operation"]').value = 'update';
             document.querySelector('input[name="casoId"]').value = id;
-            
-            // Inhabilitar combo de animales
+
             document.getElementById('animalSelect').disabled = true;
             
-            // Cambiar texto y estilo del botón de submit
+
             const btnSubmit = document.getElementById('btnSubmit');
             btnSubmit.textContent = 'Guardar cambios';
             btnSubmit.classList.remove('btn-success');
             btnSubmit.classList.add('btn-primary');
             
-            // Mostrar botón de cancelar
             document.getElementById('btnCancelEdit').style.display = 'inline-block';
             
-            // Desplazar a la sección del formulario
             document.querySelector('#formCasos').scrollIntoView({ behavior: 'smooth' });
         });
     });

@@ -108,10 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const operationInput = document.querySelector('input[name="operation"]');
     const casoIdInput = document.querySelector('input[name="casoId"]');
     const animalSelect = document.getElementById('animalSelect');
-    
-    // Manejar cancelación de edición
+
     btnCancelEdit.addEventListener('click', function() {
-        // Restaurar valores predeterminados
         operationInput.value = 'insert';
         casoIdInput.value = '';
         btnSubmit.textContent = 'Registrar Caso';
@@ -121,8 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btnCancelEdit.style.display = 'none';
         animalSelect.disabled = false;
     });
-    
-    // Resetear formulario también cancela edición
+
     btnReset.addEventListener('click', function() {
         operationInput.value = 'insert';
         casoIdInput.value = '';
@@ -133,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animalSelect.disabled = false;
     });
     
-    // Mostrar botón de cancelar cuando se está editando
+
     operationInput.addEventListener('change', function() {
         if (this.value === 'update') {
             btnCancelEdit.style.display = 'inline-block';
