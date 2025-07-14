@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     $idAnimal = $_POST['animal'] ?? null; // Puede ser null
 
     // Validaciones básicas
-    if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha)) {
+    if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha) || empty($idAnimal)) {
         $_SESSION['casos_error'] = "Todos los campos obligatorios deben ser completados";
         header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
         exit();
@@ -100,6 +100,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
     exit();
 }
+
+// 5. Procesar operación de actualización
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'update') {
+    // Recoger y sanitizar datos
+    $casoId = $_POST['casoId'] ?? 0;
+    $nombre = htmlspecialchars($_POST['nombre'] ?? '');
+    $ubicacion = htmlspecialchars($_POST['ubicacion'] ?? '');
+    $estado = $_POST['estado'] ?? '';
+    $fecha = $_POST['fecha'] ?? date('Y-m-d');
+    $colaborador = $_POST['colaborador'] ?? '';
+
+    // Validaciones básicas (animal eliminado de validación)
+    if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha) || empty($casoId)) {
+        $_SESSION['casos_error'] = "Todos los campos obligatorios deben ser completados";
+        header("Location: /Mascotisla/public/pages/mainPanel.html.php?module=Casos");
+        exit();
+    }
+
+    // Conexión a la base de datos
+    Database::connect();
+    
+    if (!Database::$connected) {
+        $_SESSION['casos_error'] = "Error de conexión a la base de datos";
+        header("Location: /Mascotisla/public/pages/mainPanel.html.php?module=Casos");
+        exit();
+    }
+
+    try {
+        // Iniciar transacción
+        Database::$pdo->beginTransaction();
+
+        // 1. Actualizar el caso
+        $queryCaso = "UPDATE casos 
+                      SET nombre = :nombre, ubicacion = :ubicacion, 
+                          fecha_de_apertura = :fecha, estado = :estado 
+                      WHERE id = :id";
+        $stmtCaso = Database::$pdo->prepare($queryCaso);
+        $stmtCaso->execute([
+            ':nombre' => $nombre,
+            ':ubicacion' => $ubicacion,
+            ':fecha' => $fecha,
+            ':estado' => $estado,
+            ':id' => $casoId
+        ]);
+
+        // 2. Actualizar relación con colaborador
+        // Primero eliminar relación existente
+        $queryDeleteRel = "DELETE FROM reportes_casos_colaboradores WHERE id_caso = :idCaso";
+        $stmtDeleteRel = Database::$pdo->prepare($queryDeleteRel);
+        $stmtDeleteRel->execute([':idCaso' => $casoId]);
+        
+        // Luego insertar nueva relación
+        $queryRel = "INSERT INTO reportes_casos_colaboradores (cedula_colaborador, id_caso) 
+                     VALUES (:colaborador, :idCaso)";
+        $stmtRel = Database::$pdo->prepare($queryRel);
+        $stmtRel->execute([
+            ':colaborador' => $colaborador,
+            ':idCaso' => $casoId
+        ]);
+
+
+        Database::$pdo->commit();
+
+        $_SESSION['casos_message'] = "Caso actualizado exitosamente!";
+    } catch (PDOException $e) {
+
+        if (Database::$pdo->inTransaction()) {
+            Database::$pdo->rollBack();
+        }
+        
+        $errorMessage = "Error al actualizar caso";
+        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+            $errorMessage .= ": " . $e->getMessage();
+        }
+        
+        $_SESSION['casos_error'] = $errorMessage;
+    } catch (Exception $e) {
+        $_SESSION['casos_error'] = "Error inesperado: " . $e->getMessage();
+    }
+
+    header("Location: /Mascotisla/public/pages/mainPanel.html.php?module=Casos");
+    exit();
+}
+
 
 // 5. Procesar operación de eliminación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'delete') {

@@ -11,7 +11,7 @@ if (!Database::$connected) {
 } else {
     // Consulta segura con manejo de errores
     try {
-        $query = "SELECT c.id, c.nombre, c.estado 
+        $query = "SELECT c.id, c.nombre, c.estado, c.ubicacion, c.fecha_de_apertura 
                   FROM casos c
                   ORDER BY c.fecha_de_apertura DESC";
         $stmt = Database::$pdo->query($query);
@@ -31,13 +31,14 @@ if (!Database::$connected) {
                 <th scope="col">Nombre</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Ver</th>
+                <th scope="col">Editar</th>
                 <th scope="col">Eliminar</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             <?php if (empty($casos)): ?>
                 <tr>
-                    <td colspan="5" class="text-center py-4">No hay casos registrados</td>
+                    <td colspan="6" class="text-center py-4">No hay casos registrados</td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($casos as $caso): 
@@ -64,6 +65,16 @@ if (!Database::$connected) {
                             </form>
                         </td>
                         <td>
+                            <button type="button" class="btn btn-success btn-sm btn-edit" 
+                                data-id="<?= $caso['id'] ?>"
+                                data-nombre="<?= htmlspecialchars($caso['nombre']) ?>"
+                                data-ubicacion="<?= htmlspecialchars($caso['ubicacion']) ?>"
+                                data-estado="<?= htmlspecialchars($caso['estado']) ?>"
+                                data-fecha="<?= $caso['fecha_de_apertura'] ?>">
+                                Editar
+                            </button>
+                        </td>
+                        <td>
                             <form action="../../app/includes/scripts/process_casos.php" method="POST" 
                                 onsubmit="return confirm('¿Está seguro de eliminar este caso?');">
                                 <input type="hidden" name="operation" value="delete">
@@ -77,3 +88,43 @@ if (!Database::$connected) {
         </tbody>
     </table>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Manejar clic en botones de edición
+    document.querySelectorAll('.btn-edit').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const nombre = this.getAttribute('data-nombre');
+            const ubicacion = this.getAttribute('data-ubicacion');
+            const estado = this.getAttribute('data-estado');
+            const fecha = this.getAttribute('data-fecha');
+            
+            // Llenar el formulario con los datos del caso
+            document.querySelector('input[name="nombre"]').value = nombre;
+            document.querySelector('input[name="ubicacion"]').value = ubicacion;
+            document.querySelector('select[name="estado"]').value = estado;
+            document.querySelector('input[name="fecha"]').value = fecha;
+            
+            // Cambiar operación a actualización
+            document.querySelector('input[name="operation"]').value = 'update';
+            document.querySelector('input[name="casoId"]').value = id;
+            
+            // Inhabilitar combo de animales
+            document.getElementById('animalSelect').disabled = true;
+            
+            // Cambiar texto y estilo del botón de submit
+            const btnSubmit = document.getElementById('btnSubmit');
+            btnSubmit.textContent = 'Guardar cambios';
+            btnSubmit.classList.remove('btn-success');
+            btnSubmit.classList.add('btn-primary');
+            
+            // Mostrar botón de cancelar
+            document.getElementById('btnCancelEdit').style.display = 'inline-block';
+            
+            // Desplazar a la sección del formulario
+            document.querySelector('#formCasos').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+});
+</script>

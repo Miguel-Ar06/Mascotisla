@@ -1,4 +1,3 @@
-
 <div class="card mb-4">
     <div class="card-header bg-dark text-white">
         <h5 class="mb-0">Gestión de Casos</h5>
@@ -8,6 +7,7 @@
             <!-- Campos ocultos esenciales -->
             <input type="hidden" name="current_module" value="Casos">
             <input type="hidden" name="operation" value="insert">
+            <input type="hidden" name="casoId" value="">
 
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Animal</label>
-                    <select name="animal" class="form-select border border-dark">
+                    <select name="animal" id="animalSelect" class="form-select border border-dark">
                         <option value="">Seleccionar...</option>
                         <?php
                         // Obtener animales sin caso asignado
@@ -88,10 +88,58 @@
 
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success me-2">Registrar Caso</button>
-                    <button type="reset" class="btn btn-secondary me-2">Limpiar</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-success me-2">Registrar Caso</button>
+                    <button type="reset" class="btn btn-secondary me-2" id="btnReset">Limpiar</button>
+                    <button type="button" class="btn btn-outline-secondary" id="btnCancelEdit" style="display:none;">
+                        Cancelar Edición
+                    </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnCancelEdit = document.getElementById('btnCancelEdit');
+    const btnReset = document.getElementById('btnReset');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const form = document.getElementById('formCasos');
+    const operationInput = document.querySelector('input[name="operation"]');
+    const casoIdInput = document.querySelector('input[name="casoId"]');
+    const animalSelect = document.getElementById('animalSelect');
+    
+    // Manejar cancelación de edición
+    btnCancelEdit.addEventListener('click', function() {
+        // Restaurar valores predeterminados
+        operationInput.value = 'insert';
+        casoIdInput.value = '';
+        btnSubmit.textContent = 'Registrar Caso';
+        btnSubmit.classList.remove('btn-primary');
+        btnSubmit.classList.add('btn-success');
+        form.reset();
+        btnCancelEdit.style.display = 'none';
+        animalSelect.disabled = false;
+    });
+    
+    // Resetear formulario también cancela edición
+    btnReset.addEventListener('click', function() {
+        operationInput.value = 'insert';
+        casoIdInput.value = '';
+        btnSubmit.textContent = 'Registrar Caso';
+        btnSubmit.classList.remove('btn-primary');
+        btnSubmit.classList.add('btn-success');
+        btnCancelEdit.style.display = 'none';
+        animalSelect.disabled = false;
+    });
+    
+    // Mostrar botón de cancelar cuando se está editando
+    operationInput.addEventListener('change', function() {
+        if (this.value === 'update') {
+            btnCancelEdit.style.display = 'inline-block';
+        } else {
+            btnCancelEdit.style.display = 'none';
+        }
+    });
+});
+</script>
