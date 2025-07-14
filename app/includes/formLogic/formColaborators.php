@@ -12,11 +12,6 @@ $selectedRoles = $_POST['ckRole'] ?? [];
 $clickedButton = "btSubmitColaborador";
 $_SESSION['message'] = $_SESSION['message'] ?? " ";
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET')
-{
-    // $_SESSION['message'] = " ";
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 
@@ -27,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             getColaboratorData();
             $_SESSION['message'] = '<div class="fs-4">Tip: puede editar los datos y presionar "actualizar"</div>';
+            
             // redirect por get
+            $_SESSION['messageShown'] = false;
             $_SESSION['alreadyViewedColaborator'] = false;
             header('Location: ' . $_SERVER['PHP_SELF']);
             exit();
@@ -73,6 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         updateColaborator();
     }
+
+    $_SESSION['messageShown'] = false;
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // funciones para procesamiento
@@ -150,10 +151,10 @@ function registerColaborator()
         {
             $admin = true;
         }
-        Database::safeExecute($query, [$password, $email, date('Y-m-d'), $idAdress, $cedula, $admin ]);
+        Database::safeExecute($query, [$password, strtolower($email), date('Y-m-d'), $idAdress, $cedula, $admin ]);
     }
 
-    $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador registrado exitosamente</div>";
+    $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador registrado exitósamente</div>";
 }
 
 function validRegister()
@@ -342,7 +343,7 @@ function getColaboratorData()
                 'details' => $details,
                 'selectedRoles' => $selectedRoles,
                 'isMember' => $isMember,
-                'email' => $email,
+                'email' => strtolower($email),
                 'password' => $password,
                 'passwordConfirm' => $passwordConfirm,
                 'city' => $city,
@@ -395,7 +396,7 @@ function updateColaborator()
         return;
     }
 
-    // insertar primero sus datos de colaborador
+    // actualizar primero sus datos de colaborador
     $query = "UPDATE colaboradores SET cedula = ?, nombre = ?, apellido = ?, detalles = ?
                 WHERE cedula LIKE ?;";
     Database::safeExecute($query, [$cedula, $name, $lastName, $details, $cedula]);
@@ -453,19 +454,18 @@ function updateColaborator()
         // actualizar el miembro
         $query = "UPDATE miembros SET constrasena = ?, correo = ?, fecha_de_ingreso = ?, id_direccion = ?, cedula_colaborador = ?, es_admin = ?
                     WHERE cedula LIKE ?;";
-        $admin = false;
-        if ($isAdmin == "on") 
-        {
-            $admin = true;
-        }
-        Database::safeExecute($query, [$password, $email, date('Y-m-d'), $idAdress, $cedula, $admin, $cedula ]);
+        
+        $admin = ($isAdmin == "on");
+
+        Database::safeExecute($query, [$password, strtolower($email), date('Y-m-d'), $idAdress, $cedula, $admin, $cedula]);
     }
 
     // actualizar sus papeles
     updateRoles();
 
     unset($_SESSION['colaboratorShown']);
-    $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitosamente</div>";
+    // $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitósamente</div>";
+    $_SESSION['message'] = $_POST['ckIsAdmin'];
 }
 
 function updateRoles()

@@ -7,21 +7,21 @@ class Animal
     private $name;
     private $breed; // raza
     private $condition; // sano, enfermo, grave
-    private $status; // adopdato, perdido, en adopcion etc
+    private $statuses = []; // adopdato, perdido, en adopcion etc
     private $sex; // macho hembra
-    private $pictureLinks; // array con los links de las fotos de ese animal
+    private $pictureLinks= []; // array con los links de las fotos de ese animal
     private $birthDate; // fecha de nacimiento, puede ser aproximada si no se conoce
 
-    public  function __construct($id, $species, $name, $breed, $condition, $status, $sex, $pictureLinks, $birthDate) 
+    public  function __construct($id, $species, $name, $breed, $condition, $statuses, $sex, $pictureLinks, $birthDate) 
     {
         $this->id = $id;
         $this->species = $species;
         $this->name = $name;
         $this->breed = $breed;
         $this->condition = $condition;
-        $this->status = $status;
+        $this->statuses[] = $statuses;
         $this->sex = $sex;
-        $this->pictureLinks = $pictureLinks;
+        $this->pictureLinks[] = $pictureLinks;
         $this->birthDate = $birthDate;
     }
 
@@ -73,11 +73,11 @@ class Animal
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->statuses;
     }
     public function setStatus($status)
     {
-        $this->status = $status;
+        $this->statuses = $status;
     }
 
     public function getSex()

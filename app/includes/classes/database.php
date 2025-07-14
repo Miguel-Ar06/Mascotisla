@@ -108,4 +108,14 @@ class Database
 
         }
     }
+
+    public static function lastInsertId($name = null)
+    {
+        if (!self::$connected) 
+        {
+            self::connect();
+        }
+        
+        return self::$pdo->lastInsertId($name);
+    }
 }

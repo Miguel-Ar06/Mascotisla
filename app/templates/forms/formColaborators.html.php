@@ -1,5 +1,3 @@
-<?php require_once __DIR__ . "/../../includes/formLogic/formColaborators.php" ?>
-
 <form id="formColaborator" action="" method="POST">
     <div class="container ps-0 ms-0">
         <div class="row">
@@ -129,6 +127,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
+                    <input type="hidden" name="ckIsAdmin" value="off">
                     <input type="checkbox" <?php if (!empty($_SESSION['colaboratorShown']['isAdmin'])) echo 'checked'; ?> name="ckIsAdmin" class="form-check-input border border-dark">
                     <label for="ckIsAdmin" class="form-check-label">Es Administrador</label>
                 </div>

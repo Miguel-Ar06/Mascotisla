@@ -11,6 +11,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
         if ($_POST['btRow'] == "delete")
         {
             deleteColaborator();
+
+            $_SESSION['messageShown'] = false;
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit();
         }
     }
 }

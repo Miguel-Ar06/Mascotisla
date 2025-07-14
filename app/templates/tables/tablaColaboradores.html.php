@@ -1,5 +1,3 @@
-<?php require __DIR__ . "/../../includes/tableLogic/tableColaboradores.php" ?>
-
 <div class="container table-responsive"  style="max-height: 300px; overflow-y: auto;">
     <table class="table table-striped table-responsive">
         <thead style="position: sticky; top: 0;">
