@@ -1,12 +1,12 @@
 <?php require __DIR__ . "/../../includes/tableLogic/tableColaboradores.php" ?>
 
-<div class="container table-responsive mb-5"  style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-striped mb-5 table-responsive">
+<div class="container table-responsive"  style="max-height: 300px; overflow-y: auto;">
+    <table class="table table-striped table-responsive">
         <thead style="position: sticky; top: 0;">
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nombre</th>
+                <!-- <th scope="col">Id</th> -->
                 <th scope="col">Cédula</th>
+                <th scope="col">Nombre</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Miembro</th>
                 <th scope="col">Admin</th>
@@ -26,22 +26,30 @@
             <?php else: ?>
                 <?php foreach($colaborators as $colaborator): ?>
                     <tr>
-                        <th class="align-middle" scope="row"><?php echo $colaborator->getId() ?></th>
-                        <td class="align-middle"><?php echo $colaborator->getName() . ' ' . $colaborator->getLastName() ?></td>
                         <td class="align-middle"><?php echo $colaborator->getIdentification() ?></td>
-                        <td class="align-middle"><?php echo $colaborator->getEmail() ?></td>
-                        <td class="align-middle"><?php boolToSiONo($colaborator->isMember()) ?></td>
-                        <td class="align-middle"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
-                        <td>
-                            <form action="" method="GET">
-                                <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
+                        <!-- <th class="align-middle" scope="row"><?php echo $colaborator->getId() ?></th> -->
+                        <td class="align-middle"><?php echo $colaborator->getName() . ' ' . $colaborator->getLastName() ?></td>
+                        <td class="align-middle">
+                            <div style="max-width: 150px; overflow-x: auto; white-space: nowrap;">
+                                <?php echo $colaborator->getEmail() ?>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isMember()) ?></td>
+                        <td class="align-middle text-center"><?php boolToSiONo($colaborator->isAdmin()) ?></td>
+                        <td class="align-middle">
+                            <form action="" method="POST">
+                                <input type="hidden" name="colaboratorIdentification" value="<?php echo $colaborator->getIdentification() ?>">
+                                <input type="hidden" name="colaboratorIsMember" value="<?php echo $colaborator->isMember() ?>">
+                                <input type="hidden" name="btRow" value="see">
                                 <div><button type="submit" class="btn btn-primary hover-scale-up">Ver</button></div>
                             </form>
                         </td>
                         <?php if($deleteable == true): ?>
-                        <td>
+                        <td class="align-middle">
                             <form action="" method="POST">
-                                <input type="hidden" name="colaboratorId" value="<?php echo $colaborator->getId() ?>">
+                                <input type="hidden" name="colaboratorIdentification" value="<?php echo $colaborator->getIdentification() ?>">
+                                <input type="hidden" name="colaboratorIsMember" value="<?php echo $colaborator->isMember() ?>">
+                                <input type="hidden" name="btRow" value="delete">
                                 <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
                             </form>
                         </td>

@@ -34,7 +34,7 @@
 
             <div class="row align-items-center justify-content-between pe-2" style="background-color: black;">
                 <div class="d-flex col-1 p-3 align-self-center shrink">
-                    <a href="../index.html">
+                    <a href="../index.html.php">
                         <img id="mascotislaLogo" src="../images/Logo.svg" alt="Logo Mascotisla" class="img-fluid hover-scale-up">
                     </a>
                 </div>

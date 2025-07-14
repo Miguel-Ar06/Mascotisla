@@ -46,12 +46,23 @@ La clase tambien cuenta con un metodo `Database::disconnect()` para desconectars
 
 Para la consulta a la bdd de sentencias `DELETE`, `INSERT`, `UPDATE` se ha implementado el metodo `Database::execute($query)` que guarda su resultado en la variable `$result`, devuelve el numero de filas afectadas.
 
-Para la consulta a la bdd de sentencias `SELECT` se ha implementado el metodo `Database::executeQuery($query)` que guarda su resultado en la variable `$result`, devuelve un **objeto representando todos los resultados** en el cual podemos usar su metodo `->fetch()` para **leer una fila**, por ejemplo
+Para la consulta a la bdd de sentencias `SELECT` se ha implementado el metodo `Database::executeQuery($query)` que guarda su resultado en la variable `$result`, devuelve un **objeto representando un array de todos los resultados** en el cual podemos usar el primer indice para indicar la fila y el segundo indice para el nombre de la columna
 ```php
 Database::connect();
 echo Database::$outputStatus; // verificar si se ha conectado
 $consulta = 'SELECT * FROM animales'
 Database::executeQuery($consulta);
-$primerAnimal = Database::$result->fetch(); // tomar el primer animal, el fetch se puede hacer dentro de un while
+$primerAnimal = Database::$result[0]; // tomar el primer animal, el fetch se puede hacer dentro de un while
 echo $primerAnimal['nombre'];
 ```
+
+Para consultas en donde el usuario deba introducir parametro se debe utilizar la función `Database::safeExecute($query, $valuesArray)`. Esta función toma una consulta preparada con signos de interrogación como `SELECT * FROM colaboradores WHERE nombre LIKE ?;` y la prepara reemplazando los ? por su valor correspondiente en un arreglo de valores, por ejemplo:
+```php
+$query = "INSERT INTO colaboradores(nombre,cedula) VALUES (?,?);";
+Database::safeExecute($query, [$name, $cedula]);
+echo Database::$result // 1 fila insertada
+```
+esta función esta hecha para devolver un arreglo si es `SELECT` o el número de filas afectadas de ser `INSERT, UPDATE, DELETE`
+
+Esto se hace para prevenir que el usuario haga un ataque de inyección sql, por ejemplo introduciendo `DROP TABLE colaboradores; --` en el campo del nombre
+

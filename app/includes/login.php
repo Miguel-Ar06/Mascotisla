@@ -2,22 +2,30 @@
 session_start();
 include __DIR__ . "/classes/user.php";
 include __DIR__ . "/classes/database.php";
-
 include_once __DIR__ . '/classes/notificacionAdmin.php';
-include_once __DIR__ . '/classes/user.php';
 
 Database::connect();
+
+$showForgot = false;
 $users = [];
-$query = "SELECT m.id, m.correo, m.constrasena, m.cedula_colaborador, m.fecha_de_ingreso, m.id_direccion, c.nombre, c.apellido, d.calle, d.referencia, a.id AS admin_id FROM miembros m
-LEFT JOIN colaboradores c ON m.cedula_colaborador = c.cedula
-LEFT JOIN direcciones d ON m.id_direccion = d.id
-LEFT JOIN administradores a ON m.id = a.id_miembro";
-$stmt = Database::$pdo->prepare($query);
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-    $users[] = new User(
-        $row['id'],
+$query = "SELECT miembros.id AS id, colaboradores.nombre AS nombre, correo, constrasena, cedula_colaborador, es_admin 
+            FROM miembros
+            JOIN colaboradores ON miembros.cedula_colaborador = colaboradores.cedula;";
+
+Database::executeQuery($query);
+
+// solo crearlos con la info necesaria para este panel (correo, cedula, contrasena y permiso) para simplificarnos la vida
+foreach (Database::$result as $row) 
+{
+    $isAdmin = false;
+    if ($row['es_admin'] == true)
+    {
+        $isAdmin = true;
+    }
+
+    $users[] = new User
+    (
+        $row['id'] ?? null,
         $row['nombre'] ?? '',
         $row['apellido'] ?? '',
         ($row['calle'] ?? '') . ' ' . ($row['referencia'] ?? ''),
@@ -25,10 +33,9 @@ foreach ($result as $row) {
         $row['correo'],
         $row['constrasena'],
         true,
-        !empty($row['admin_id'])
+        $isAdmin
     );
 }
-$users[] = new User(1, "Miguel", "Arismendi", "San Juan", "31348551","marismendi.8551@unimar.edu.ve", "0000", true, true);
 
 $loggedIn = false;
 $status = ' ';
@@ -39,11 +46,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $mailOrId = htmlspecialchars($_POST['tbMailOrId'] ?? null);
     $password = htmlspecialchars($_POST['tbPassword'] ?? null);
 
+    // Manejo de solicitud de recuperación de contraseña
+    if (isset($_POST['forgotPassword']) && !empty($mailOrId)) 
+    {
+        include_once __DIR__ . '/classes/notificacionAdmin.php';
+        $titulo = 'Recuperación de contraseña';
+        $mensaje = 'El usuario con correo/cédula "' . $mailOrId . '" ha solicitado recuperar su contraseña desde el login.';
+        NotificacionAdmin::crear($titulo, $mensaje);
+        $status = 'Solicitud de recuperación enviada. <br> Espere instrucciones de los administradores';
+        $showForgot = false;
+        return;
+    }
+
     $userFound = null;
     foreach ($users as $currentUser)
     {
-        if ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getIdentification()) {
+        if ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getIdentification()) 
+        {
             $userFound = $currentUser;
+
             if ($password == $currentUser->getPassword()) 
             {
                 $loggedIn = true;
@@ -60,21 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    if ($loggedIn == false) {
-        if ($userFound) {
+    if ($loggedIn == false) 
+    {
+        if ($userFound) 
+        {
             $status = 'Contraseña incorrecta';
             $showForgot = true;
-        } else {
+        } 
+        else 
+        {
             $status = 'Credenciales incorrectas';
         }
     }
-// Manejo de solicitud de recuperación de contraseña
-if (isset($_POST['forgotPassword']) && !empty($mailOrId)) {
-    include_once __DIR__ . '/classes/notificacionAdmin.php';
-    $titulo = 'Recuperación de contraseña';
-    $mensaje = 'El usuario con correo/cédula "' . $mailOrId . '" ha solicitado recuperar su contraseña desde el login.';
-    NotificacionAdmin::crear($titulo, $mensaje);
-    $status = 'Solicitud enviada a los administradores.';
-    $showForgot = false;
-}
 }
