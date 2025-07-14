@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'de
         $_SESSION['casos_error'] = $errorMessage;
     }
 
-    header("Location: /Mascotisla/public/pages/mainPanel.html.php?module=Casos");
+    header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
     exit();
 }
 
