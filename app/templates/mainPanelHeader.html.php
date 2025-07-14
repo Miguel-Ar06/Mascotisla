@@ -11,7 +11,7 @@
             <h2  class="fw-bold align-self-center text-light p-3">
                 Bienvenido <?php echo $_SESSION["userName"] ?>!
                 <?php if($_SESSION["userIsAdmin"] == true): ?>
-                    <span class="fw-bold text-body-secondary">(Administrador)</span>
+                    <span class="fw-bolds" style="color: rgba(100, 100, 100, 1);">(Administrador)</span>
                 <?php endif; ?>
             </h2>
         </div>

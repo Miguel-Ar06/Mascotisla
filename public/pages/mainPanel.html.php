@@ -111,7 +111,7 @@
             <div class="container-fluid mt-5  pt-5  mb-5 pb-5 ">
                 <div class="row justify-content-center">
                     <div class="col text-center">
-                        El panel seleccionado aparecerá aqui.
+                        El menú seleccionado aparecerá aqui.
                     </div>
                 </div>
             </div>

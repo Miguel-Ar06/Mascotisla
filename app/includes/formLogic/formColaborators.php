@@ -464,6 +464,7 @@ function updateColaborator()
     // actualizar sus papeles
     updateRoles();
 
+    unset($_SESSION['colaboratorShown']);
     $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitosamente</div>";
 }
 
