@@ -1,14 +1,32 @@
 <?php 
 require_once __DIR__ . "/../classes/animal.php";
+Database::connect();
+$num_columns = 9;
 
 // animales de prueba para ir creando la plantilla generadora de tablas
-$testAnimals = 
-[
-    new Animal(1, "perro", "pochaco", "volteapipote", "sano", "adoptado", "macho", ["link1","link2"], "00-00-0000"),
-    new Animal(2, "perro", "cabecedeo", "volteapipote", "sano", "adoptado", "hembra", ["link1","link2"], "00-00-0000"),
-    new Animal(3, "malparido", "malparido gato mion", "mion", "sano", "adoptado", "macho", ["link1","link2"], "00-00-0000"),
-    new Animal(4, "malparido", "Gauss", "mion", "sano", "adoptado", "macho ????", ["link1","link2"], "00-00-0000"),
-];
+$animals = [];
+
+$query = "SELECT animales.id AS id, especie, nombre, raza, sexo, estado, condicion
+            FROM animales
+            LEFT JOIN condiciones  ON animales.id_condicion = condiciones.id
+            LEFT JOIN estados_animales ON animales.id = estados_animales.id_animal
+            LEFT JOIN estados ON estados_animales.id_estado = estados.id;";
+Database::executeQuery($query);
+
+foreach (Database::$result as $animal)
+{
+    $animals[] = new Animal(
+        $animal['id'],
+        $animal['especie'],
+        $animal['nombre'],
+        $animal['raza'],
+        $animal['condicion'],
+        $animal['estado'] ?? [],
+        $animal['sexo'],
+        [],
+        " "
+    );
+}
 
 $editable = false;
 $deleteable = false;

@@ -1,5 +1,4 @@
 <?php require __DIR__ . "/../../app/includes/mainPanel.php"?>
-<?php require __DIR__ . "/../../app/includes/formLogic/formColaborators.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -101,7 +100,17 @@
                         <?php require __DIR__ . '/../../app/templates/forms/formAnimal.html.php'; ?>
                     </div>
                 </div>
-                
+                <div class="row">
+                    <div class="col">
+                        <?php if ($_SESSION['message'] != " "): ?>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <?php echo $_SESSION['message'] ?>
+                            </div>
+                        </div>
+                        <?php endif ?>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <?php require __DIR__ . '/../../app/templates/tables/tableConsultaAnimales.html.php'; ?>

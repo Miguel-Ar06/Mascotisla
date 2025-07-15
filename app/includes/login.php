@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $userFound = null;
     foreach ($users as $currentUser)
     {
-        if ($mailOrId == $currentUser->getEmail() || $mailOrId == $currentUser->getIdentification()) 
+        if (strtolower($mailOrId) == strtolower($currentUser->getEmail()) || $mailOrId == $currentUser->getIdentification()) 
         {
             $userFound = $currentUser;
 
