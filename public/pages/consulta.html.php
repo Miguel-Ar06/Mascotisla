@@ -125,44 +125,8 @@
             </select>
         </div>
         
-        <!-- Filtro Estados -->
-        <div class="col-md-3">
-            <label>Estado/s</label>
-            <div class="accordion border border-dark" id="accordionStatus">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#collapseStatus" 
-                                aria-expanded="false" aria-controls="collapseStatus">
-                            Seleccionar estados
-                        </button>
-                    </h2>
-                    <div id="collapseStatus" class="accordion-collapse collapse" 
-                         data-bs-parent="#accordionStatus">
-                        <div class="accordion-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="ckStatus[]" 
-                                       value="Todo" id="checkAll"
-                                       <?= in_array('Todo', $_GET['ckStatus'] ?? []) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="checkAll">Todo</label>
-                            </div>
-                            <?php foreach($allStatuses as $status): ?>
-                                <div class="form-check">
-                                    <input class="form-check-input status-check" type="checkbox" 
-                                           name="ckStatus[]" value="<?= $status ?>" 
-                                           id="status<?= $status ?>"
-                                           <?= in_array($status, $_GET['ckStatus'] ?? []) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="status<?= $status ?>">
-                                        <?= $status ?>
-                                    </label>
-                                </div>
-                            <?php endforeach ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         
+                
         <!-- Botón Buscar -->
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary w-100">Buscar</button>
@@ -219,7 +183,7 @@
                 </div>
             </div>
         </div>
-        <!-- Script para manejar el checkbox "Todo" -->
+
         <script>
         document.getElementById('checkAll').addEventListener('change', function() {
             const checkboxes = document.querySelectorAll('.status-check');
@@ -233,7 +197,7 @@
                 if (!this.checked) {
                     document.getElementById('checkAll').checked = false;
                 } else {
-                    // Verificar si todos están seleccionados
+
                     const allChecked = [...document.querySelectorAll('.status-check')]
                         .every(checkbox => checkbox.checked);
                         
