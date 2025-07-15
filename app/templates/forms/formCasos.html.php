@@ -38,17 +38,25 @@
                         $animalesSinCaso = [];
                         if (Database::$connected) {
                             try {
-                                $queryAnimales = "SELECT id, nombre FROM animales WHERE id_caso IS NULL";
-                                $stmtAnimales = Database::$pdo->query($queryAnimales);
-                                $animalesSinCaso = $stmtAnimales->fetchAll(PDO::FETCH_ASSOC);
+                                $stmtAnimalesSinCaso = Database::$pdo->query(
+                                    "SELECT id, nombre, especie, raza 
+                                    FROM animales 
+                                    WHERE id_caso IS NULL"
+                                );
+                                $animalesSinCaso = $stmtAnimalesSinCaso->fetchAll(PDO::FETCH_ASSOC);
                             } catch (PDOException $e) {
-                                error_log("Error al obtener animales: " . $e->getMessage());
+                                // Manejar error
                             }
+                            
                         }
 
-                        foreach ($animalesSinCaso as $animal) {
-                            echo '<option value="' . htmlspecialchars($animal['id']) . '">' . htmlspecialchars($animal['nombre']) . '</option>';
-                        }
+                        foreach ($animalesSinCaso as $animal): ?>
+                        <option value="<?= htmlspecialchars($animal['id']) ?>">
+                            <?= htmlspecialchars($animal['nombre']) ?> 
+                            (Especie: <?= htmlspecialchars($animal['especie']) ?> - 
+                            Raza: <?= htmlspecialchars($animal['raza']) ?>)
+                        </option>
+                    <?php endforeach; ?>
                         ?>
                     </select>
                 </div>
@@ -74,7 +82,8 @@
 
                         foreach ($colaboradores as $colab) {
                             $nombreCompleto = htmlspecialchars($colab['nombre'] . ' ' . $colab['apellido']);
-                            echo '<option value="' . htmlspecialchars($colab['cedula']) . '">' . $nombreCompleto . ' (' . htmlspecialchars($colab['cedula']) . ')</option>';
+                            echo '<option value="' . htmlspecialchars($colab['cedula']) . '">' . 
+                                $nombreCompleto . ' (C.I : ' . htmlspecialchars($colab['cedula']) . ')</option>';
                         }
                         ?>
                     </select>

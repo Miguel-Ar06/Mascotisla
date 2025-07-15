@@ -94,8 +94,8 @@ try {
                     <?php foreach ($animalesSinCaso as $animal): ?>
                         <option value="<?= htmlspecialchars($animal['id']) ?>">
                             <?= htmlspecialchars($animal['nombre']) ?> 
-                            (<?= htmlspecialchars($animal['especie']) ?> - 
-                            <?= htmlspecialchars($animal['raza']) ?>)
+                            (Especie: <?= htmlspecialchars($animal['especie']) ?> - 
+                            Raza: <?= htmlspecialchars($animal['raza']) ?>)
                         </option>
                     <?php endforeach; ?>
                 </select>
