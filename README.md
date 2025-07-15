@@ -20,6 +20,13 @@ El punto de entrada de todos los visitantes y usuarios por igual. Cuenta con las
 `Contactanos`: lleva al footer.
 `Inicia sesion': lleva a la vista de login.
 
+### Animales y Casos
+Permite registrar, editar y consultar (y eliminar si se es administrador)
+
+### Colaboradores
+Panel de gestión solo disponible para los administradores 
+
+
 ## Estructura del proyecto
 (las carpetas vacias (marcadas con *) no aparecerán en el repo)
   
