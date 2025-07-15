@@ -35,31 +35,34 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <label class="form-label">Nombre del animal</label>
-            <input required type="text" name="tbNombre" class="form-control border border-dark">
+            <input  required type="text" name="tbNombre" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['name'] ?? '') ?>" class="form-control border border-dark">
         </div>
         <div class="col-md-4">
             <label class="form-label">Condición</label>
             <select name="ddCondicion" class="form-select border border-dark">
                 <option selected hidden value=""> </option>
                 <?php foreach($allConditions as $currentCondition): ?>
-                    <option value="<?php echo $currentCondition; ?>"><?php echo $currentCondition; ?></option>
+                    <option value="<?php echo $currentCondition; ?>" 
+                        <?php if(($_SESSION['selectedAnimal']['condition'] ?? '') == $currentCondition) echo 'selected'?>><?php echo $currentCondition; ?></option>
                 <?php endforeach ?>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Sexo</label>
+            <select required name="ddSexo" class="form-select border border-dark">
+                <option selected hidden value=""></option>
+                <option value="Macho" 
+                    <?php if(($_SESSION['selectedAnimal']['sex'] ?? '') == "Macho") echo 'selected'?> >Macho</option>
+                <option value="Hembra" 
+                    <?php if(($_SESSION['selectedAnimal']['sex'] ?? '') == "Hembra") echo 'selected'?>>Hembra</option>
             </select>
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col-md-3">
-            <label class="form-label">Sexo</label>
-            <select required name="ddSexo" class="form-select border border-dark">
-                <option selected hidden value=""></option>
-                <option value="macho">Macho</option>
-                <option value="hembra">Hembra</option>
-            </select>
-        </div>
-        <div class="col-md-3">
             <label class="form-label">Fecha de nacimiento (o aprox.)</label>
-            <input required type="date" name="tbFechaNacimiento" class="form-control border border-dark">
+            <input required type="date" name="tbFechaNacimiento" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['birth'] ?? '') ?>" class="form-control border border-dark">
         </div>
         <div class="col-md-3 pt-1">
             <label for="bsAccoridon">Estado/s </label>
@@ -78,7 +81,8 @@
                                 <?php foreach($allStatuses as $currentStatus): ?>
                                     <div class="row">
                                         <div class="col">
-                                            <input type="checkbox" name="ckStatus[]" value="<?php echo $currentStatus ?>" class=" me-2 form-check-input border border-dark"
+                                            <input type="checkbox" name="ckStatus[]" value="<?php echo $currentStatus ?>" class=" me-2 form-check-input border border-dark" 
+                                            <?php if (!empty($_SESSION['selectedAnimal']['statuses']) && in_array($currentStatus, $_SESSION['selectedAnimal']['statuses'])) echo 'checked'; ?>>
                                             <label class="form-check-label"><?php echo $currentStatus?></label>
                                         </div>
                                     </div>
@@ -90,40 +94,40 @@
             </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label class="form-label">Especie</label>
             <select required name="ddEspecie" class="form-select border border-dark">
-                <option hidden selected value=""> </option>
-                <option value="perro">Perro</option>
-                <option value="gato">Gato</option>
+                <option hidden disabled selected value=""> </option>
+                <option value="Perro"
+                    <?php if(($_SESSION['selectedAnimal']['species'] ?? '') == "Perro") echo 'selected'?> >Perro</option>
+                <option value="Gato"
+                    <?php if(($_SESSION['selectedAnimal']['species'] ?? '') == "Gato") echo 'selected'?> >Gato</option>
             </select>
         </div>
         <div class="col-md-3">
             <label class="form-label">Raza</label>
-            <input required placeholder="Ej: callejero" type="text" name="tbRaza" class="form-control border border-dark">
+            <input required placeholder="Ej: callejero" type="text" name="tbRaza" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['breed'] ?? '') ?>" class="form-control border border-dark">
         </div>
+    </div>
+
+    <div class="row mb-3">
         <div class="col-md-3">
             <label class="form-label">ID del caso asignado (opcional)</label>
-            <input type="text" name="tbIdCaso" class="form-control border border-dark">
+            <input type="text" name="tbIdCaso" class="form-control border border-dark" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['caseId'] ?? '') ?>">
         </div>
         <div class="col-md-3">
             <label class="form-label">Cédula del colaborador</label>
-            <input type="text" name="tbCedulaColaborador" class="form-control border border-dark">
+            <input type="text" name="tbCedulaColaborador" class="form-control border border-dark" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['colaboratorCedula'] ?? '') ?>">
         </div>
-    </div>
-    
-    <div class="row mt-5 mb-3">
-        <div class="col-1 me-3">
+        <div class="d-flex align-items-end ms-3 col-1 me-3 pt-4 mb-0">
             <button type="submit" name="btForm" value="buscar" class="btn btn-info text-white">Buscar</button>
         </div>
-        <div class="col-1 me-4">
+        <div class="d-flex align-items-end col-1 me-4 pt-4">
             <button type="submit" name="btForm" value="registrar" class="btn btn-success">Registrar</button>
         </div>
-        <div class="col-3">
-            <button type="submit" name="btForm" value="actualizar" class="btn btn-primary">Actualizar datos</button>
+        <div class="d-flex align-items-end col-3 pt-4">
+            <input type="hidden" name="animalId" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['id'] ?? ''); ?>">
+            <button type="submit" name="btForm" value="actualizar" class="btn btn-primary">Actualizar</button>
         </div>
     </div>
 </form>

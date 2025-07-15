@@ -43,7 +43,7 @@
 
                     <div class="d-flex col-10 p-3 align-self-center shrink">
                         <h2 class="fw-bold align-self-center p-3 text-light">
-                            Preguntas frecuentes
+                            Preguntas frecuentes (FaQ)
                         </h2>
                     </div>
                             

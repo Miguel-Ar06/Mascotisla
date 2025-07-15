@@ -19,12 +19,14 @@ $_SESSION['module'] = $_SESSION['module'] ?? " ";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    
-    if ($_SESSION['messageShown'] == true)
+    if (isset($_SESSION['messageShown']))
     {
-        $_SESSION['message'] = " ";
+        if ($_SESSION['messageShown'] == true)
+        {
+            $_SESSION['message'] = " ";
+        }
+        $_SESSION['messageShown'] = true;
     }
-    $_SESSION['messageShown'] = true;
     
 
     // COLABORADORES
@@ -42,6 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
             {
                 $_SESSION['module'] = "" ;
             }
+    }
+
+    // ANIMALES
+    if ($_SESSION['animalShown'] && isset($_SESSION['selectedAnimal']))
+    {
+        unset($_SESSION['selectedAnimal']);
+    }
+    if (isset($_SESSION['animalShown']))
+    {
+        $_SESSION['animalShown'] = true;
     }
 }
 

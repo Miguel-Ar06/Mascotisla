@@ -11,6 +11,7 @@ $selectedRoles = $_POST['ckRole'] ?? [];
 
 $clickedButton = "btSubmitColaborador";
 $_SESSION['message'] = $_SESSION['message'] ?? " ";
+$_SESSION['success'] = true;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -69,6 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     else if ($_POST[$clickedButton] == "Actualizar")
     {
         updateColaborator();
+        if ($_SESSION['success'] == false)
+        {
+            return;
+        }
     }
 
     $_SESSION['messageShown'] = false;
@@ -100,11 +105,13 @@ function registerColaborator()
 
     if (!validRegister())
     {
+        $_SESSION['success'] = false;
         return;
     }
 
     if ($isMember && $password != $passwordConfirm)
     {
+        $_SESSION['success'] = false;
         $_SESSION['message'] = "<div class='text-danger fs-4'>Las contraseñas deben coincidir</div>";
         return;
     }
@@ -122,6 +129,7 @@ function registerColaborator()
         Database::safeExecute($query, [$municipality]);
         if (empty(Database::$result)) 
         {
+            $_SESSION['success'] = false;
             $_SESSION['message'] = "<div class='text-danger fs-4'>Municipio no encontrado</div>";
             return;
         }
@@ -387,11 +395,13 @@ function updateColaborator()
 
     if (!colaboratorFound())
     {
+        $_SESSION['success'] = false;
         return;
     }
 
     if ($isMember && $password != $passwordConfirm)
     {
+        $_SESSION['success'] = false;
         $_SESSION['message'] = "<div class='text-danger fs-4'>Las contraseñas deben coincidir</div>";
         return;
     }
@@ -411,6 +421,7 @@ function updateColaborator()
         Database::safeExecute($query, [$municipality]);
         if (empty(Database::$result)) 
         {
+            $_SESSION['success'] = false;
             $_SESSION['message'] = "<div class='text-danger fs-4'>Municipio no encontrado</div>";
             return;
         }
@@ -464,8 +475,8 @@ function updateColaborator()
     updateRoles();
 
     unset($_SESSION['colaboratorShown']);
-    // $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitósamente</div>";
-    $_SESSION['message'] = $_POST['ckIsAdmin'];
+    $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitósamente</div>";
+    // $_SESSION['message'] = $_POST['ckIsAdmin'];
 }
 
 function updateRoles()

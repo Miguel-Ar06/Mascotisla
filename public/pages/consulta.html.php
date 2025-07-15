@@ -1,3 +1,6 @@
+<?php require_once __DIR__ . "/../../app/includes/classes/database.php"?>
+<?php require __DIR__ . "/../../app/includes/tableLogic/tableAnimals.php"?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

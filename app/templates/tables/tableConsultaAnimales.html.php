@@ -7,7 +7,8 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Raza</th>
                 <th scope="col">Sexo</th>
-                <th scope="col">Condicion</th>
+                <th scope="col">Condición</th>
+                <th scope="col">Info.</th>
                 <th scope="col">Fotos</th>
                 <?php if($deleteable): ?>
                 <th scope="col">Eliminar</th>
@@ -31,16 +32,22 @@
                         <td class="align-middle"><?php echo $animal->getSex() ?></td>
                         <td class="align-middle"><?php echo $animal->getCondition() ?></td>
                         <td>
+                            <form action="" method="POST">
+                                <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
+                                <div><button name="btTable" value="ver" type="submit" class="btn btn-secondary hover-scale-up">Ver info.</button></div>
+                            </form>
+                        </td>
+                        <td>
                             <form action="" method="GET">
                                 <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
-                                <div><button type="submit" class="btn btn-primary hover-scale-up">Ver fotos</button></div>
+                                <div><button name="btTable" value="fotos" type="submit" class="btn btn-primary hover-scale-up">Ver fotos</button></div>
                             </form>
                         </td>
                         <?php if($deleteable == true): ?>
                         <td>
                             <form action="" method="POST">
                                 <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
-                                <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
+                                <div><button name="btTable" value="eliminar" type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
                             </form>
                         </td>
                         <?php endif ?>
