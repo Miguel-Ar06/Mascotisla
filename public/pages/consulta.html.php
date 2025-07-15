@@ -91,67 +91,84 @@
     </header>
 
     <main>
-        <form method="GET" class="mb-4">
-            <div class="row justify-content-center p-5 gx-4 align-items-end">
-                <div class="col-md-2">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="tbName" class="form-control border border-dark" value="<?php echo htmlspecialchars($_GET['searchName'] ?? '') ?>">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Condición</label>
-                    <select name="ddCondicion" class="form-select border border-dark">
-                        <option selected value="">Todo</option>
-                        <?php foreach($allConditions as $currentCondition): ?>
-                            <option value="<?php echo $currentCondition; ?>" 
-                                <?php if(($_SESSION['selectedAnimal']['condition'] ?? '') == $currentCondition) echo 'selected'?>><?php echo $currentCondition; ?></option>
-                        <?php endforeach ?>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Sexo</label>
-                    <select name="ddSex" class="form-select border border-dark">
-                        <option value="">Todos</option>
-                        <option value="Macho" <?php if(($_GET['ddSex'] ?? '') == "Macho") echo 'selected'; ?>>Macho</option>
-                        <option value="Hembra" <?php if(($_GET['ddSex'] ?? '') == "Hembra") echo 'selected'; ?>>Hembra</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="bsAccoridon">Estado/s </label>
-                    <div name="accordionWrapper" class="position-relative">
-                    <div name="bsAccordion" class="accordion border border-dark" id="accordionStatus">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed pt-2 pb-2" style="transform: none !important;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"> </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionStatuses">
-                                <div class="accordion-body p-0">
-                                    <div class="container">
-                                        <div class="row mb-2">
-                                            <div class="col"><strong>Seleccione:</strong></div>
-                                        </div>
-                                                <input type="checkbox" name="ckStatus[]" value="Todo" class=" me-2 form-check-input border border-dark"> 
-                                                <label class="form-check-label">Todo</label>
-                                        <?php foreach($allStatuses as $currentStatus): ?>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="checkbox" name="ckStatus[]" value="<?php echo $currentStatus ?>" class=" me-2 form-check-input border border-dark" 
-                                                    <?php if (!empty($_SESSION['selectedAnimal']['statuses']) && in_array($currentStatus, $_SESSION['selectedAnimal']['statuses'])) echo 'checked'; ?>>
-                                                    <label class="form-check-label"><?php echo $currentStatus?></label>
-                                                </div>
-                                            </div>
-                                        <?php endforeach ?>
-                                    </div>
-                                </div>
+
+<form method="GET" class="mb-4">
+    <div class="row justify-content-center p-5 gx-4 align-items-end">
+        <!-- Filtro Nombre -->
+        <div class="col-md-2">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="tbName" class="form-control border border-dark" 
+                   value="<?= htmlspecialchars($_GET['tbName'] ?? '') ?>">
+        </div>
+        
+        <!-- Filtro Condición -->
+        <div class="col-md-2">
+            <label class="form-label">Condición</label>
+            <select name="ddCondicion" class="form-select border border-dark">
+                <option value="">Todo</option>
+                <?php foreach($allConditions as $currentCondition): ?>
+                    <option value="<?= $currentCondition ?>" 
+                        <?= (($_GET['ddCondicion'] ?? '') === $currentCondition) ? 'selected' : '' ?>>
+                        <?= $currentCondition ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </div>
+        
+        <!-- Filtro Sexo -->
+        <div class="col-md-2">
+            <label class="form-label">Sexo</label>
+            <select name="ddSex" class="form-select border border-dark">
+                <option value="">Todos</option>
+                <option value="Macho" <?= (($_GET['ddSex'] ?? '') === "Macho") ? 'selected' : '' ?>>Macho</option>
+                <option value="Hembra" <?= (($_GET['ddSex'] ?? '') === "Hembra") ? 'selected' : '' ?>>Hembra</option>
+            </select>
+        </div>
+        
+        <!-- Filtro Estados -->
+        <div class="col-md-3">
+            <label>Estado/s</label>
+            <div class="accordion border border-dark" id="accordionStatus">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" 
+                                data-bs-toggle="collapse" data-bs-target="#collapseStatus" 
+                                aria-expanded="false" aria-controls="collapseStatus">
+                            Seleccionar estados
+                        </button>
+                    </h2>
+                    <div id="collapseStatus" class="accordion-collapse collapse" 
+                         data-bs-parent="#accordionStatus">
+                        <div class="accordion-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ckStatus[]" 
+                                       value="Todo" id="checkAll"
+                                       <?= in_array('Todo', $_GET['ckStatus'] ?? []) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="checkAll">Todo</label>
                             </div>
+                            <?php foreach($allStatuses as $status): ?>
+                                <div class="form-check">
+                                    <input class="form-check-input status-check" type="checkbox" 
+                                           name="ckStatus[]" value="<?= $status ?>" 
+                                           id="status<?= $status ?>"
+                                           <?= in_array($status, $_GET['ckStatus'] ?? []) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="status<?= $status ?>">
+                                        <?= $status ?>
+                                    </label>
+                                </div>
+                            <?php endforeach ?>
                         </div>
                     </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
                 </div>
             </div>
-        </form>
+        </div>
+        
+        <!-- Botón Buscar -->
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        </div>
+    </div>
+</form>
 
         <div class="d-flex container mt-5 mb-5 justify-content-center pb-5 text-center">
 
@@ -202,8 +219,31 @@
                 </div>
             </div>
         </div>
+        <!-- Script para manejar el checkbox "Todo" -->
+        <script>
+        document.getElementById('checkAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.status-check');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        document.querySelectorAll('.status-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    document.getElementById('checkAll').checked = false;
+                } else {
+                    // Verificar si todos están seleccionados
+                    const allChecked = [...document.querySelectorAll('.status-check')]
+                        .every(checkbox => checkbox.checked);
+                        
+                    document.getElementById('checkAll').checked = allChecked;
+                }
+            });
+        });
+        </script>
     </footer>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>
