@@ -63,5 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") 
 {
-   $isAdmin = ($_POST['ckIsAdmin'] === 'on') ? 1 : 0;
+    if (isset($_POST['ckIsAdmin']))
+    {
+        $isAdmin = ($_POST['ckIsAdmin'] === 'on') ? 1 : 0;
+    }
 }

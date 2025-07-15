@@ -11,35 +11,59 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="icon" href="../images/Logo Favicon.png" type="image/png">
-
+    <script src="../scripts/casosForm.js"></script>
     <script src="../scripts/extendColaboratorForm.js"></script>
 
     <title>Panel Principal</title>
 
     <style>
-        button, .btn, input[type="button"], input[type="submit"], .hover-scale-up
-        {
+        button, .btn, input[type="button"], input[type="submit"], .hover-scale-up {
             transition: transform 0.3s ease-in-out;
         }
 
-        button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover, .hover-scale-up:hover
-        {
+        button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover, .hover-scale-up:hover {
             transform: scale(1.1);
         }
-        .scale-down
-        {
+        
+        .scale-down {
             height: auto;
             width: 60%;
         }
 
-        html
-        {
+        html {
             height: 100%;
+        }
+        
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 350px;
         }
     </style>
 
 </head>
 <body style="font-family: 'Montserrat'; display: flex; flex-direction: column; min-height: 100vh;">
+    <!-- Contenedor para alertas flotantes -->
+    <div class="alert-container">
+        <?php if (isset($_SESSION['casos_message'])): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+                <?= $_SESSION['casos_message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_message']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['casos_error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <?= $_SESSION['casos_error'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_error']); ?>
+        <?php endif; ?>
+    </div>
+
     <header>
         <?php require __DIR__ . '/../../app/templates/mainPanelHeader.html.php'; ?>
     </header>
@@ -51,8 +75,8 @@
                 <div class="row justify-content-between">
                     <div class="col ms-3">
                         <div class="card">
-                            <div class="card-header">
-                                Gestión de colaboradores
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0">Gestión de colaboradores</h5>
                             </div>
                             <div class="card-body">
                                 <?php require __DIR__ . '/../../app/templates/forms/formColaborators.html.php' ?>
@@ -64,8 +88,8 @@
                             <div class="row mb-4">
                                 <div class="col">
                                     <div class="card">
-                                        <div class="card-header">
-                                            Listado de colaboradores
+                                        <div class="card-header bg-dark text-white">
+                                            <h5 class="mb-0">Listado de colaboradores</h5>
                                         </div>
                                         <div class="card-body">
                                             <?php require __DIR__ . '/../../app/templates/tables/tablaColaboradores.html.php'; ?>
@@ -96,6 +120,9 @@
         <?php elseif ($_SESSION['module'] == "Animales"): ?>
             <div class="container mt-4">
                 <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Gestión de animales</h5>
+                    </div>
                     <div class="card-body">
                         <?php require __DIR__ . '/../../app/templates/forms/formAnimal.html.php'; ?>
                     </div>
@@ -112,11 +139,37 @@
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Listado de animales</h5>
+                    </div>
                     <div class="card-body">
                         <?php require __DIR__ . '/../../app/templates/tables/tableConsultaAnimales.html.php'; ?>
                     </div>
                 </div>
             </div>
+
+        <?php elseif ($_SESSION['module'] == "Casos"): ?>
+            <div class="container-fluid pe-4 ps-4 mt-2">
+                <div class="row">
+                    <!-- Formulario a la izquierda -->
+                    <div class="col-md-5 pe-4">
+                        <?php require __DIR__ . '/../../app/templates/forms/formCasos.html.php'; ?>
+                    </div>
+                    
+                    <!-- Tabla a la derecha -->
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0">Listado de Casos</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <?php require __DIR__ . '/../../app/templates/tables/tablaCasos.html.php'; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <?php elseif ($_SESSION['module'] == " "): ?>
             <div class="container-fluid mt-5  pt-5  mb-5 pb-5 ">
                 <div class="row justify-content-center">
@@ -132,5 +185,8 @@
     <footer>
         <?php include __DIR__ . '/../../app/templates/footer.html.php'; ?>
     </footer>
+
+    <!-- Script de Bootstrap para alertas -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
