@@ -55,7 +55,7 @@ if (!Database::$connected) {
                             </span>
                         </td>
                         <td>
-                            <form action="detalle_caso.php" method="GET">
+                            <form action="../../public/pages/detalleCaso.html.php" method="GET">
                                 <input type="hidden" name="casoId" value="<?= $caso['id'] ?>">
                                 <button type="submit" class="btn btn-primary btn-sm">Ver</button>
                             </form>
