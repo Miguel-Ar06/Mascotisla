@@ -67,18 +67,20 @@ Por ejemplo:
 
 ## Clases
 
-### La clase Animal
+### User
+Esta clase representa a un usuario en el sistema. Almacena información personal como ID, nombre, apellido, dirección, identificación, correo electrónico y contraseña. Además, incluye dos propiedades booleanas: `isMember` para indicar si el usuario es miembro y isAdmin para determinar si tiene privilegios de administrador. La clase incluye un constructor para inicializar todas las propiedades y métodos getter y setter para acceder y modificar cada una de ellas, con una lógica específica para `isAdmin` que asegura que un usuario solo puede ser administrador si es miembro.
 
-### La clase User 
+### NotificacionAdmin
+La clase NotificacionAdmin gestiona las notificaciones dirigidas a los administradores. Cada notificación tiene un ID, título, mensaje, fecha y un estado leida (indicando si ha sido leída o no). Esta clase interactúa directamente con la base de datos a través de métodos estáticos:
 
-### La clase Caso
+`obtenerTodas()`: Recupera todas las notificaciones o solo las no leídas, ordenadas por fecha.
 
-### La clase notificacionAdmin
+`crear()`: Inserta una nueva notificación en la base de datos.
 
-### La clase Database
-```php
-class Database {}
-```
+`marcarComoLeida()`: Actualiza el estado de una notificación a "leída" dado su ID.
+Depende de la clase Database para sus operaciones de persistencia.
+
+### Database
 Es una clase creada para simplificae el manejo de la bdd a traves de un PDO (php data object), tiene metodos como `Database::connect()` para conectarse a la bdd y manejar posibles errores.
 el estado de la conexion (sea exitosa o fallida) se almacena en la variable `$outputStatus`, de la misma forma que `$connected` representa el estado de la conexion mediante `true` o `false`.
 La clase tambien cuenta con un metodo `Database::disconnect()` para desconectarse manualmente, aunque no es necesario ya que por defecto **php cierra todas las conexiones a bdds al terminar el archivo**.
