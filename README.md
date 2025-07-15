@@ -2,6 +2,24 @@
 # Mascotisla
 La plataforma Mascotisla es un sitio web creado como iniciativa de la fundación PIM (proteccionistas independeintes de margarita) para que el público general pueda consultar los animales de casos conocidos y detalles como su estado de salud, si está adoptado o no, etc. Así mismo la plataforma cuenta con un panel para que los miembros de la fundación puedan registrar animales, casos, y colaboradores; de la misma forma también existe un panel de administradores mediante el cual pueden gestionar y hasta eliminar animales, casos y miembros o colaboradores de ser necesario.
 
+## Usuarios
+Existen 3 posibles niveles de usuario.
+- **Visitante**: es el nivel default, no requiere login, consulta limitada de la bd. Pueden existir en la bdd como "colaboradores" para guardar su información.
+
+- **Miembro**: es un colaborador con credenciales de login, lo que le da acceso a gestionar animales y casos (solo `insert`, `update` y `select`)
+
+- **Admin**: cuenta con todos los permisos y atributos de "miembro",  pero a su vez puede realizar `delete` y cuenta con un apartado adicional para gestionar los colaboradores. Tiene control total.
+
+
+## Módulos
+Para este fin el sitio web cuenta con una serie de modulos a continuación explicados
+
+### Landing page 
+El punto de entrada de todos los visitantes y usuarios por igual. Cuenta con las siguientes opciones 
+`Consulta animales`: Este botón lleva a la vista dedicada a los visitantes.
+`Contactanos`: lleva al footer.
+`Inicia sesion': lleva a la vista de login.
+
 ## Estructura del proyecto
 (las carpetas vacias (marcadas con *) no aparecerán en el repo)
   
@@ -22,7 +40,11 @@ Mascotisla
     ├───scripts            // Archivos de javascript para brindar interactividad
     └───styles             // CSS para alterar la apariencia de ciertas cosas
 ```
-## Consideraciones importantes para el codigo
+## Sobre el codigo
+- Se requiere php 7.0 como mínimo
+- Se requiere un servidor web como Apache
+
+### Sobre el idioma
 Si bien los elementos visibles de la interfaz estan en español el codigo es en ingles por consistencia
 
 ### El nombrado de archivos
@@ -35,6 +57,16 @@ Por ejemplo:
 `login.html.php` tiene todo el HTML para la esttructura y deseño del inicio de sesión.
 
 `login.php` tiene toda la lógica que hace funcionar el login y procesa los datos enviados para dar una respuesta.
+
+## Clases
+
+### La clase Animal
+
+### La clase User 
+
+### La clase Caso
+
+### La clase notificacionAdmin
 
 ### La clase Database
 ```php
