@@ -33,11 +33,11 @@
 
 <form id="formAnimal" action="" method="POST">
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-2">
             <label class="form-label">Nombre del animal</label>
             <input  required type="text" name="tbNombre" value="<?php echo htmlspecialchars($_SESSION['selectedAnimal']['name'] ?? '') ?>" class="form-control border border-dark">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <label class="form-label">Condición</label>
             <select name="ddCondicion" class="form-select border border-dark">
                 <option selected hidden value=""> </option>
@@ -47,7 +47,7 @@
                 <?php endforeach ?>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label class="form-label">Sexo</label>
             <select required name="ddSexo" class="form-select border border-dark">
                 <option selected hidden value=""></option>
@@ -56,6 +56,11 @@
                 <option value="Hembra" 
                     <?php if(($_SESSION['selectedAnimal']['sex'] ?? '') == "Hembra") echo 'selected'?>>Hembra</option>
             </select>
+        </div>
+        <div class="col-auto">
+            <label for="formFile" class="form-label">Selecciona una imagen clara</label>
+            <!-- Standard Bootstrap 5 file input -->
+            <input class="form-control" type="file" id="formFile" name="myFile">
         </div>
     </div>
 

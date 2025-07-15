@@ -47,12 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     }
 
     // ANIMALES
-    if ($_SESSION['animalShown'] && isset($_SESSION['selectedAnimal']))
-    {
-        unset($_SESSION['selectedAnimal']);
-    }
     if (isset($_SESSION['animalShown']))
     {
+        if ($_SESSION['animalShown'] && isset($_SESSION['selectedAnimal']))
+        {
+            unset($_SESSION['selectedAnimal']);
+        }
+    
         $_SESSION['animalShown'] = true;
     }
 }

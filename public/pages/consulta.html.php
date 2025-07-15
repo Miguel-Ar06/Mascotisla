@@ -1,5 +1,6 @@
 <?php require_once __DIR__ . "/../../app/includes/classes/database.php"?>
 <?php require __DIR__ . "/../../app/includes/tableLogic/tableAnimals.php"?>
+<?php require __DIR__ . "/../../app/includes/formLogic/formAnimal.php";?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +29,38 @@
             height: auto;
             width: 60%;
         }
+
+        .accordion-item .accordion-collapse 
+        {
+            position: absolute; /* Takes the element out of normal flow */
+            width: 100%; /* Ensures it spans the width of its parent (.accordion-wrapper) */
+            z-index: 10; /* Ensures it appears above other content on the page */
+            top: 100%; /* Positions it directly below the accordion header */
+            left: 0; /* Aligns it to the left edge of its parent */
+
+            /* Optional: Add styles for visual separation and readability */
+            background-color: white; /* Essential to cover content behind it */
+            border: 1px solid #000000ff; /* Matches your form's border style */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+            padding: 1rem; /* Add some padding around the content within the body */
+
+            /* Optional: If content can be very long, make it scrollable */
+            max-height: 250px; /* Limit the expanded height */
+            overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
+
+            /* Ensure transitions are smooth */
+            transition: height 0.35s ease; /* Adjust transition property if you need it to animate smoothly */
+        }
+
+        /* If you need to make space for content that comes *immediately* after the whole form
+        and would be hidden by the accordion. This is usually managed by margins/paddings
+        on the elements *outside* of the accordion. */
+        .content-after-form 
+        {
+            margin-top: 250px;  /*Example: Add enough space for the accordion to overlap */
+        }
     </style>
+
 </head>
 
 <body style="font-family: 'Montserrat';">
@@ -58,7 +90,70 @@
     </header>
 
     <main>
+        <form method="GET" class="mb-4">
+            <div class="row justify-content-center p-5 gx-4 align-items-end">
+                <div class="col-md-2">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="tbName" class="form-control border border-dark" value="<?php echo htmlspecialchars($_GET['searchName'] ?? '') ?>">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Condición</label>
+                    <select name="ddCondicion" class="form-select border border-dark">
+                        <option selected value="">Todo</option>
+                        <?php foreach($allConditions as $currentCondition): ?>
+                            <option value="<?php echo $currentCondition; ?>" 
+                                <?php if(($_SESSION['selectedAnimal']['condition'] ?? '') == $currentCondition) echo 'selected'?>><?php echo $currentCondition; ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sexo</label>
+                    <select name="ddSex" class="form-select border border-dark">
+                        <option value="">Todos</option>
+                        <option value="Macho" <?php if(($_GET['ddSex'] ?? '') == "Macho") echo 'selected'; ?>>Macho</option>
+                        <option value="Hembra" <?php if(($_GET['ddSex'] ?? '') == "Hembra") echo 'selected'; ?>>Hembra</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="bsAccoridon">Estado/s </label>
+                    <div name="accordionWrapper" class="position-relative">
+                    <div name="bsAccordion" class="accordion border border-dark" id="accordionStatus">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed pt-2 pb-2" style="transform: none !important;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"> </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionStatuses">
+                                <div class="accordion-body p-0">
+                                    <div class="container">
+                                        <div class="row mb-2">
+                                            <div class="col"><strong>Seleccione:</strong></div>
+                                        </div>
+                                                <input type="checkbox" name="ckStatus[]" value="Todo" class=" me-2 form-check-input border border-dark"> 
+                                                <label class="form-check-label">Todo</label>
+                                        <?php foreach($allStatuses as $currentStatus): ?>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="checkbox" name="ckStatus[]" value="<?php echo $currentStatus ?>" class=" me-2 form-check-input border border-dark" 
+                                                    <?php if (!empty($_SESSION['selectedAnimal']['statuses']) && in_array($currentStatus, $_SESSION['selectedAnimal']['statuses'])) echo 'checked'; ?>>
+                                                    <label class="form-check-label"><?php echo $currentStatus?></label>
+                                                </div>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+            </div>
+        </form>
+
         <div class="d-flex container mt-5 mb-5 justify-content-center pb-5 text-center">
+
             <?php require __DIR__ . "/../../app/templates/tables/tableConsultaAnimales.html.php"  ?>
         </div>
     </main>
@@ -108,6 +203,6 @@
         </div>
     </footer>
     
-    <script src="https://cdn.jsdelivr.net/npm/bo    otstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integ    rity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEM    VjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

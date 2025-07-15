@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         updateAnimal();
         $_POST['animalId'] = $_POST['animalId'] ?? $_SESSION['selectedAnimal']['id'];
         getAnimalData();
-        
+
         $_SESSION['message'] = '<div class="fs-4 text-success">Animal actualizado corréctamente</div>';
         $_SESSION['messageShown'] = false;
         header("Location: " . $_SERVER['REQUEST_URI']);
@@ -186,6 +186,7 @@ function getAnimalData()
 
     $foundAnimal = Database::$result[0];
 
+    $selectedId = $foundAnimal['id'];
     $name = $foundAnimal['nombre'];
     $condition = $foundAnimal['condicion'];
     $sex = $foundAnimal['sexo'];
@@ -256,45 +257,54 @@ function deleteAnimal()
 
 function updateAnimal()
 {
+    // Get and sanitize all POST data
+    $animalId = $_POST['animalId'] ?? '';
+    $name = trim($_POST['tbNombre'] ?? '');
+    $conditionName = trim($_POST['ddCondicion'] ?? '');
+    $sex = trim($_POST['ddSexo'] ?? '');
+    $birth = trim($_POST['tbFechaNacimiento'] ?? '');
+    $selectedStatuses = $_POST['ckStatus'] ?? [];
+    $species = trim($_POST['ddEspecie'] ?? '');
+    $breed = trim($_POST['tbRaza'] ?? '');
+    $caseId = trim($_POST['tbIdCaso'] ?? '');
+    $colaboratorCedula = trim($_POST['tbCedulaColaborador'] ?? '');
 
-    $animalId = $_POST['animalId']; 
-    if (empty($animalId)) 
-    {
+    // Validate required fields
+    if (empty($animalId)) {
         $_SESSION['message'] = '<div class="fs-4 text-danger">Error: ID del animal no proporcionado para actualizar.</div>';
         $_SESSION['messageShown'] = false;
         return;
     }
+    if ($name === '' || $conditionName === '' || $sex === '' || $species === '' || $breed === '' || $colaboratorCedula === '') {
+        $_SESSION['message'] = '<div class="fs-4 text-danger">Error: Todos los campos obligatorios deben estar llenos.</div>';
+        $_SESSION['messageShown'] = false;
+        return;
+    }
 
-    $name = htmlspecialchars($_POST['tbNombre'] ?? " ");
-    $condition_name = htmlspecialchars(trim($_POST['ddCondicion'] ?? " "));
-    $sex = htmlspecialchars($_POST['ddSexo'] ?? " ");
-    $birth = htmlspecialchars($_POST['tbFechaNacimiento'] ?? " ");
-    $selectedStatuses = $_POST['ckStatus'] ?? [];
-    $species = htmlspecialchars(trim($_POST['ddEspecie'] ?? " "));
-    $breed = htmlspecialchars($_POST['tbRaza'] ?? " ");
-    $caseId = htmlspecialchars($_POST['tbIdCaso'] ?? " ");
-    $colaboratorCedula = htmlspecialchars($_POST['tbCedulaColaborador'] ?? " ");
+    // Get condition ID
+    $query = "SELECT id FROM condiciones WHERE condicion = ?;";
+    Database::safeExecute($query, [$conditionName]);
+    if (empty(Database::$result)) {
+        $_SESSION['message'] = '<div class="fs-4 text-danger">Error: La condición seleccionada no es válida.</div>';
+        $_SESSION['messageShown'] = false;
+        return;
+    }
+    $conditionId = Database::$result[0]['id'];
 
-    try 
-    {
-        // actualizar condiciones
-        $query = "SELECT id FROM condiciones WHERE condicion LIKE ?;";
-        Database::safeExecute($query, [$condition_name]);
-        if (empty(Database::$result)) 
-        {
-            throw new Exception("La condición seleccionada no es válida.");
-        }
-        $conditionId = Database::$result[0]['id'];
+    // Validate colaborator
+    $query = "SELECT cedula FROM colaboradores WHERE cedula = ?;";
+    Database::safeExecute($query, [$colaboratorCedula]);
+    if (empty(Database::$result)) {
+        $_SESSION['message'] = '<div class="fs-4 text-danger">Error: No existe colaborador con esa cédula.</div>';
+        $_SESSION['messageShown'] = false;
+        return;
+    }
 
-        // Vaalidar el posible nuevo colaborador
-        $query = "SELECT cedula FROM colaboradores WHERE cedula LIKE ?;";
-        Database::safeExecute($query, [$colaboratorCedula]);
-        if (count(Database::$result) < 1)
-        {
-            throw new Exception("No existe colaborador con esa cédula.");
-        }
+    // Start transaction for atomic update
+    try {
+        Database::$pdo->beginTransaction();
 
-        // actualizar el animal
+        // Update animal
         $query = "UPDATE animales SET 
                     nombre = ?, 
                     especie = ?, 
@@ -304,36 +314,37 @@ function updateAnimal()
                     id_caso = ?, 
                     id_condicion = ?, 
                     cedula_colaborador = ?
-                    WHERE id = ?;";
-
-        Database::safeExecute($query, 
-        [
-            $name, 
-            $species, 
-            $breed, 
-            $sex, 
-            $birth, 
-            ($caseId === '' ? null : $caseId), 
-            $conditionId, 
+                  WHERE id = ?;";
+        Database::safeExecute($query, [
+            $name,
+            $species,
+            $breed,
+            $sex,
+            $birth,
+            ($caseId === '' ? null : $caseId),
+            $conditionId,
             $colaboratorCedula,
-            $animalId // para identificar el animal a actualizar
+            $animalId
         ]);
 
-        updateStatuses($animalId, $selectedStatuses);
+        // Update statuses
+        $query = "DELETE FROM estados_animales WHERE id_animal = ?;";
+        Database::safeExecute($query, [$animalId]);
+        foreach ($selectedStatuses as $status) {
+            $query = "INSERT INTO estados_animales (id_animal, id_estado)
+                        SELECT ?, e.id FROM estados e WHERE e.estado = ?;";
+            Database::safeExecute($query, [$animalId, trim($status)]);
+        }
 
-    } 
-    catch (Exception $e) 
-    {
+        Database::$pdo->commit();
+
+        $_SESSION['message'] = '<div class="fs-4 text-success">Animal actualizado correctamente.</div>';
+        $_SESSION['messageShown'] = false;
+    } catch (Exception $e) {
+        Database::$pdo->rollBack();
         $_SESSION['message'] = '<div class="fs-4 text-danger">Error al actualizar el animal: ' . htmlspecialchars($e->getMessage()) . '</div>';
         $_SESSION['messageShown'] = false;
-        return;
     }
-
-    error_log("DEBUG UPDATE: Animal ID from POST: " . var_export($animalId, true));
-
-    error_log("DEBUG UPDATE: Form data collected: Name=" . $name . ", Condition=" . $condition_name . ", Species=" . $species . ", Breed=" . $breed . ", Sex=" . $sex . ", Birth=" . $birth . ", CaseID=" . $caseId . ", ColabCedula=" . $colaboratorCedula);
-
-    error_log("DEBUG UPDATE: Main animal UPDATE query executed. Database::result (affected rows/info): " . var_export(Database::$result, true));
 }
 
 function updateStatuses($animalId, $selectedStatuses)
