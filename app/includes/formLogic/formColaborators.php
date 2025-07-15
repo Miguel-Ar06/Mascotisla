@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $street = htmlspecialchars($_POST['tbStreet'] ?? null);
         $municipality = htmlspecialchars($_POST['ddMunicipality'] ?? null);
         $referencePoint = htmlspecialchars($_POST['tbReference'] ?? null);
-        $isAdmin = $_POST['ckIsAdmin'] ?? null;
+        $isAdmin = (isset($_POST['ckIsAdmin']) && $_POST['ckIsAdmin'] === 'on') ? 1 : 0;
     }
 
     if ($_POST[$clickedButton] == "Registrar")
@@ -462,13 +462,20 @@ function updateColaborator()
             $idAdress = Database::$result[0]['id'];
         }
 
-        // actualizar el miembro
-        $query = "UPDATE miembros SET constrasena = ?, correo = ?, fecha_de_ingreso = ?, id_direccion = ?, cedula_colaborador = ?, es_admin = ?
-                    WHERE cedula LIKE ?;";
-        
-        $admin = ($isAdmin == "on");
+        // Verifica si el colaborador ya es miembro pa luego actualizarlo o insertarlo, esto soluciona el problema de que no se pudieran actualizar
+        $query = "SELECT * FROM miembros WHERE cedula_colaborador = ?;";
+        Database::safeExecute($query, [$cedula]);
+        $miembroExiste = !empty(Database::$result);
 
-        Database::safeExecute($query, [$password, strtolower($email), date('Y-m-d'), $idAdress, $cedula, $admin, $cedula]);
+        if ($miembroExiste) {
+            $query = "UPDATE miembros SET constrasena = ?, correo = ?, fecha_de_ingreso = ?, id_direccion = ?, cedula_colaborador = ?, es_admin = ?
+                        WHERE cedula_colaborador = ?;";
+            Database::safeExecute($query, [$password, strtolower($email), date('Y-m-d'), $idAdress, $cedula, $isAdmin, $cedula]);
+        } else {
+            $query = "INSERT INTO miembros (constrasena, correo, fecha_de_ingreso, id_direccion, cedula_colaborador, es_admin)
+                        VALUES (?, ?, ?, ?, ?, ?);";
+            Database::safeExecute($query, [$password, strtolower($email), date('Y-m-d'), $idAdress, $cedula, $isAdmin]);
+        }
     }
 
     // actualizar sus papeles
@@ -476,7 +483,6 @@ function updateColaborator()
 
     unset($_SESSION['colaboratorShown']);
     $_SESSION['message'] = "<div class='text-success fs-4'>Colaborador actualizado exitósamente</div>";
-    // $_SESSION['message'] = $_POST['ckIsAdmin'];
 }
 
 function updateRoles()
