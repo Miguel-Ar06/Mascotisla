@@ -107,3 +107,8 @@ esta función esta hecha para devolver un arreglo si es `SELECT` o el número de
 
 Esto se hace para prevenir que el usuario haga un ataque de inyección sql, por ejemplo introduciendo `DROP TABLE colaboradores; --` en el campo del nombre
 
+### Caso
+La clase Caso representa un caso o evento específico, posiblemente relacionado con la gestión de animales o situaciones en el contexto de una organización. Almacena propiedades como ID, nombre, ubicación, fecha de apertura, fecha de cierre y un estado (booleano que indica si el caso está abierto o cerrado). Su constructor inicializa estas propiedades y ofrece métodos getter para acceder a la información de cada caso.
+
+### Animal
+La clase Animal modela a un animal dentro del sistema. Contiene atributos detallados como ID, especie, nombre, raza, condición de salud, estado(s) (por ejemplo, "adoptado", "perdido", "en adopción"), sexo, enlaces a imágenes (pictureLinks) y fecha de nacimiento (que puede ser aproximada). Al igual que la clase User, incluye un constructor para inicializar todas sus propiedades y métodos getter y setter para una gestión completa de los datos del animal.
