@@ -23,10 +23,9 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Estado *</label>
-                    <select name="estado" class="form-select border border-dark" required>
+                    <select name="estadoCaso" class="form-select border border-dark" required>
                         <option selected disabled hidden value="">Seleccionar...</option>
                         <option value="abierto">Abierto</option>
-                        <option value="en_proceso">En proceso</option>
                         <option value="cerrado">Cerrado</option>
                     </select>
                 </div>
@@ -130,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
         animalSelect.disabled = false;
     });
     
-
     operationInput.addEventListener('change', function() {
         if (this.value === 'update') {
             btnCancelEdit.style.display = 'inline-block';

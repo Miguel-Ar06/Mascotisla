@@ -8,7 +8,12 @@ if (!Database::$connected) {
     $casos = [];
 } else {
     try {
-        $query = "SELECT c.id, c.nombre, c.estado, c.ubicacion, c.fecha_de_apertura 
+        $query = "SELECT c.id, c.nombre, 
+                  CASE WHEN c.estado = 1 THEN 'abierto' ELSE 'cerrado' END as estado, 
+                  c.ubicacion, c.fecha_de_apertura,
+                  (SELECT r.cedula_colaborador 
+                   FROM reportes_casos_colaboradores r 
+                   WHERE r.id_caso = c.id LIMIT 1) as colaborador
                   FROM casos c
                   ORDER BY c.fecha_de_apertura DESC";
         $stmt = Database::$pdo->query($query);
@@ -39,9 +44,8 @@ if (!Database::$connected) {
                 </tr>
             <?php else: ?>
                 <?php foreach ($casos as $caso): 
-                    $badgeClass = match($caso['estado']) {
+                    $badgeClass = match(strtolower($caso['estado'])) {
                         'abierto' => 'bg-success',
-                        'en_proceso' => 'bg-warning',
                         'cerrado' => 'bg-secondary',
                         default => 'bg-info'
                     };
@@ -51,7 +55,7 @@ if (!Database::$connected) {
                         <td><?= htmlspecialchars($caso['nombre'] ?? '') ?></td>
                         <td>
                             <span class="badge <?= $badgeClass ?>">
-                                <?= htmlspecialchars($caso['estado'] ?? '') ?>
+                                <?= ucfirst(htmlspecialchars($caso['estado'] ?? '')) ?>
                             </span>
                         </td>
                         <td>
@@ -65,8 +69,9 @@ if (!Database::$connected) {
                                 data-id="<?= $caso['id'] ?>"
                                 data-nombre="<?= htmlspecialchars($caso['nombre']) ?>"
                                 data-ubicacion="<?= htmlspecialchars($caso['ubicacion']) ?>"
-                                data-estado="<?= htmlspecialchars($caso['estado']) ?>"
-                                data-fecha="<?= $caso['fecha_de_apertura'] ?>">
+                                data-estado="<?= strtolower($caso['estado']) === 'abierto' ? 'abierto' : 'cerrado' ?>"
+                                data-fecha="<?= $caso['fecha_de_apertura'] ?>"
+                                data-colaborador="<?= $caso['colaborador'] ?>">
                                 Editar
                             </button>
                         </td>
@@ -87,7 +92,6 @@ if (!Database::$connected) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -95,19 +99,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const ubicacion = this.getAttribute('data-ubicacion');
             const estado = this.getAttribute('data-estado');
             const fecha = this.getAttribute('data-fecha');
+            const colaborador = this.getAttribute('data-colaborador');
 
             document.querySelector('input[name="nombre"]').value = nombre;
             document.querySelector('input[name="ubicacion"]').value = ubicacion;
-            document.querySelector('select[name="estado"]').value = estado;
+            document.querySelector('select[name="estadoCaso"]').value = estado;
             document.querySelector('input[name="fecha"]').value = fecha;
+            document.querySelector('select[name="colaborador"]').value = colaborador;
             
-
             document.querySelector('input[name="operation"]').value = 'update';
             document.querySelector('input[name="casoId"]').value = id;
 
             document.getElementById('animalSelect').disabled = true;
             
-
             const btnSubmit = document.getElementById('btnSubmit');
             btnSubmit.textContent = 'Guardar cambios';
             btnSubmit.classList.remove('btn-success');

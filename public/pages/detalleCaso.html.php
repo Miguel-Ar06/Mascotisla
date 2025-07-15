@@ -41,7 +41,7 @@ try {
     // Obtener animales asociados al caso
     $stmtAnimales = Database::$pdo->prepare(
     "SELECT a.id, a.nombre, a.especie, a.raza, a.sexo, a.fecha_de_nacimiento, 
-        co.nombre AS condicion
+        co.condicion AS condicion
         FROM animales a
         JOIN condiciones co ON a.id_condicion = co.id
         WHERE a.id_caso = ?"

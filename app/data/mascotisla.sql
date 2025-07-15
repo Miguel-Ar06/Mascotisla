@@ -248,8 +248,6 @@ CREATE TABLE `miembros` (
   `id_direccion` int(11) NOT NULL,
   `cedula_colaborador` varchar(20) NOT NULL,
   `es_admin` tinyint(1) NOT NULL
-  `cedula_colaborador` varchar(20) NOT NULL,
-  `es_admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

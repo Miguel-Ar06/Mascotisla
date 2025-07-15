@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
 
     $nombre = htmlspecialchars($_POST['nombre'] ?? '');
     $ubicacion = htmlspecialchars($_POST['ubicacion'] ?? '');
-    $estado = $_POST['estado'] ?? '';
+    $estadoCaso = $_POST['estadoCaso'] ?? '';
     $fecha = $_POST['fecha'] ?? date('Y-m-d');
     $colaborador = $_POST['colaborador'] ?? '';
     $idAnimal = $_POST['animal'] ?? null; 
 
-    if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha) || empty($idAnimal)) {
+    if (empty($nombre) || empty($ubicacion) || empty($estadoCaso) || empty($colaborador) || empty($fecha) || empty($idAnimal)) {
         $_SESSION['casos_error'] = "Todos los campos obligatorios deben ser completados";
         header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
         exit();
@@ -35,15 +35,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     try {
         Database::$pdo->beginTransaction();
 
+
+        if ($estadoCaso == 'abierto') {
+            $estadoBool = 1;
+        } elseif ($estadoCaso == 'cerrado') {
+            $estadoBool = 0;
+        } 
+
         $queryCaso = "INSERT INTO casos (nombre, ubicacion, fecha_de_apertura, estado) 
                       VALUES (:nombre, :ubicacion, :fecha, :estado)";
-        $stmtCaso = Database::$pdo->prepare($queryCaso);
-        $stmtCaso->execute([
-            ':nombre' => $nombre,
-            ':ubicacion' => $ubicacion,
-            ':fecha' => $fecha,
-            ':estado' => $estado
-        ]);
+                        $stmtCaso = Database::$pdo->prepare($queryCaso);
+                        $stmtCaso->execute([
+                            ':nombre' => $nombre,
+                            ':ubicacion' => $ubicacion,
+                            ':fecha' => $fecha,
+                            ':estado' => $estadoBool    
+                        ]);
         
         $idCaso = Database::$pdo->lastInsertId();
 
@@ -91,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'up
     $casoId = $_POST['casoId'] ?? 0;
     $nombre = htmlspecialchars($_POST['nombre'] ?? '');
     $ubicacion = htmlspecialchars($_POST['ubicacion'] ?? '');
-    $estado = $_POST['estado'] ?? '';
+    $estado = $_POST['estadoCaso'] ?? '';
     $fecha = $_POST['fecha'] ?? date('Y-m-d');
     $colaborador = $_POST['colaborador'] ?? '';
 
@@ -100,6 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'up
         header("Location: /Mascotisla/public/pages/mainPanel.html.php?module=Casos");
         exit();
     }
+
+    if ($estadoCaso == 'abierto') {
+            $estadoBool = 1;
+        } elseif ($estadoCaso == 'cerrado') {
+            $estadoBool = 0;
+        } 
 
     Database::connect();
     
@@ -121,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'up
             ':nombre' => $nombre,
             ':ubicacion' => $ubicacion,
             ':fecha' => $fecha,
-            ':estado' => $estado,
+            ':estado' => $estadoBool,
             ':id' => $casoId
         ]);
 
