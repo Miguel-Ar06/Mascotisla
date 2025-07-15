@@ -16,7 +16,10 @@ $_SESSION['userName'] = $_SESSION['userName'] ?? ' usuario';
 $_SESSION['userIsAdmin'] = $_SESSION['userIsAdmin'] ?? false;
 $_SESSION['module'] = $_SESSION['module'] ?? " ";
 
-
+if (!isset($_SESSION['messageShown'])) {
+    $_SESSION['messageShown'] = false;
+}
+// aquí había un undefined array key y por lo tanto se agregó el if(!isset) de arriba para inicializar la variable antes de usarla
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     
@@ -47,5 +50,5 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") 
 {
-    
+   $isAdmin = ($_POST['ckIsAdmin'] === 'on') ? 1 : 0;
 }
