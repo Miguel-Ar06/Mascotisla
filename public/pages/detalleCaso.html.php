@@ -157,7 +157,7 @@ try {
                                             <a href="#" class="btn btn-info btn-sm">Ver fotos</a>
                                         </td>
                                         <td>
-                                            <form action="./../app/includes/scripts/desasociar_animal.php" method="POST">
+                                            <form action="<?php echo __DIR__ . '/../../app/includes/scripts/desasociar_animal.php'; ?>" method="POST">
                                                 <input type="hidden" name="animalId" value="<?= $animal['id'] ?>">
                                                 <input type="hidden" name="casoId" value="<?= $casoId ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

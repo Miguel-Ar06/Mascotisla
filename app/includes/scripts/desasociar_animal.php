@@ -34,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } catch (PDOException $e) {
     $_SESSION['casos_error'] = "Error al asociar el animal: " . $e->getMessage();
 }
-
-    header("Location: /Mascotisla/public/pages/detalleCaso.html.php?casoId=$casoId");
+    header("Location: " . dirname(dirname(dirname(dirname(__FILE__)))) . "/public/pages/detalleCaso.html.php?casoId=$casoId");
     exit();
 }
 

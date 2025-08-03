@@ -42,7 +42,6 @@
                                 <div><button type="submit" class="btn btn-primary hover-scale-up">Ver</button></div>
                             </form>
                         </td>
-                        <?php if($deleteable == true): ?>
                         <td class="align-middle">
                             <form action="" method="POST">
                                 <input type="hidden" name="colaboratorIdentification" value="<?php echo $colaborator->getIdentification() ?>">
@@ -51,7 +50,6 @@
                                 <div><button type="submit" class="btn btn-danger hover-scale-up">Eliminar</button></div>
                             </form>
                         </td>
-                        <?php endif ?>
                     </tr>
                 <?php endforeach ?>
             <?php endif ?>
