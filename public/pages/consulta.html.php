@@ -91,49 +91,49 @@
     </header>
 
     <main>
-
-<form method="GET" class="mb-4">
-    <div class="row justify-content-center p-5 gx-4 align-items-end">
-        <!-- Filtro Nombre -->
-        <div class="col-md-2">
-            <label class="form-label">Nombre</label>
-            <input type="text" name="tbName" class="form-control border border-dark" 
-                   value="<?= htmlspecialchars($_GET['tbName'] ?? '') ?>">
+        <div class="container">
+            <form method="GET" class="">
+                <div class="row justify-content-center p-5 pb-0 gx-4 align-items-end">
+                    <!-- Filtro Nombre -->
+                    <div class="col-md-2">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="tbName" class="form-control border border-dark" 
+                            value="<?= htmlspecialchars($_GET['tbName'] ?? '') ?>">
+                    </div>
+                    
+                    <!-- Filtro Condición -->
+                    <div class="col-md-2">
+                        <label class="form-label">Condición</label>
+                        <select name="ddCondicion" class="form-select border border-dark">
+                            <option value="">Todo</option>
+                            <?php foreach($allConditions as $currentCondition): ?>
+                                <option value="<?= $currentCondition ?>" 
+                                    <?= (($_GET['ddCondicion'] ?? '') === $currentCondition) ? 'selected' : '' ?>>
+                                    <?= $currentCondition ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    
+                    <!-- Filtro Sexo -->
+                    <div class="col-md-2">
+                        <label class="form-label">Sexo</label>
+                        <select name="ddSex" class="form-select border border-dark">
+                            <option value="">Todos</option>
+                            <option value="Macho" <?= (($_GET['ddSex'] ?? '') === "Macho") ? 'selected' : '' ?>>Macho</option>
+                            <option value="Hembra" <?= (($_GET['ddSex'] ?? '') === "Hembra") ? 'selected' : '' ?>>Hembra</option>
+                        </select>
+                    </div>
+                    
+                    
+                            
+                    <!-- Botón Buscar -->
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        
-        <!-- Filtro Condición -->
-        <div class="col-md-2">
-            <label class="form-label">Condición</label>
-            <select name="ddCondicion" class="form-select border border-dark">
-                <option value="">Todo</option>
-                <?php foreach($allConditions as $currentCondition): ?>
-                    <option value="<?= $currentCondition ?>" 
-                        <?= (($_GET['ddCondicion'] ?? '') === $currentCondition) ? 'selected' : '' ?>>
-                        <?= $currentCondition ?>
-                    </option>
-                <?php endforeach ?>
-            </select>
-        </div>
-        
-        <!-- Filtro Sexo -->
-        <div class="col-md-2">
-            <label class="form-label">Sexo</label>
-            <select name="ddSex" class="form-select border border-dark">
-                <option value="">Todos</option>
-                <option value="Macho" <?= (($_GET['ddSex'] ?? '') === "Macho") ? 'selected' : '' ?>>Macho</option>
-                <option value="Hembra" <?= (($_GET['ddSex'] ?? '') === "Hembra") ? 'selected' : '' ?>>Hembra</option>
-            </select>
-        </div>
-        
-        
-                
-        <!-- Botón Buscar -->
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Buscar</button>
-        </div>
-    </div>
-</form>
-
         <div class="d-flex container mt-5 mb-5 justify-content-center pb-5 text-center">
 
             <?php require __DIR__ . "/../../app/templates/tables/tableConsultaAnimales.html.php"  ?>

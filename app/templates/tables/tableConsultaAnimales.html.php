@@ -10,7 +10,7 @@
                 <th scope="col">Condición</th>
                 <th scope="col">Info.</th>
                 <th scope="col">Fotos</th>
-                <?php if($_SESSION["userIsAdmin"]): ?>
+                <?php if($_SESSION["userIsAdmin"] ?? false): ?>
                 <th scope="col">Eliminar</th>
                 <?php endif ?>
             </tr>
@@ -43,7 +43,7 @@
                                 <div><button name="btTable" value="fotos" type="submit" class="btn btn-primary hover-scale-up">Ver fotos</button></div>
                             </form>
                         </td>
-                        <?php if($_SESSION["userIsAdmin"]): ?>
+                        <?php if($_SESSION["userIsAdmin"] ?? false): ?>
                         <td>
                             <form action="" method="POST">
                                 <input type="hidden" name="animalId" value="<?php echo $animal->getId() ?>">
