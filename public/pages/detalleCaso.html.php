@@ -73,48 +73,75 @@ try {
     <meta charset="UTF-8">
     <title>Detalle del Caso</title>
     <link rel="icon" href="../images/Logo Favicon.png" type="image/png">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
     <!-- Header propio -->
-    <nav class="navbar navbar-dark" style="background-color: #343a40; margin-bottom: 1.5rem;">
-        <span class="navbar-brand mb-0 h1">Detalle del Caso</span>
+    <nav class="navbar navbar-dark" style="background-color: #1f2020ff; margin-bottom: 1.5rem;">
+        <span class="navbar-brand mb-0 ps-3 h1">Detalle del Caso</span>
     </nav>
 
-    <div class="container mt-4">
-        <!-- Información del caso con diseño personalizado -->
-        <div class="rounded shadow-sm p-4 mb-4" style="background: linear-gradient(90deg, #e3e6ed 80%, #f8f9fa 100%); border-left: 8px solid #343a40;">
-            <h1 class="mb-3" style="color:#343a40; font-weight:bold;">Información del caso</h1>
-            <p><strong>Caso:</strong> <span style="color:#343a40;"><?= htmlspecialchars($caso['nombre']) ?></span></p>
-            <p><strong>Reportado por:</strong> 
-                <span style="color:#343a40;"><?= $colaboradorReporte ? htmlspecialchars($colaboradorReporte['nombre'] . ' ' . $colaboradorReporte['apellido']) : 'No encontrado' ?></span>
-            </p>
-        </div>
+    <!-- Contenedor para alertas flotantes -->
+    <div class="alert-container m-3 pe-5 ps-5">
+        <?php if (isset($_SESSION['casos_message'])): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+                <?= $_SESSION['casos_message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_message']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['casos_error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <?= $_SESSION['casos_error'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['casos_error']); ?>
+        <?php endif; ?>
+    </div>
 
-        <!-- Agregar animal al caso con diseño personalizado -->
-        <div class="rounded shadow-sm p-4 mb-4" style="background: linear-gradient(90deg, #f8f9fa 80%, #e3e6ed 100%); border-left: 8px solid #28a745;">
-            <h2 class="mb-3" style="color:#28a745; font-weight:bold;">Agregar animal al caso</h2>
-            <form action="../../app/includes/scripts/process_asociar_animal_caso.php" method="POST">
-                <input type="hidden" name="casoId" value="<?= $casoId ?>">
-                <div class="form-group mb-3">
-                    <label for="animalId" style="font-weight:500;">Seleccionar animal</label>
-                    <select name="animalId" id="animalId" class="form-control" required>
-                        <option value="">Seleccionar animal...</option>
-                        <?php foreach ($animalesSinCaso as $animal): ?>
-                            <option value="<?= htmlspecialchars($animal['id']) ?>">
-                                <?= htmlspecialchars($animal['nombre']) ?> 
-                                (<?= htmlspecialchars($animal['especie']) ?> - 
-                                <?= htmlspecialchars($animal['raza']) ?>)
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <!-- Información del caso con diseño personalizado -->
+                <div class="rounded shadow-sm p-4 pb-3 mb-4" style="background: #f0f0f0ff; border-left: 8px solid #343a40;">
+                    <h3 class="mb-3" style="color:#343a40; font-weight:bold;">Información del caso</h3>
+                    <p><strong>Caso:</strong> <span style="color:#343a40;"><?= htmlspecialchars($caso['nombre']) ?></span></p>
+                    <p><strong>Fecha de apertura:</strong> <span style="color:#343a40;"><?= htmlspecialchars($caso['fecha_de_apertura']) ?></span></p>
+                    <p><strong>Reportado por:</strong> 
+                        <span style="color:#343a40;"><?= $colaboradorReporte ? htmlspecialchars($colaboradorReporte['nombre'] . ' ' . $colaboradorReporte['apellido']) : 'No encontrado' ?></span>
+                    </p>
                 </div>
-                <button type="submit" class="btn btn-success">Añadir al caso</button>
-            </form>
-        </div>
+            </div>
+
+            <div class="col">
+                <!-- Agregar animal al caso con diseño personalizado -->
+                <div class="rounded shadow-sm p-4 mb-4" style="background: #f0f0f0ff; border-left: 8px solid #28a745;">
+                    <h3 class="mb-3" style="color:#28a745; font-weight:bold;">Agregar animal al caso</h3>
+                    <form action="../../app/includes/scripts/process_asociar_animal_caso.php" method="POST">
+                        <input type="hidden" name="casoId" value="<?= $casoId ?>">
+                        <div class="form-group mb-3">
+                            <label for="animalId" style="font-weight:500;">Seleccionar animal</label>
+                            <select name="animalId" id="animalId" class="form-control" required>
+                                <option value="" selected hidden> Toque para abrir menu...</option>
+                                <?php foreach ($animalesSinCaso as $animal): ?>
+                                    <option value="<?= htmlspecialchars($animal['id']) ?>">
+                                        <?= htmlspecialchars($animal['nombre']) ?> 
+                                        (<?= htmlspecialchars($animal['especie']) ?> - 
+                                        <?= htmlspecialchars($animal['raza']) ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Añadir al caso</button>
+                    </form>
+                </div>
+            </div>
+        </div>        
+    </div>
         
-        <hr>
-        
+    <div class="container">
         <h2>Animales asociados</h2>
         <div class="card mb-4">
             <div class="card-header bg-dark text-white">
@@ -154,10 +181,10 @@ try {
                                         <td><?= htmlspecialchars($animal['fecha_de_nacimiento']) ?></td>
                                         <td><?= htmlspecialchars($animal['condicion']) ?></td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-sm">Ver fotos</a>
+                                            <a href="#" class="btn btn-primary btn-sm">Ver fotos</a>
                                         </td>
                                         <td>
-                                            <form action="<?php echo __DIR__ . '/../../app/includes/scripts/desasociar_animal.php'; ?>" method="POST">
+                                            <form action="../../app/includes/scripts/desasociar_animal.php" method="POST">
                                                 <input type="hidden" name="animalId" value="<?= $animal['id'] ?>">
                                                 <input type="hidden" name="casoId" value="<?= $casoId ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -179,5 +206,8 @@ try {
     <footer>
         <?php include __DIR__ . '/../../app/templates/footer.html.php'; ?>
     </footer>
+
+    <!-- script para las alertas flotantes de bootstrap --> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

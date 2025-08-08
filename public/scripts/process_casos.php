@@ -1,16 +1,19 @@
 <?php
 // 2. Iniciar sesión
+// TODO: el caso no se actualiza y manda a una pagina desconocida
 session_start();
 
 // 3. Incluir clases necesarias
 require_once __DIR__ . '/../classes/database.php';
 require_once __DIR__ . '/../classes/caso.php';
 
+$thisView = __DIR__ . "/../pages/mainPanel.html.php?module=Casos";
+
 // 4. Procesar operación de inserción
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'insert') {
     // Verificar que estamos en el módulo de Casos
     if (($_POST['current_module'] ?? '') !== 'Casos') {
-        header("Location: ../../app/includes/mainPanel.php");
+        header("Location: " . $thisView);
         exit;
     }
 
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     // Validaciones básicas
     if (empty($nombre) || empty($ubicacion) || empty($estado) || empty($colaborador) || empty($fecha)) {
         $_SESSION['casos_error'] = "Todos los campos obligatorios deben ser completados";
-        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        header("Location: " . $thisView);
         exit();
     }
 
@@ -34,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
     
     if (!Database::$connected) {
         $_SESSION['casos_error'] = "Error de conexión a la base de datos";
-        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        header("Location: " . $thisView);
         exit();
     }
 
@@ -97,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'in
         $_SESSION['casos_error'] = "Error inesperado: " . $e->getMessage();
     }
 
-    header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+    header("Location: " . $thisView);
     exit();
 }
 
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'de
 
     if (empty($casoId)) {
         $_SESSION['casos_error'] = "ID de caso inválido";
-        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        header("Location: " . $thisView);
         exit();
     }
 
@@ -115,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'de
 
     if (!Database::$connected) {
         $_SESSION['casos_error'] = "Error de conexión a la base de datos";
-        header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+        header("Location: " . $thisView);
         exit();
     }
 
@@ -153,11 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['operation'] ?? '') === 'de
         $_SESSION['casos_error'] = $errorMessage;
     }
 
-    header("Location: ../../public/pages/mainPanel.html.php?module=Casos");
+    header("Location: " . $thisView);
     exit();
 }
 
 // Si llega aquí sin procesar, redirigir
-header("Location: ../../app/includes/mainPanel.php");
+header("Location: " . $thisView);
 exit();
 ?>

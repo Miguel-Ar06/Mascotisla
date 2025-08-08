@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-    // Actualizar el animal para asignarlo al caso
+    // Actualizar el animal para desasociarlo al caso
     $stmt = Database::$pdo->prepare(
         "UPDATE animales 
          SET id_caso = null 
@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
     $stmt->execute([$animalId]);
 
-    $_SESSION['casos_message'] = "Animal asociado correctamente al caso";
+    $_SESSION['casos_message'] = "Animal retirado correctamente del caso";
 } catch (PDOException $e) {
     $_SESSION['casos_error'] = "Error al asociar el animal: " . $e->getMessage();
 }
-    header("Location:" . __DIR__ . "");
+    header("Location: ../../../public/pages/detalleCaso.html.php?casoId=$casoId");
 //    header("Location:" . __DIR__ . "/public/pages/detalleCaso.html.php?casoId=$casoId");
     exit();
 }

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$casoId || !$animalId) {
         $_SESSION['casos_error'] = "Datos incompletos";
-        header("Location: /Mascotisla/public/pages/detalleCaso.html.php?casoId=$casoId");
+        header("Location: ../../../public/pages/detalleCaso.html.php?casoId=$casoId");
         exit();
     }
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!Database::$connected) {
         $_SESSION['casos_error'] = "Error de conexión a la base de datos";
-        header("Location: /Mascotisla/public/pages/detalleCaso.html.php?casoId=$casoId");
+        header("Location: ../../../public/pages/detalleCaso.html.php?casoId=$casoId");
         exit();
     }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['casos_error'] = "Error al asociar el animal: " . $e->getMessage();
     }
 
-    header("Location: /Mascotisla/public/pages/detalleCaso.html.php?casoId=$casoId");
+    header("Location: ../../../public/pages/detalleCaso.html.php?casoId=$casoId");
     exit();
 }
 
